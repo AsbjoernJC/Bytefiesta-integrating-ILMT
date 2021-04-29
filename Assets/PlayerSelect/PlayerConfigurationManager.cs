@@ -10,11 +10,12 @@ public class PlayerConfigurationManager : MonoBehaviour
     private List<PlayerConfiguration> playerConfigurations;
 
     [SerializeField]
-    private int MaxPlayers = 1;
+    public int MaxPlayers = 1;
     
-    public int numberOfActivePlayers { get; private set; } = 0;
+    public static int numberOfActivePlayers { get; private set; } = 0;
 
-
+    public static Dictionary<int, string> playerControlSchemes = new Dictionary<int, string>();
+    
     public static Dictionary<int, InputDevice> playerControllers = new Dictionary<int, InputDevice>();
     
     //Singleton pattern. https://en.wikipedia.org/wiki/Singleton_pattern. 
@@ -33,6 +34,13 @@ public class PlayerConfigurationManager : MonoBehaviour
             // DontDestroyOnLoad(Instance);
             playerConfigurations = new List<PlayerConfiguration>();
         }        
+    }
+
+    public void SetPlayerInputActive(bool activation, PlayerInput playerInput)
+    {
+        // UnityEngine.Debug.Log("Activating pi at " + Time.time);
+
+        playerInput.enabled = activation;
     }
 
     public List<PlayerConfiguration> GetPlayerConfigs()
@@ -59,9 +67,10 @@ public class PlayerConfigurationManager : MonoBehaviour
                 var playerIndex = playerInputComponent.playerIndex;
 
                 playerControllers.Add(playerIndex, playerInputComponent.devices[0]);
+                playerControlSchemes.Add(playerInputComponent.playerIndex, playerInputComponent.currentControlScheme);
             }
             
-            // SceneManager.LoadScene("KingoftheHill2304");
+            SceneManager.LoadScene("KingoftheHill2304");
         }
     }
 
