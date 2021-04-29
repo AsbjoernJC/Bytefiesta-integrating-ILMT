@@ -12,7 +12,7 @@ public class PlayerConfigurationManager : MonoBehaviour
     [SerializeField]
     public int MaxPlayers = 1;
     
-    public static int numberOfActivePlayers { get; private set; } = 0;
+    public int numberOfActivePlayers { get; private set; } = 0;
 
     public static Dictionary<int, string> playerControlSchemes = new Dictionary<int, string>();
     
@@ -31,26 +31,8 @@ public class PlayerConfigurationManager : MonoBehaviour
         else
         {
             Instance = this;
-            // DontDestroyOnLoad(Instance);
             playerConfigurations = new List<PlayerConfiguration>();
         }        
-    }
-
-    public void SetPlayerInputActive(bool activation, PlayerInput playerInput)
-    {
-        // UnityEngine.Debug.Log("Activating pi at " + Time.time);
-
-        playerInput.enabled = activation;
-    }
-
-    public List<PlayerConfiguration> GetPlayerConfigs()
-    {
-        return playerConfigurations;
-    }
-
-    public void SetPlayercolor(int index, Material color)
-    {
-        playerConfigurations[index].playerMaterial = color;
     }
 
     public void ReadyPlayer(int index)
@@ -74,7 +56,8 @@ public class PlayerConfigurationManager : MonoBehaviour
         }
     }
 
-    //Player joins when pressing join and when pressing y to ready up
+    //Player joins when pressing join and when pressing y to ready up. Functions is called when
+    // the Player Input Manager invokes the unity event in the 'PlayerSelect' scene.
     public void HandlePlayerJoin(PlayerInput pi)
     {
         Debug.Log("Player joined: " + pi.playerIndex);
@@ -88,6 +71,8 @@ public class PlayerConfigurationManager : MonoBehaviour
 
 }
 
+
+// Lets you control the 'PlayerConfiguration' prefab which is used for the 'PlayerSetupMenu' scene prefab.
 public class PlayerConfiguration
 {
     public PlayerConfiguration(PlayerInput pi)
