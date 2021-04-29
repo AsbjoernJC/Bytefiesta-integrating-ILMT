@@ -11,6 +11,8 @@ public class PlayerConfigurationManager : MonoBehaviour
 
     [SerializeField]
     private int MaxPlayers = 1;
+    
+    public int numberOfActivePlayers { get; private set; } = 0;
 
     //Singleton pattern. https://en.wikipedia.org/wiki/Singleton_pattern. 
     //Only one instance of the PlayerConfigurationManager class can be active at a time
@@ -61,6 +63,7 @@ public class PlayerConfigurationManager : MonoBehaviour
             pi.transform.SetParent(transform);
             playerConfigurations.Add(new PlayerConfiguration(pi));
         }
+        numberOfActivePlayers = PlayerInput.all.Count;
     }
 
 }
