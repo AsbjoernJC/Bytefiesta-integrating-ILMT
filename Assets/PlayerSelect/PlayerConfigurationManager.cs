@@ -14,9 +14,11 @@ public class PlayerConfigurationManager : MonoBehaviour
     
     public int numberOfActivePlayers { get; private set; } = 0;
 
+
+    public static Dictionary<int, InputDevice> playerControllers = new Dictionary<int, InputDevice>();
+    
     //Singleton pattern. https://en.wikipedia.org/wiki/Singleton_pattern. 
     //Only one instance of the PlayerConfigurationManager class can be active at a time
-
     public static PlayerConfigurationManager Instance { get; private set; }
 
     private void Awake() 
@@ -50,7 +52,16 @@ public class PlayerConfigurationManager : MonoBehaviour
         //Lambda expression in C#
         if (playerConfigurations.Count == MaxPlayers && playerConfigurations.All(p => p.isReady == true))
         {
-            SceneManager.LoadScene("KingoftheHill2304");
+            GameObject[] configurationManagerClones = GameObject.FindGameObjectsWithTag("PlayerConfiguration(Clone)");
+            for (int i = 0; i < configurationManagerClones.Length; i++)
+            {
+                var playerInputComponent = configurationManagerClones[i].GetComponent<PlayerInput>();
+                var playerIndex = playerInputComponent.playerIndex;
+
+                playerControllers.Add(playerIndex, playerInputComponent.devices[0]);
+            }
+            
+            // SceneManager.LoadScene("KingoftheHill2304");
         }
     }
 
