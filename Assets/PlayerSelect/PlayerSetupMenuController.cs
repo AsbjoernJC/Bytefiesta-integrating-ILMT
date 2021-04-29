@@ -36,14 +36,14 @@ public class PlayerSetupMenuController : MonoBehaviour
         }
     }
 
+
+// Should have a name change
     public void SetColor(Material color)
     {
         if (!inputEnabled) 
         {
             return;
         } 
-
-        PlayerConfigurationManager.Instance.SetPlayercolor(playerIndex, color);
         readyPanel.SetActive(true);
         readyButton.Select();
         menuPanel.SetActive(false);

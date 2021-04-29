@@ -19,7 +19,6 @@ public class LevelInitializer : MonoBehaviour
         {
             var playerController = PlayerConfigurationManager.playerControllers[player.Key];
             var playerControlScheme = PlayerConfigurationManager.playerControlSchemes[player.Key];
-            var playerConfigs = PlayerConfigurationManager.Instance.GetPlayerConfigs().ToArray();
 
             PlayerInput playerInput = PlayerInput.Instantiate(playerPrefab, player.Key, playerControlScheme, -1, playerController);
             playerInput.transform.position = new Vector3 (playerSpawns[player.Key].transform.position.x, playerSpawns[player.Key].transform.position.y, 0);
