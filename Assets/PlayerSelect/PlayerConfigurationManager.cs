@@ -10,13 +10,16 @@ public class PlayerConfigurationManager : MonoBehaviour
     private List<PlayerConfiguration> playerConfigurations;
 
     [SerializeField]
-    private int MaxPlayers = 1;
+    public int MaxPlayers = 1;
     
-    public int numberOfActivePlayers { get; private set; } = 0;
+    public static int numberOfActivePlayers { get; private set; } = 0;
 
+    public static Dictionary<int, string> playerControlSchemes = new Dictionary<int, string>();
+    
+    public static Dictionary<int, InputDevice> playerControllers = new Dictionary<int, InputDevice>();
+    
     //Singleton pattern. https://en.wikipedia.org/wiki/Singleton_pattern. 
     //Only one instance of the PlayerConfigurationManager class can be active at a time
-
     public static PlayerConfigurationManager Instance { get; private set; }
 
     private void Awake() 
@@ -31,6 +34,13 @@ public class PlayerConfigurationManager : MonoBehaviour
             // DontDestroyOnLoad(Instance);
             playerConfigurations = new List<PlayerConfiguration>();
         }        
+    }
+
+    public void SetPlayerInputActive(bool activation, PlayerInput playerInput)
+    {
+        // UnityEngine.Debug.Log("Activating pi at " + Time.time);
+
+        playerInput.enabled = activation;
     }
 
     public List<PlayerConfiguration> GetPlayerConfigs()
@@ -50,6 +60,16 @@ public class PlayerConfigurationManager : MonoBehaviour
         //Lambda expression in C#
         if (playerConfigurations.Count == MaxPlayers && playerConfigurations.All(p => p.isReady == true))
         {
+            GameObject[] configurationManagerClones = GameObject.FindGameObjectsWithTag("PlayerConfiguration(Clone)");
+            for (int i = 0; i < configurationManagerClones.Length; i++)
+            {
+                var playerInputComponent = configurationManagerClones[i].GetComponent<PlayerInput>();
+                var playerIndex = playerInputComponent.playerIndex;
+
+                playerControllers.Add(playerIndex, playerInputComponent.devices[0]);
+                playerControlSchemes.Add(playerInputComponent.playerIndex, playerInputComponent.currentControlScheme);
+            }
+            
             SceneManager.LoadScene("KingoftheHill2304");
         }
     }
