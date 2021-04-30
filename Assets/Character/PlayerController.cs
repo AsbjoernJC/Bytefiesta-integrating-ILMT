@@ -21,7 +21,8 @@ public class PlayerController : MonoBehaviour
 
     // Todo should use the bool to determine whether or not the player has a PowerUp
     private bool hasPowerUp;
-    public GameObject FirePoint; 
+    public GameObject firePoint; 
+    public GameObject powerUp;
 
 
     public void InitializePlayer(PlayerConfiguration pc)
@@ -62,15 +63,18 @@ public class PlayerController : MonoBehaviour
 
     private void RotateFirePoint()
     {
-        FirePoint.transform.position = new Vector2(transform.position.x + horizontalMoveInput.x,
+        firePoint.transform.position = new Vector2(transform.position.x + horizontalMoveInput.x,
         transform.position.y + horizontalMoveInput.y);
     }
 
     public void UsePowerUp(InputAction.CallbackContext context)
     {
+        // Need to figure out how to shoot in the right direction.
         if (context.action.triggered)
         {
-            Debug.Log("Used PowerUp");
+            float rotZ = Mathf.Atan2(firePoint.transform.position.y, firePoint.transform.position.x)*Mathf.Rad2Deg;
+            Quaternion shootingAngle = Quaternion.Euler(0f, 0f, rotZ);
+            Instantiate(powerUp, firePoint.transform.position, shootingAngle);
         }
     }
 

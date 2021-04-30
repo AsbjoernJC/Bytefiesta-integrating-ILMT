@@ -9,13 +9,11 @@ public class Bullet : MonoBehaviour
     private Vector3 bulletPosition;
 
     // Start is called before the first frame update
-    void Start()
-    {
-        rB2D.velocity = transform.right * bulletSpeed;
-    }
 
     void Update() 
     {
+        rB2D.velocity = transform.right * bulletSpeed;
+
         if (OutOfBounds() != new Vector3(0,0))
         {
             Destroy(gameObject);

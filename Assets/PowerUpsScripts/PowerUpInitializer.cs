@@ -12,7 +12,7 @@ public class PowerUpInitializer : MonoBehaviour
 
     void Update()
     {
-        SpawnPowerUp(powerUps[Random.Range(0, powerUps.Length)]);
+        // SpawnPowerUp(powerUps[Random.Range(0, powerUps.Length)]);
     }
 
 
@@ -21,8 +21,9 @@ public class PowerUpInitializer : MonoBehaviour
 // There needs to be a duration between how long before the next power up can be spawned from when it is picked up
 
 // Coroutine tutorial https://youtu.be/5L9ksCs6MbE
-    private void SpawnPowerUp(GameObject powerUp) 
-    {
-        Instantiate(powerUp);
-    }
+// https://stackoverflow.com/questions/30056471/how-to-make-the-script-wait-sleep-in-a-simple-way-in-unity
+    // private void SpawnPowerUp(GameObject powerUp) 
+    // {
+    //     Instantiate(powerUp);
+    // }
 }
