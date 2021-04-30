@@ -95,10 +95,8 @@ public class PlayerController : MonoBehaviour
     private void Flip()
     {
         // Switch the way the player is labelled as facing.
-		m_FacingRight = !m_FacingRight;
-
-		//Turns the player 180 degrees
-        transform.Rotate(0f, 180f, 0f);
+	m_FacingRight = !m_FacingRight;
+  transform.Rotate(0f, 180f, 0);
     }
 
     private Vector3 OutOfBounds()
