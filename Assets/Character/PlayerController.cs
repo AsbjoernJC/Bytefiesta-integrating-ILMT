@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour
     {
         // Switch the way the player is labelled as facing.
 	m_FacingRight = !m_FacingRight;
-  transform.Rotate(0f, 180f, 0);
+  	transform.Rotate(0f, 180f, 0);
     }
 
     private Vector3 OutOfBounds()
