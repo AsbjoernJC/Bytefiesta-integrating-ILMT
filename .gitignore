@@ -15,5 +15,7 @@ Assets/PlayerSelect/*
 !Assets/MainMenu
 !Assets/MainMenu/*.cs
 
+!Assets/PowerUpsScripts
+!Assets/PowerUpsScripts/*.cs
 
 !.gitignore
