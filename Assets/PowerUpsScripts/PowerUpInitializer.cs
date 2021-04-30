@@ -19,6 +19,8 @@ public class PowerUpInitializer : MonoBehaviour
 // There should only be spawned a powerUp from powerUps if there is no object with the "PowerUp" tag in the scene
 
 // There needs to be a duration between how long before the next power up can be spawned from when it is picked up
+
+// Coroutine tutorial https://youtu.be/5L9ksCs6MbE
     private void SpawnPowerUp(GameObject powerUp) 
     {
         Instantiate(powerUp);
