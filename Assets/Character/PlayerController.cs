@@ -19,6 +19,11 @@ public class PlayerController : MonoBehaviour
     private bool m_FacingRight = true;
     private bool canDoubleJump;
 
+    // Todo should use the bool to determine whether or not the player has a PowerUp
+    private bool hasPowerUp;
+    public GameObject FirePoint; 
+
+
     public void InitializePlayer(PlayerConfiguration pc)
     {
         playerConfig = pc;
@@ -49,6 +54,24 @@ public class PlayerController : MonoBehaviour
     public void OnHorizontalMove(InputAction.CallbackContext context)
     {
         horizontalMoveInput = context.ReadValue<Vector2>();
+        if (horizontalMoveInput != new Vector2(0f, 0f))
+        {
+            RotateFirePoint();
+        }
+    }
+
+    private void RotateFirePoint()
+    {
+        FirePoint.transform.position = new Vector2(transform.position.x + horizontalMoveInput.x,
+        transform.position.y + horizontalMoveInput.y);
+    }
+
+    public void UsePowerUp(InputAction.CallbackContext context)
+    {
+        if (context.action.triggered)
+        {
+            Debug.Log("Used PowerUp");
+        }
     }
 
     public void OnJump(InputAction.CallbackContext context)
