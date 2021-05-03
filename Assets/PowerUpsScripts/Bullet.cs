@@ -24,6 +24,8 @@ public class Bullet : MonoBehaviour
 
 
 // Todo: The bullet should not be able to collide with the player who shot the bullet
+// Need to implement a way for the bullet prefab to detect if the bullet 
+// comes from the player who shot, as it should not collide with this person or the person's bullets
     private void OnTriggerEnter2D(Collider2D collider) 
     {
         string Collision = collider.ToString();
