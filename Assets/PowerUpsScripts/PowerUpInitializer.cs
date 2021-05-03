@@ -4,15 +4,18 @@ using System.Collections;
 
 public class PowerUpInitializer : MonoBehaviour
 {
-    public float duration = 4f;
+    public float spawnDelay = 4f;
+    public float deathTimer = 10f;
     public GameObject[] powerUps; 
+    
+    private bool powerUpInScene;
 
     // Update is called once per frame
 
 
     void Update()
     {
-        // SpawnPowerUp(powerUps[Random.Range(0, powerUps.Length)]);
+        FindPowerUps();
     }
 
 
@@ -22,8 +25,35 @@ public class PowerUpInitializer : MonoBehaviour
 
 // Coroutine tutorial https://youtu.be/5L9ksCs6MbE
 // https://stackoverflow.com/questions/30056471/how-to-make-the-script-wait-sleep-in-a-simple-way-in-unity
-    // private void SpawnPowerUp(GameObject powerUp) 
-    // {
-    //     Instantiate(powerUp);
-    // }
+
+    private void FindPowerUps()
+    {
+        int inactivePowerUps = 0;
+        for (int i = 0; i < powerUps.Length; i++)
+        {
+            if (GameObject.Find(powerUps[i].name + "(Clone)") == null)
+            {
+                inactivePowerUps ++;
+            }
+        }
+        if (inactivePowerUps == powerUps.Length)
+        {
+            powerUpInScene = false;
+            InvokeRepeating("SpawnPowerUp", spawnDelay, deathTimer);
+        }
+        else
+        {
+            powerUpInScene = true;
+        }
+    }
+    
+    private void SpawnPowerUp()
+    {
+        if (powerUpInScene == false)
+            Instantiate(powerUps[Random.Range(0, powerUps.Length)]);
+            powerUpInScene = true;
+        if (powerUpInScene == true)
+            CancelInvoke("SpawnPowerUp");
+    }
+
 }

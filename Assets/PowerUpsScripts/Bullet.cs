@@ -30,8 +30,11 @@ public class Bullet : MonoBehaviour
     {
         string Collision = collider.ToString();
         Debug.Log(Collision);
-        if (!Collision.Contains("Player 1") && !Collision.Contains("KingoftheHill0"))
+        if (!Collision.Contains("KingoftheHill0"))
             Destroy(gameObject);
+        // if (!Collision.Contains("Player 1") && !Collision.Contains("KingoftheHill0"))
+        //     Destroy(gameObject);
+        
     }
 
     private Vector3 OutOfBounds()
