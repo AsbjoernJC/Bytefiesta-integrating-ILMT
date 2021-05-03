@@ -8,18 +8,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float runSpeed = 1.5f;
     [SerializeField] private float m_JumpForce = 20.0f;
     [SerializeField] private LayerMask platformLayerMask;
-    [SerializeField] private MeshRenderer playerMesh;
     private float horizontalMove = 0f;
     private PlayerConfiguration playerConfig;
     private Vector2 horizontalMoveInput;
-    private UnityEngine.Rigidbody2D rB2D;
+    private Rigidbody2D rB2D;
     private BoxCollider2D bC2D;
     private Vector3 playerPosition;
     private PlayerControls controls;
     private bool m_FacingRight = true;
     private bool canDoubleJump;
 
-    public float rotZ;
     private Quaternion shootingAngle;
 
     // Todo should use the bool to determine whether or not the player has a PowerUp
@@ -31,7 +29,6 @@ public class PlayerController : MonoBehaviour
     public void InitializePlayer(PlayerConfiguration pc)
     {
         playerConfig = pc;
-        playerMesh.material = pc.playerMaterial;
         playerConfig.input.onActionTriggered += Input_onActionTriggered;
     }
 
@@ -110,18 +107,14 @@ public class PlayerController : MonoBehaviour
             rotZ = 360f;
         else if (firePoint.localPosition.normalized.y == -1)
             rotZ = 180f;
-        // shootingAngle = Quaternion.Euler(0f, 0f, rotZ);
         firePoint.transform.rotation = Quaternion.Euler(0, 0, rotZ);
     }
 
     public void UsePowerUp(InputAction.CallbackContext context)
     {
-        // Need to figure out how to shoot in the right direction.
         if (context.action.triggered)
         {
-            GameObject bullet = Instantiate(powerUp[0], firePoint.transform.position, shootingAngle);
-            Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-            rb.AddForce(firePoint.up * 5f, ForceMode2D.Impulse);
+            Bullet.Shoot(firePoint, powerUp, shootingAngle);
         }
     }
 

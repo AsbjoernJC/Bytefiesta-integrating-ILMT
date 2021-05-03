@@ -60,7 +60,7 @@ public class PlayerConfigurationManager : MonoBehaviour
     // the Player Input Manager invokes the unity event in the 'PlayerSelect' scene.
     public void HandlePlayerJoin(PlayerInput pi)
     {
-        Debug.Log("Player joined: " + pi.playerIndex);
+        Debug.Log("Player joined at: " + pi.playerIndex);
         if (!playerConfigurations.Any(p => p.playerIndex == pi.playerIndex))
         {
             pi.transform.SetParent(transform);

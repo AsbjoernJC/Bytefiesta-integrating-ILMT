@@ -21,6 +21,8 @@ public class LevelInitializer : MonoBehaviour
             var playerControlScheme = PlayerConfigurationManager.playerControlSchemes[player.Key];
 
             PlayerInput playerInput = PlayerInput.Instantiate(playerPrefab, player.Key, playerControlScheme, -1, playerController);
+            playerInput.name = "Player " + (player.Key + 1).ToString();
+            playerInput.tag = "Player " + (player.Key + 1).ToString();
             playerInput.transform.position = new Vector3 (playerSpawns[player.Key].transform.position.x, playerSpawns[player.Key].transform.position.y, 0);
             // Activates the player input component on the prefab we just instantiated
             // We have the component disabled by default, otherwise it could not be a "selectable object" independent of the PlayerInput component on the cursor

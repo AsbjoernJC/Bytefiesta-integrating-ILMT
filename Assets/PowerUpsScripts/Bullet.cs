@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Bullet : MonoBehaviour
 {
     public Rigidbody2D rB2D;
-    public float bulletSpeed = 18f;
     private Vector3 bulletPosition;
+    private Transform firePoint; 
+    private GameObject[] powerUp;
+    private Quaternion shootingAngle;
 
     // Start is called before the first frame update
 
@@ -19,10 +22,14 @@ public class Bullet : MonoBehaviour
         }
     }
 
+
+// Todo: The bullet should not be able to collide with the player who shot the bullet
     private void OnTriggerEnter2D(Collider2D collider) 
     {
-        Debug.Log(collider);
-        Destroy(gameObject);
+        string Collision = collider.ToString();
+        Debug.Log(Collision);
+        if (!Collision.Contains("Player 1") && !Collision.Contains("KingoftheHill0"))
+            Destroy(gameObject);
     }
 
     private Vector3 OutOfBounds()
@@ -49,6 +56,14 @@ public class Bullet : MonoBehaviour
         }
         bulletPosition = new Vector3(0f, 0f);
         return bulletPosition;
+    }
+
+    public static void Shoot(Transform firePoint, GameObject[] powerUp, Quaternion shootingAngle)
+    {
+        float bulletSpeed = 18f;
+        GameObject bullet = Instantiate(powerUp[0], firePoint.transform.position, shootingAngle);
+        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+        rb.AddForce(firePoint.up * bulletSpeed, ForceMode2D.Impulse);
     }
 
 }
