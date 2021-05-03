@@ -12,7 +12,6 @@ public class Bullet : MonoBehaviour
 
     void Update() 
     {
-        rB2D.velocity = transform.right * bulletSpeed;
 
         if (OutOfBounds() != new Vector3(0,0))
         {

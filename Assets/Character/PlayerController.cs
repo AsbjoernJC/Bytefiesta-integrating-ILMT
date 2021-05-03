@@ -19,10 +19,13 @@ public class PlayerController : MonoBehaviour
     private bool m_FacingRight = true;
     private bool canDoubleJump;
 
+    public float rotZ;
+    private Quaternion shootingAngle;
+
     // Todo should use the bool to determine whether or not the player has a PowerUp
     private bool hasPowerUp;
-    public GameObject firePoint; 
-    public GameObject powerUp;
+    public Transform firePoint; 
+    public GameObject[] powerUp;
 
 
     public void InitializePlayer(PlayerConfiguration pc)
@@ -63,8 +66,52 @@ public class PlayerController : MonoBehaviour
 
     private void RotateFirePoint()
     {
-        firePoint.transform.position = new Vector2(transform.position.x + horizontalMoveInput.x,
+        firePoint.position = new Vector2(transform.position.x + horizontalMoveInput.x,
         transform.position.y + horizontalMoveInput.y);
+
+        // For some reason i can't get it working with Mathf.Atan2. As i get the z rotation wrong. Stored in shootingAngle.
+        // Todo get it working with the Mathf.Atan2 method. For testing purposes i will do this the tedious way.
+
+        // float rotZ = Mathf.Atan2(firePoint.transform.position.y, firePoint.transform.position.x) * Mathf.Rad2Deg;
+        float rotZ = 0f;
+        if (firePoint.localPosition.normalized.x == 1 && m_FacingRight)
+        {
+            rotZ = -90f;
+        }
+        else if (firePoint.localPosition.normalized.x == 1 && !m_FacingRight)
+        {
+            rotZ = 90;
+        }
+
+        if(m_FacingRight)
+        {
+            if (firePoint.localPosition.normalized.x > 0 && firePoint.localPosition.normalized.y > 0)
+            {
+                rotZ = 315f;
+            }
+            else if (firePoint.localPosition.normalized.x > 0 && firePoint.localPosition.normalized.y < 0)
+            {
+                rotZ = 225f;
+            }    
+        }
+        else 
+        {
+            if (firePoint.localPosition.normalized.x > 0 && firePoint.localPosition.normalized.y < 0)
+            {
+                rotZ = 135f;
+            }
+            else if (firePoint.localPosition.normalized.x > 0 && firePoint.localPosition.normalized.y > 0)
+            {
+                rotZ = 45f;
+            }
+        }
+
+        if (firePoint.localPosition.normalized.y == 1)
+            rotZ = 360f;
+        else if (firePoint.localPosition.normalized.y == -1)
+            rotZ = 180f;
+        // shootingAngle = Quaternion.Euler(0f, 0f, rotZ);
+        firePoint.transform.rotation = Quaternion.Euler(0, 0, rotZ);
     }
 
     public void UsePowerUp(InputAction.CallbackContext context)
@@ -72,9 +119,9 @@ public class PlayerController : MonoBehaviour
         // Need to figure out how to shoot in the right direction.
         if (context.action.triggered)
         {
-            float rotZ = Mathf.Atan2(firePoint.transform.position.y, firePoint.transform.position.x)*Mathf.Rad2Deg;
-            Quaternion shootingAngle = Quaternion.Euler(0f, 0f, rotZ);
-            Instantiate(powerUp, firePoint.transform.position, shootingAngle);
+            GameObject bullet = Instantiate(powerUp[0], firePoint.transform.position, shootingAngle);
+            Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+            rb.AddForce(firePoint.up * 5f, ForceMode2D.Impulse);
         }
     }
 
