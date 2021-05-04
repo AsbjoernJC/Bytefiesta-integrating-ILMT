@@ -4,7 +4,7 @@ using System.Collections;
 
 public class PowerUpInitializer : MonoBehaviour
 {
-    public float spawnDelay = 8f;
+    public float spawnDelay = 7f;
     public float deathTimer = 6f;
     public GameObject[] powerUps; 
     public Transform[] spawnPoints;
@@ -20,11 +20,6 @@ public class PowerUpInitializer : MonoBehaviour
 
     private int bestSpawnPoint;
 
-
-    void Start()
-    {
-
-    }
 
     void Update()
     {
