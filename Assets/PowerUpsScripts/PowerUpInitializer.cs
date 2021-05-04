@@ -44,10 +44,12 @@ public class PowerUpInitializer : MonoBehaviour
     // }
 
 
-// There should only be spawned a powerUp from powerUps if there is no object with the "PowerUp" tag in the scene
 
-// There needs to be a duration between how long before the next power up can be spawned from when it is picked up
 
+
+// Successfully checks if none of the powerups in powerUps are active. If none are active it will call SpawnPowerUp()
+// This is done accordingly to the spawnDelay (the point in time where the scene is first initialized + spawnDelay float)
+// The next powerup is spawned after waiting on the deathTimer, which is started from the point when no powerup is found in the scene 
     private void FindPowerUps()
     {
         int inactivePowerUps = 0;
@@ -74,13 +76,18 @@ public class PowerUpInitializer : MonoBehaviour
 
     // }
 
+
+// If there are no powerups active in the scene a powerup is randomly spawned from at the time 9 spawnPoints initialized with
+// 9 transformer prefabs
     private void SpawnPowerUp()
     {
         if (powerUpInScene == false)
-            Instantiate(powerUps[Random.Range(0, powerUps.Length)], spawnPoints[Random.Range(0, spawnPoints.Length)]);
-            powerUpInScene = true;
+        Instantiate(powerUps[Random.Range(0, powerUps.Length)], spawnPoints[Random.Range(0, spawnPoints.Length)]);
+        powerUpInScene = true;
         if (powerUpInScene == true)
             CancelInvoke("SpawnPowerUp");
+
+        // Turns out the if statements were not redundant. Probably due to me having removed CancelInvoke
     }
 
 }
