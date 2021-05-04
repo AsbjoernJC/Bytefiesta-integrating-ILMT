@@ -4,8 +4,8 @@ using System.Collections;
 
 public class PowerUpInitializer : MonoBehaviour
 {
-    public float spawnDelay = 4f;
-    public float deathTimer = 10f;
+    public float spawnDelay = 8f;
+    public float deathTimer = 6f;
     public GameObject[] powerUps; 
     public Transform[] spawnPoints;
     private bool powerUpInScene;
@@ -68,7 +68,7 @@ public class PowerUpInitializer : MonoBehaviour
         {
             powerUpInScene = false;
             // InvokeRepeating("SpawnPowerUp", spawnDelay, deathTimer);
-            FindEligibleSpawnPoint(activePlayers);
+            InvokeRepeating("FindEligibleSpawnPoint", spawnDelay, deathTimer);
         }
         else
         {
@@ -80,25 +80,29 @@ public class PowerUpInitializer : MonoBehaviour
     // This is working fine for now, however, it does not consider the fact that you can go through the sides nor bottom/top of the map
     // Could consider finding the transform position where the player with the smallest distance have to travel the longest distance.
     // As of now this would encourage players staying a large distance from each other to gain powerups.
-    private void FindEligibleSpawnPoint(List<GameObject> activePlayers)
+    // This should probably be a coroutine. Right now it will run all the time as soon as the powerUpInScene is false.
+    // Which it is as soon as the powerup is picked up.
+    private void FindEligibleSpawnPoint()
     {
-        float distanceSum = 0f;
-        float bestDistanceToPlayers = 0f;
+        float bestDistanceToPlayers = 0;
+        float smallestDistanceToPlayer = 50f;
         for (int i = 0; i < spawnPoints.Length; i++)
         {
-            for (int j = 0; j < activePlayers.Count -1; j++)
+            for (int j = 0; j < activePlayers.Count; j++)
             {
                 float distanceToPlayer = Vector3.Distance(spawnPoints[i].transform.position, activePlayers[j].transform.position);
-                distanceSum += distanceToPlayer;
+                if (distanceToPlayer < smallestDistanceToPlayer)
+                    smallestDistanceToPlayer = distanceToPlayer;
             }
-            if (distanceSum > bestDistanceToPlayers)
+            if (smallestDistanceToPlayer > bestDistanceToPlayers)
             {
                 bestSpawnPoint = i;
-                bestDistanceToPlayers = distanceSum;
+                bestDistanceToPlayers = smallestDistanceToPlayer;
             }
-            distanceSum = 0f;
+            smallestDistanceToPlayer = 50f;
         }
-        InvokeRepeating("SpawnPowerUp", spawnDelay, deathTimer);
+        SpawnPowerUp();
+        CancelInvoke("FindEligibleSpawnPoint");
     }
 
 
