@@ -81,13 +81,9 @@ public class PowerUpInitializer : MonoBehaviour
 // 9 transformer prefabs
     private void SpawnPowerUp()
     {
-        if (powerUpInScene == false)
         Instantiate(powerUps[Random.Range(0, powerUps.Length)], spawnPoints[Random.Range(0, spawnPoints.Length)]);
         powerUpInScene = true;
-        if (powerUpInScene == true)
-            CancelInvoke("SpawnPowerUp");
-
-        // Turns out the if statements were not redundant. Probably due to me having removed CancelInvoke
+        CancelInvoke("SpawnPowerUp");
     }
 
 }
