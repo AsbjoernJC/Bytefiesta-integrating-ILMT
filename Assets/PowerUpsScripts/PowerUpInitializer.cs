@@ -10,38 +10,42 @@ public class PowerUpInitializer : MonoBehaviour
     public Transform[] spawnPoints;
     private bool powerUpInScene;
     
-    // List<GameObject> activePlayers = new List<GameObject>();
-    // List<string> playerNames = new List<string>() {
-    //     "Player 1",
-    //     "Player 2",
-    //     "Player 3",
-    //     "Player 4",
-    // };
+    List<GameObject> activePlayers = new List<GameObject>();
+    List<string> playerNames = new List<string>() {
+        "Player 1",
+        "Player 2",
+        "Player 3",
+        "Player 4",
+    };
+
+    private int bestSpawnPoint;
 
 
-    // void Start()
-    // {
-    //     if (activePlayers != null)
-    //         FindPlayers();
-    // }
+    void Start()
+    {
+
+    }
 
     void Update()
     {
+        if (activePlayers.Count == 0)
+            FindPlayers();
+
         FindPowerUps();
     }
 
-    // private void FindPlayers()
-    // {
-    //     GameObject player; 
-    //     for (int i = 0; i < playerNames.Count -1; i++)
-    //     {
-    //         if (GameObject.Find(playerNames[i]) != null)
-    //         {
-    //             player = GameObject.Find(playerNames[i]);
-    //             activePlayers.Add(player);
-    //         }
-    //     }
-    // }
+    private void FindPlayers()
+    {
+        GameObject player; 
+        for (int i = 0; i < playerNames.Count -1; i++)
+        {
+            if (GameObject.Find(playerNames[i]) != null)
+            {
+                player = GameObject.Find(playerNames[i]);
+                activePlayers.Add(player);
+            }
+        }
+    }
 
 
 
@@ -63,7 +67,8 @@ public class PowerUpInitializer : MonoBehaviour
         if (inactivePowerUps == powerUps.Length)
         {
             powerUpInScene = false;
-            InvokeRepeating("SpawnPowerUp", spawnDelay, deathTimer);
+            // InvokeRepeating("SpawnPowerUp", spawnDelay, deathTimer);
+            FindEligibleSpawnPoint(activePlayers);
         }
         else
         {
@@ -71,17 +76,37 @@ public class PowerUpInitializer : MonoBehaviour
         }
     }
     
-    // private void FindEligibleSpawnPoint()
-    // {
 
-    // }
+    // This is working fine for now, however, it does not consider the fact that you can go through the sides nor bottom/top of the map
+    // Could consider finding the transform position where the player with the smallest distance have to travel the longest distance.
+    // As of now this would encourage players staying a large distance from each other to gain powerups.
+    private void FindEligibleSpawnPoint(List<GameObject> activePlayers)
+    {
+        float distanceSum = 0f;
+        float bestDistanceToPlayers = 0f;
+        for (int i = 0; i < spawnPoints.Length; i++)
+        {
+            for (int j = 0; j < activePlayers.Count -1; j++)
+            {
+                float distanceToPlayer = Vector3.Distance(spawnPoints[i].transform.position, activePlayers[j].transform.position);
+                distanceSum += distanceToPlayer;
+            }
+            if (distanceSum > bestDistanceToPlayers)
+            {
+                bestSpawnPoint = i;
+                bestDistanceToPlayers = distanceSum;
+            }
+            distanceSum = 0f;
+        }
+        InvokeRepeating("SpawnPowerUp", spawnDelay, deathTimer);
+    }
 
 
 // If there are no powerups active in the scene a powerup is randomly spawned from at the time 9 spawnPoints initialized with
 // 9 transformer prefabs
     private void SpawnPowerUp()
     {
-        Instantiate(powerUps[Random.Range(0, powerUps.Length)], spawnPoints[Random.Range(0, spawnPoints.Length)]);
+        Instantiate(powerUps[Random.Range(0, powerUps.Length)], spawnPoints[bestSpawnPoint]);
         powerUpInScene = true;
         CancelInvoke("SpawnPowerUp");
     }
