@@ -51,7 +51,7 @@ public class PowerUpInitializer : MonoBehaviour
 
 
 
-// Successfully checks if none of the powerups in powerUps are active. If none are active it will call SpawnPowerUp()
+// Successfully checks if none of the powerups in powerUps are active. If none are active it will call FindEligibleSpawnPoint()
 // This is done accordingly to the spawnDelay (the point in time where the scene is first initialized + spawnDelay float)
 // The next powerup is spawned after waiting on the deathTimer, which is started from the point when no powerup is found in the scene 
     private void FindPowerUps()
