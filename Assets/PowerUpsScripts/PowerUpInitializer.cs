@@ -67,7 +67,6 @@ public class PowerUpInitializer : MonoBehaviour
         if (inactivePowerUps == powerUps.Length)
         {
             powerUpInScene = false;
-            // InvokeRepeating("SpawnPowerUp", spawnDelay, deathTimer);
             InvokeRepeating("FindEligibleSpawnPoint", spawnDelay, deathTimer);
         }
         else
@@ -77,11 +76,10 @@ public class PowerUpInitializer : MonoBehaviour
     }
     
 
-    // This is working fine for now, however, it does not consider the fact that you can go through the sides nor bottom/top of the map
-    // Could consider finding the transform position where the player with the smallest distance have to travel the longest distance.
-    // As of now this would encourage players staying a large distance from each other to gain powerups.
-    // This should probably be a coroutine. Right now it will run all the time as soon as the powerUpInScene is false.
-    // Which it is as soon as the powerup is picked up.
+// Iterates through the spawnPoint elements to find the best suited one by iterating through the active players' location
+// and choosing the location based on the player who would be the closest to this spawnpoint.
+// The spawnpoint index is then stored in bestSpawnPoint if the distance to the closest player is larger than the closest player from
+// the spawnpoint chosen before.
     private void FindEligibleSpawnPoint()
     {
         float bestDistanceToPlayers = 0;
