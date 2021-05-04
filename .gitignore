@@ -18,5 +18,7 @@ Assets/PlayerSelect/*
 !Assets/PowerUpsScripts
 !Assets/PowerUpsScripts/*.cs
 
+!Assets/PowerUpInitializerScripts
+!Assets/PowerUpInitializerScripts/*.cs
 
 !.gitignore
