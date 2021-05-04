@@ -8,7 +8,6 @@ public class Bullet : MonoBehaviour
     public Rigidbody2D rB2D;
     private Vector3 bulletPosition;
     private Transform firePoint; 
-    private GameObject[] powerUp;
     private Quaternion shootingAngle;
 
     // Start is called before the first frame update
