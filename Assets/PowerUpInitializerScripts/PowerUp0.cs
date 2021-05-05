@@ -22,11 +22,11 @@ public class PowerUp0 : MonoBehaviour
 // Should somehow add the picked up powerup to the player, who it collided with.
     private void OnTriggerEnter2D(Collider2D collider) 
     {
-        GameObject Player = collider.gameObject;
+        GameObject player = collider.gameObject;
         string powerUpName = SpawnedPowerUp.name;
         string Collision = collider.ToString();
         if (Collision.Contains("Player") && powerUpName.Contains("KingoftheHill0"))
-            Player.GetComponent<PlayerController>().GotBulletPowerUp(powerUpName);
+            player.GetComponent<PlayerController>().GotBulletPowerUp(powerUpName);
             Destroy(gameObject);
     }
 }

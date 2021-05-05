@@ -115,7 +115,8 @@ public class PlayerController : MonoBehaviour
     {
         if (context.action.triggered && bulletCounter > 0)
         {
-            Bullet.Shoot(firePoint, powerUp[0], shootingAngle);
+            var playerName = this.name;
+            Bullet.Shoot(firePoint, powerUp[0], shootingAngle, playerName);
             bulletCounter --;
         }
     }
