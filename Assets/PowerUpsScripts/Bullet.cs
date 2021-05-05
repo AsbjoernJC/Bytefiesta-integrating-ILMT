@@ -10,6 +10,8 @@ public class Bullet : MonoBehaviour
     private Transform firePoint; 
     private Quaternion shootingAngle;
     private string playerWhoShot;
+    private string collisionTag;
+    private string bulletTag;
 
     // Start is called before the first frame update
 
@@ -20,22 +22,22 @@ public class Bullet : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        if (playerWhoShot == null)
-            playerWhoShot = this.tag;
+        if (bulletTag == null)
+            bulletTag = this.tag;
     }
 
 
 
-// Todo: The bullet should not be able to collide with the player who shot the bullet
-// Need to implement a way for the bullet prefab to detect if the bullet 
-// comes from the player who shot, as it should not collide with this person or the person's bullets
+// Checks who the bullet is created by, by looking at the GameObject's tag
+// If it is not the player who shot the bullet, or another bullet from the same player
+// the bullet will be destroyed. 
     private void OnTriggerEnter2D(Collider2D collider) 
     {
-        string Collision = collider.ToString();
-        playerWhoShot = playerWhoShot.Split( )[0] + " " + playerWhoShot.Split( )[1];
-        Debug.Log(Collision);
-        Debug.Log(playerWhoShot);
-        if (!Collision.Contains(playerWhoShot))
+        string collision = collider.ToString();
+        collisionTag = collider.tag;
+        playerWhoShot = bulletTag.Split( )[0] + " " + bulletTag.Split( )[1];
+        if (!collision.Contains(playerWhoShot) && bulletTag != collisionTag)
+            // If it hits a Player it should kill/do damage.
             Destroy(gameObject);
     }
 
