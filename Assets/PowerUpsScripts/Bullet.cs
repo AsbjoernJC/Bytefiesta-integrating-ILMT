@@ -62,10 +62,10 @@ public class Bullet : MonoBehaviour
         return bulletPosition;
     }
 
-    public static void Shoot(Transform firePoint, GameObject[] powerUp, Quaternion shootingAngle)
+    public static void Shoot(Transform firePoint, GameObject powerUp, Quaternion shootingAngle)
     {
         float bulletSpeed = 18f;
-        GameObject bullet = Instantiate(powerUp[0], firePoint.transform.position, shootingAngle);
+        GameObject bullet = Instantiate(powerUp, firePoint.transform.position, shootingAngle);
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         rb.AddForce(firePoint.up * bulletSpeed, ForceMode2D.Impulse);
     }

@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class PowerUp0 : MonoBehaviour
 {
-
+    private GameObject SpawnedPowerUp;
     // Start is called before the first frame update
 
     void Start() 
     {
-
+        SpawnedPowerUp = this.gameObject;
     }
     void Update() 
     {
@@ -23,14 +23,10 @@ public class PowerUp0 : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collider) 
     {
         GameObject Player = collider.gameObject;
-        string powerUp = "KingoftheHill0";
+        string powerUpName = SpawnedPowerUp.name;
         string Collision = collider.ToString();
-        Debug.Log(Collision);
-        if (Collision.Contains("Player"))
-            Player.GetComponent<PlayerController>().GotPowerUp(powerUp);
+        if (Collision.Contains("Player") && powerUpName.Contains("KingoftheHill0"))
+            Player.GetComponent<PlayerController>().GotBulletPowerUp(powerUpName);
             Destroy(gameObject);
-        // if (!Collision.Contains("Player 1") && !Collision.Contains("KingoftheHill0"))
-        //     Destroy(gameObject);
-        
     }
 }

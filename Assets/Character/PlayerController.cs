@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     private Quaternion shootingAngle;
 
     // Todo should use the bool to determine whether or not the player has a PowerUp
-    private bool hasPowerUp;
+    private int bulletCounter = 0;
     public Transform firePoint; 
     public GameObject[] powerUp;
 
@@ -111,11 +111,12 @@ public class PlayerController : MonoBehaviour
         firePoint.transform.rotation = Quaternion.Euler(0, 0, rotZ);
     }
 
-    public void UsePowerUp(InputAction.CallbackContext context)
+    public void UseBulletPowerUp(InputAction.CallbackContext context)
     {
-        if (context.action.triggered && hasPowerUp)
+        if (context.action.triggered && bulletCounter > 0)
         {
-            Bullet.Shoot(firePoint, powerUp, shootingAngle);
+            Bullet.Shoot(firePoint, powerUp[0], shootingAngle);
+            bulletCounter --;
         }
     }
 
@@ -136,9 +137,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void GotPowerUp(string powerUp)
+    public void GotBulletPowerUp(string powerUp)
     {
-        hasPowerUp = true;
+        bulletCounter = 3;
     }
 
     private bool IsGrounded() 
