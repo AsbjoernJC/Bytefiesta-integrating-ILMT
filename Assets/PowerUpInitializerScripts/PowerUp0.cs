@@ -8,6 +8,10 @@ public class PowerUp0 : MonoBehaviour
 
     // Start is called before the first frame update
 
+    void Start() 
+    {
+
+    }
     void Update() 
     {
 
@@ -18,9 +22,12 @@ public class PowerUp0 : MonoBehaviour
 // Should somehow add the picked up powerup to the player, who it collided with.
     private void OnTriggerEnter2D(Collider2D collider) 
     {
+        GameObject Player = collider.gameObject;
+        string powerUp = "KingoftheHill0";
         string Collision = collider.ToString();
         Debug.Log(Collision);
-        if (!Collision.Contains("KingoftheHill0"))
+        if (Collision.Contains("Player"))
+            Player.GetComponent<PlayerController>().GotPowerUp(powerUp);
             Destroy(gameObject);
         // if (!Collision.Contains("Player 1") && !Collision.Contains("KingoftheHill0"))
         //     Destroy(gameObject);

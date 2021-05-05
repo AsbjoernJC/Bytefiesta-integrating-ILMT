@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
+
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float runSpeed = 1.5f;
@@ -112,7 +113,7 @@ public class PlayerController : MonoBehaviour
 
     public void UsePowerUp(InputAction.CallbackContext context)
     {
-        if (context.action.triggered)
+        if (context.action.triggered && hasPowerUp)
         {
             Bullet.Shoot(firePoint, powerUp, shootingAngle);
         }
@@ -133,6 +134,11 @@ public class PlayerController : MonoBehaviour
                 canDoubleJump = false;                
             }
         }
+    }
+
+    public void GotPowerUp(string powerUp)
+    {
+        hasPowerUp = true;
     }
 
     private bool IsGrounded() 
@@ -206,3 +212,4 @@ public class PlayerController : MonoBehaviour
         HandleMovement();
     }
 }
+
