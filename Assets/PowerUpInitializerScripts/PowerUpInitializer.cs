@@ -105,7 +105,6 @@ public class PowerUpInitializer : MonoBehaviour
     {
         Instantiate(powerUps[Random.Range(0, powerUps.Length)], spawnPoints[bestSpawnPoint]);
         powerUpInScene = true;
-        CancelInvoke("SpawnPowerUp");
     }
 
 }

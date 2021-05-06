@@ -39,4 +39,6 @@ public class LevelInitializer : MonoBehaviour
         }
     }
 
+// could try making it a public static void, so we can respawn players using the function
+
 }

@@ -38,6 +38,8 @@ public class Bullet : MonoBehaviour
         playerWhoShot = bulletTag.Split( )[0] + " " + bulletTag.Split( )[1];
         if (!collision.Contains(playerWhoShot) && bulletTag != collisionTag)
             // If it hits a Player it should kill/do damage.
+            Stats.TakeDamage(1);
+            Stats.player = collider.gameObject;
             Destroy(gameObject);
     }
 
