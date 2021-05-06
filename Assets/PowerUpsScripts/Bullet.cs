@@ -35,11 +35,11 @@ public class Bullet : MonoBehaviour
     {
         string collision = collider.ToString();
         collisionTag = collider.tag;
+        GameObject player = collider.gameObject;
         playerWhoShot = bulletTag.Split( )[0] + " " + bulletTag.Split( )[1];
         if (!collision.Contains(playerWhoShot) && bulletTag != collisionTag)
-            // If it hits a Player it should kill/do damage.
-            Stats.TakeDamage(1);
-            Stats.player = collider.gameObject;
+            if (collisionTag.Contains("Player"))
+                player.GetComponent<Stats>().TakeDamage(1);
             Destroy(gameObject);
     }
 

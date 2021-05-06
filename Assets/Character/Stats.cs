@@ -5,7 +5,7 @@ using UnityEngine;
 public class Stats : MonoBehaviour
 {
     public static int health = 1;
-    public static GameObject player;
+    private GameObject player;
     public float deathTimer = 3.5f;
     public float spawnDelay = 0f;
     private GameObject playerReference;
@@ -13,36 +13,40 @@ public class Stats : MonoBehaviour
     // Update is called once per frame
     void Start()
     {
-        if (playerReference == null)
+        if (player == null)
         {
-            playerReference = player;
+            player = this.gameObject;
         }
     }
 
     void Update() 
     {
+
+    }
+
+
+    // Take Damage will be called when a player takes damage eg. getting shot/jumped on etc.
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
         if (health <= 0)
         {
             Death();
         }
     }
 
-    //Get's called when a player has 0 health. Removes the player from the scene and instantiates the player on a delay
-    public static void TakeDamage(int damage)
-    {
-        health = health - damage;
-    }
-
     private void Death()
     {
-        Destroy(player);
         InvokeRepeating("Respawn", spawnDelay, deathTimer);
     }
 
+    // Should remove the player object and then have it respawned
+    // Maybe it is better to just let the player object become invisible
+    // and turn off its rigidbody + box collider
     private void Respawn()
     {
-        Instantiate(this.gameObject);
-        health = 1;
+        Destroy(player);
+        Instantiate(player);
         CancelInvoke("Respawn");
         // var player;
         // player.GetComponent<PlayerSetupMenuController>().SetPlayerIndex(input.playerIndex);
