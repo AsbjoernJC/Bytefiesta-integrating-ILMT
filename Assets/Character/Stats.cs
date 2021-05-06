@@ -1,22 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Stats : MonoBehaviour
 {
     public static int health = 1;
     private GameObject player;
     public float deathTimer = 3.5f;
-    public float spawnDelay = 0f;
+    public float spawnDelay = 4f;
     private GameObject playerReference;
 
     // Update is called once per frame
     void Start()
     {
-        if (player == null)
-        {
-            player = this.gameObject;
-        }
+        // if (player == null)
+        // {
+        player = this.gameObject;
+        // }
     }
 
     void Update() 
@@ -45,10 +46,12 @@ public class Stats : MonoBehaviour
     // and turn off its rigidbody + box collider
     private void Respawn()
     {
+        int playerIndex = Int16.Parse(player.name.Split( )[1]) - 1;
         Destroy(player);
-        Instantiate(player);
+        LevelInitializer.Instance.RespawnPlayer(playerIndex);
+        // activePlayers from PowerUpInitializer should have the player at the playerIndex readded.
         CancelInvoke("Respawn");
         // var player;
-        // player.GetComponent<PlayerSetupMenuController>().SetPlayerIndex(input.playerIndex);
     }
 }
+ 

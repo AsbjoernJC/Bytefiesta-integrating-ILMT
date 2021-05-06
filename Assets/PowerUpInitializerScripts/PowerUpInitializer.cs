@@ -9,8 +9,10 @@ public class PowerUpInitializer : MonoBehaviour
     public GameObject[] powerUps; 
     public Transform[] spawnPoints;
     private bool powerUpInScene;
+    private int initialNumberOfPlayers;
+    private bool firstInitialization = true;
     
-    List<GameObject> activePlayers = new List<GameObject>();
+    public static List<GameObject> activePlayers = new List<GameObject>();
     List<string> playerNames = new List<string>() {
         "Player 1",
         "Player 2",
@@ -32,14 +34,24 @@ public class PowerUpInitializer : MonoBehaviour
     private void FindPlayers()
     {
         GameObject player; 
+
         for (int i = 0; i < playerNames.Count -1; i++)
         {
             if (GameObject.Find(playerNames[i]) != null)
             {
                 player = GameObject.Find(playerNames[i]);
-                activePlayers.Add(player);
+                if (firstInitialization)
+                {
+                    activePlayers.Add(player);
+                }
+                else 
+                {
+                    if (!activePlayers.Contains(player))
+                        activePlayers[i] = player;
+                }
             }
         }
+        initialNumberOfPlayers = activePlayers.Count;
     }
 
 
@@ -62,7 +74,7 @@ public class PowerUpInitializer : MonoBehaviour
         if (inactivePowerUps == powerUps.Length)
         {
             powerUpInScene = false;
-            InvokeRepeating("FindEligibleSpawnPoint", spawnDelay, deathTimer);
+            ArePlayersAlive();
         }
         else
         {
@@ -70,6 +82,16 @@ public class PowerUpInitializer : MonoBehaviour
         }
     }
     
+    private void ArePlayersAlive()
+    {
+        activePlayers.RemoveAll(item => item == null);
+        if (activePlayers.Count < initialNumberOfPlayers)
+        {
+            FindPlayers();
+        }
+
+        InvokeRepeating("FindEligibleSpawnPoint", spawnDelay, deathTimer);
+    }
 
 // Iterates through the spawnPoint elements to find the best suited one by iterating through the active players' location
 // and choosing the location based on the player who would be the closest to this spawnpoint.
@@ -83,6 +105,8 @@ public class PowerUpInitializer : MonoBehaviour
         {
             for (int j = 0; j < activePlayers.Count; j++)
             {
+                if (activePlayers[j] != null)
+                    break;
                 float distanceToPlayer = Vector3.Distance(spawnPoints[i].transform.position, activePlayers[j].transform.position);
                 if (distanceToPlayer < smallestDistanceToPlayer)
                     smallestDistanceToPlayer = distanceToPlayer;
