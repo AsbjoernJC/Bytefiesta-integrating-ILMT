@@ -105,8 +105,6 @@ public class PowerUpInitializer : MonoBehaviour
         {
             for (int j = 0; j < activePlayers.Count; j++)
             {
-                if (activePlayers[j] != null)
-                    break;
                 float distanceToPlayer = Vector3.Distance(spawnPoints[i].transform.position, activePlayers[j].transform.position);
                 if (distanceToPlayer < smallestDistanceToPlayer)
                     smallestDistanceToPlayer = distanceToPlayer;

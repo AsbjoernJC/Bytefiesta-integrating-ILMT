@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class LevelInitializer : MonoBehaviour
     private Transform[] playerSpawns;
     [SerializeField]
     private GameObject playerPrefab;
+    int playerToRespawnIndex;
 
     public static LevelInitializer Instance { get; private set; }
 
@@ -31,13 +33,13 @@ public class LevelInitializer : MonoBehaviour
     {
         for (int i = 0; i < PlayerConfigurationManager.playerControllers.Count; i++)
         {
-            RespawnPlayer(i);
+            SpawnPlayer(i);
         }
     }
     
 
 // could try making it a public static void, so we can respawn players using the function
-public void RespawnPlayer(int playerIndex)
+public void SpawnPlayer(int playerIndex)
 {
     var player = PlayerConfigurationManager.playerControllers[playerIndex];
     var playerController = PlayerConfigurationManager.playerControllers[playerIndex];
@@ -59,5 +61,31 @@ public void RespawnPlayer(int playerIndex)
     InputUser.PerformPairingWithDevice(playerController, inputUser, InputUserPairingOptions.UnpairCurrentDevicesFromUser);
 }
 
+
+// This should be a coroutine, however, i could not get it working. If i recall correctly the player respawned immediately
+// even though respawnTimer was equal to 4f, or the player did not respawn at all, and the function just seemed to stop after yield return statement.
+
+// public IEnumerator RespawnPlayer(GameObject player)
+// {
+//     playerToRespawnIndex = Int16.Parse(player.name.Split( )[1]) - 1;
+//     Destroy(player);
+//     yield return new WaitForSeconds(respawnTimer);
+//     SpawnPlayer(playerToRespawnIndex);
+// }
+public void RespawnPlayer(GameObject player)
+{
+    playerToRespawnIndex = Int16.Parse(player.name.Split( )[1]) - 1;
+    Destroy(player);
+    InvokeRepeating("WhyCantIGetCoroutinesWorking", 4f, 4f);
+}
+
+
+
+private void WhyCantIGetCoroutinesWorking()
+{
+    Debug.Log("This is my scuffed coroutine");
+    SpawnPlayer(playerToRespawnIndex);
+    CancelInvoke("WhyCantIGetCoroutinesWorking");
+}
 
 }
