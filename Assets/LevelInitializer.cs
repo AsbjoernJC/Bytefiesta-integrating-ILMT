@@ -13,6 +13,7 @@ public class LevelInitializer : MonoBehaviour
     [SerializeField]
     private GameObject playerPrefab;
     int playerToRespawnIndex;
+    public float respawnTimer = 4f;
 
     public static LevelInitializer Instance { get; private set; }
 
@@ -76,7 +77,7 @@ public void RespawnPlayer(GameObject player)
 {
     playerToRespawnIndex = Int16.Parse(player.name.Split( )[1]) - 1;
     Destroy(player);
-    InvokeRepeating("WhyCantIGetCoroutinesWorking", 4f, 4f);
+    InvokeRepeating("WhyCantIGetCoroutinesWorking", respawnTimer, 0f);
 }
 
 
