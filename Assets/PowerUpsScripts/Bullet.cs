@@ -37,6 +37,9 @@ public class Bullet : MonoBehaviour
         collisionTag = collider.tag;
         GameObject player = collider.gameObject;
         playerWhoShot = bulletTag.Split( )[0] + " " + bulletTag.Split( )[1];
+        if (playerWhoShot == collisionTag)
+            return;
+
         if (!collision.Contains(playerWhoShot) && bulletTag != collisionTag)
             if (collisionTag.Contains("Player"))
                 player.GetComponent<Stats>().TakeDamage(1);
