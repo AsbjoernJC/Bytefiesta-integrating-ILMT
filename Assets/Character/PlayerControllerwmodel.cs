@@ -26,6 +26,7 @@ public class PlayerControllerwmodel : MonoBehaviour
     private int bulletCounter = 0;
     public Transform firePoint; 
     public GameObject[] powerUp;
+    public Animator animator;
 
 
     public void InitializePlayer(PlayerConfiguration pc)
@@ -128,7 +129,7 @@ public class PlayerControllerwmodel : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        Awake();
+        animator.SetBool("IsJumping", true);
         if (context.action.triggered)
         {
             if (IsGrounded())
@@ -150,7 +151,7 @@ public class PlayerControllerwmodel : MonoBehaviour
 
     private bool IsGrounded() 
     {
-        RaycastHit2D raycastHit2D = Physics2D.BoxCast(cC2D.bounds.center, cC2D.bounds.size, 0f, Vector2.down, .1f, platformLayerMask);
+        RaycastHit2D raycastHit2D = Physics2D.CapsuleCast(cC2D.bounds.center, cC2D.bounds.size, cC2D.direction, 0f, Vector2.down, 0.1f, platformLayerMask);
         return raycastHit2D.collider != null;
     }
 
@@ -158,6 +159,9 @@ public class PlayerControllerwmodel : MonoBehaviour
     {
         // horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
         horizontalMove = horizontalMoveInput.x * runSpeed;
+
+        animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+
         rB2D.velocity = new Vector2(horizontalMove * 10f, rB2D.velocity.y);
 
         if (horizontalMove > 0 && !m_FacingRight)
@@ -214,6 +218,7 @@ public class PlayerControllerwmodel : MonoBehaviour
 
         if (IsGrounded())
         {
+            animator.SetBool("IsJumping", false);
             canDoubleJump = true;
         }
         HandleMovement();
