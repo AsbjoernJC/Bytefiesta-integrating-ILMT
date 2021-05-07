@@ -11,7 +11,7 @@ public class LevelInitializer : MonoBehaviour
     [SerializeField]
     private Transform[] playerSpawns;
     [SerializeField]
-    private GameObject playerPrefab;
+    private GameObject[] playerPrefab;
     int playerToRespawnIndex;
     public float respawnTimer = 4f;
 
@@ -40,13 +40,15 @@ public class LevelInitializer : MonoBehaviour
     
 
 // could try making it a public static void, so we can respawn players using the function
+// Bugged when multiple people die within the same time slot. InvokeRepeating probably only allows one of these to run and therefore forgets
+// to spawn the players dying after the first one and waiting on their respawn.
 public void SpawnPlayer(int playerIndex)
 {
     var player = PlayerConfigurationManager.playerControllers[playerIndex];
     var playerController = PlayerConfigurationManager.playerControllers[playerIndex];
     var playerControlScheme = PlayerConfigurationManager.playerControlSchemes[playerIndex];
 
-    PlayerInput playerInput = PlayerInput.Instantiate(playerPrefab, playerIndex, playerControlScheme, -1, playerController);
+    PlayerInput playerInput = PlayerInput.Instantiate(playerPrefab[playerIndex], playerIndex, playerControlScheme, -1, playerController);
     playerInput.name = "Player " + (playerIndex + 1).ToString();
     playerInput.tag = "Player " + (playerIndex + 1).ToString();
     playerInput.transform.position = new Vector3 (playerSpawns[playerIndex].transform.position.x, playerSpawns[playerIndex].transform.position.y, 0);
