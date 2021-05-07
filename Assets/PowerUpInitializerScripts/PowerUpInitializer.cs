@@ -43,15 +43,16 @@ public class PowerUpInitializer : MonoBehaviour
                 if (firstInitialization)
                 {
                     activePlayers.Add(player);
+                    initialNumberOfPlayers = activePlayers.Count;
                 }
                 else 
                 {
                     if (!activePlayers.Contains(player))
-                        activePlayers[i] = player;
+                        activePlayers.Insert(i, player);
                 }
             }
         }
-        initialNumberOfPlayers = activePlayers.Count;
+        firstInitialization = false;
     }
 
 
