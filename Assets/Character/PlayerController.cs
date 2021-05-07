@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 horizontalMoveInput;
     private Rigidbody2D rB2D;
     private BoxCollider2D bC2D;
+    private CapsuleCollider2D cC2D;
     private Vector3 playerPosition;
     private PlayerControls controls;
     private bool m_FacingRight = true;
@@ -25,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private int bulletCounter = 0;
     public Transform firePoint; 
     public GameObject[] powerUp;
+    public Animator animator;
 
 
     public void InitializePlayer(PlayerConfiguration pc)
@@ -50,6 +52,10 @@ public class PlayerController : MonoBehaviour
         if (bC2D == null)
         {
             bC2D = transform.GetComponent<BoxCollider2D>();
+        }
+        if (cC2D == null)
+        {
+            cC2D = transform.GetComponent<CapsuleCollider2D>();
         }
     }
 
@@ -123,7 +129,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        Awake();
+        animator.SetBool("IsJumping", true);
         if (context.action.triggered)
         {
             if (IsGrounded())
@@ -145,7 +151,7 @@ public class PlayerController : MonoBehaviour
 
     private bool IsGrounded() 
     {
-        RaycastHit2D raycastHit2D = Physics2D.BoxCast(bC2D.bounds.center, bC2D.bounds.size, 0f, Vector2.down, .1f, platformLayerMask);
+        RaycastHit2D raycastHit2D = Physics2D.CapsuleCast(cC2D.bounds.center, cC2D.bounds.size, cC2D.direction, 0f, Vector2.down, 0.1f, platformLayerMask);
         return raycastHit2D.collider != null;
     }
 
@@ -153,6 +159,9 @@ public class PlayerController : MonoBehaviour
     {
         // horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
         horizontalMove = horizontalMoveInput.x * runSpeed;
+
+        animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+
         rB2D.velocity = new Vector2(horizontalMove * 10f, rB2D.velocity.y);
 
         if (horizontalMove > 0 && !m_FacingRight)
@@ -209,6 +218,7 @@ public class PlayerController : MonoBehaviour
 
         if (IsGrounded())
         {
+            animator.SetBool("IsJumping", false);
             canDoubleJump = true;
         }
         HandleMovement();

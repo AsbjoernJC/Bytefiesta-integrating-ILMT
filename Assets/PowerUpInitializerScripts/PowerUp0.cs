@@ -26,7 +26,7 @@ public class PowerUp0 : MonoBehaviour
         string powerUpName = SpawnedPowerUp.name;
         string Collision = collider.ToString();
         if (Collision.Contains("Player") && powerUpName.Contains("KingoftheHill0"))
-            player.GetComponent<PlayerControllerwmodel>().GotBulletPowerUp(powerUpName);
+            player.GetComponent<PlayerController>().GotBulletPowerUp(powerUpName);
             Destroy(gameObject);
     }
 }
