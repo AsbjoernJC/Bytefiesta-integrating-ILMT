@@ -82,5 +82,4 @@ public class PlayerConfiguration
     public PlayerInput input { get; set; }
     public int playerIndex { get; set; }
     public bool isReady { get; set; }
-    public Material playerMaterial { get; set; }
 }

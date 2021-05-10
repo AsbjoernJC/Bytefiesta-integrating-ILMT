@@ -20,14 +20,14 @@ public class LevelInitializer : MonoBehaviour
 
     void Awake() 
     {
-        if(Instance != null)
-        {
-            Debug.Log("SINGLETON - Trying to create another instance of singleton!!");
-        }
-        else
-        {
-            Instance = this;
-        }        
+        // if(Instance != null)
+        // {
+        //     Debug.Log("SINGLETON - Trying to create another instance of singleton!!");
+        // }
+        // else
+        // {
+        Instance = this;
+        // }        
     }
     // Start is called before the first frame update
     void Start()
@@ -36,33 +36,35 @@ public class LevelInitializer : MonoBehaviour
         {
             SpawnPlayer(i);
         }
+
     }
     
 
 // could try making it a public static void, so we can respawn players using the function
 // Bugged when multiple people die within the same time slot. InvokeRepeating probably only allows one of these to run and therefore forgets
 // to spawn the players dying after the first one and waiting on their respawn.
-public void SpawnPlayer(int playerIndex)
-{
-    var player = PlayerConfigurationManager.playerControllers[playerIndex];
-    var playerController = PlayerConfigurationManager.playerControllers[playerIndex];
-    var playerControlScheme = PlayerConfigurationManager.playerControlSchemes[playerIndex];
+    public void SpawnPlayer(int playerIndex)
+    {
+        Debug.Log("Made it to SpawnPLayer");
+        var player = PlayerConfigurationManager.playerControllers[playerIndex];
+        var playerController = PlayerConfigurationManager.playerControllers[playerIndex];
+        var playerControlScheme = PlayerConfigurationManager.playerControlSchemes[playerIndex];
 
-    PlayerInput playerInput = PlayerInput.Instantiate(playerPrefab[playerIndex], playerIndex, playerControlScheme, -1, playerController);
-    playerInput.name = "Player " + (playerIndex + 1).ToString();
-    playerInput.tag = "Player " + (playerIndex + 1).ToString();
-    playerInput.transform.position = new Vector3 (playerSpawns[playerIndex].transform.position.x, playerSpawns[playerIndex].transform.position.y, 0);
-    // Activates the player input component on the prefab we just instantiated
-    // We have the component disabled by default, otherwise it could not be a "selectable object" independent of the PlayerInput component on the cursor
-    // in the selection screen
-    playerInput.enabled = true;
+        PlayerInput playerInput = PlayerInput.Instantiate(playerPrefab[playerIndex], playerIndex, playerControlScheme, -1, playerController);
+        playerInput.name = "Player " + (playerIndex + 1).ToString();
+        playerInput.tag = "Player " + (playerIndex + 1).ToString();
+        playerInput.transform.position = new Vector3 (playerSpawns[playerIndex].transform.position.x, playerSpawns[playerIndex].transform.position.y, 0);
+        // Activates the player input component on the prefab we just instantiated
+        // We have the component disabled by default, otherwise it could not be a "selectable object" independent of the PlayerInput component on the cursor
+        // in the selection screen
+        playerInput.enabled = true;
 
-    //  *** It seems...that the above Instantiation doesn't exactly work... I'm assuming, because the PlayerInput component on the prefab is starting off
-    // disabled, that it...doesn't work.  This code here will force it to keep the device/scheme/etc... that we tried to assign the wretch above!
-    var inputUser = playerInput.user;
-    playerInput.SwitchCurrentControlScheme(playerControlScheme);
-    InputUser.PerformPairingWithDevice(playerController, inputUser, InputUserPairingOptions.UnpairCurrentDevicesFromUser);
-}
+        //  *** It seems...that the above Instantiation doesn't exactly work... I'm assuming, because the PlayerInput component on the prefab is starting off
+        // disabled, that it...doesn't work.  This code here will force it to keep the device/scheme/etc... that we tried to assign the wretch above!
+        var inputUser = playerInput.user;
+        playerInput.SwitchCurrentControlScheme(playerControlScheme);
+        InputUser.PerformPairingWithDevice(playerController, inputUser, InputUserPairingOptions.UnpairCurrentDevicesFromUser);
+    }
 
 
 // This should be a coroutine, however, i could not get it working. If i recall correctly the player respawned immediately
@@ -75,20 +77,27 @@ public void SpawnPlayer(int playerIndex)
 //     yield return new WaitForSeconds(respawnTimer);
 //     SpawnPlayer(playerToRespawnIndex);
 // }
-public void RespawnPlayer(GameObject player)
-{
-    playerToRespawnIndex = Int16.Parse(player.name.Split( )[1]) - 1;
-    Destroy(player);
-    InvokeRepeating("WhyCantIGetCoroutinesWorking", respawnTimer, 0f);
-}
+    // public void RespawnPlayer(GameObject player)
+    // {
+    //     playerToRespawnIndex = Int16.Parse(player.name.Split( )[1]) - 1;
+    //     Destroy(player);
+    //     InvokeRepeating("WhyCantIGetCoroutinesWorking", respawnTimer, 0f);
+    // }
 
+    private void WhyCantIGetCoroutinesWorking()
+    {
+        Debug.Log("This is my scuffed coroutine");
+        SpawnPlayer(playerToRespawnIndex);
+        CancelInvoke("WhyCantIGetCoroutinesWorking");
+    }
 
+    public IEnumerator RespawnPlayer(int seconds, GameObject player) 
+    { 
+        playerToRespawnIndex = Int16.Parse(player.name.Split( )[1]) - 1;
+        yield return new WaitForSeconds(seconds); 
+        SpawnPlayer(playerToRespawnIndex);
+        Debug.LogFormat("This SupidCoroutine waited {0} seconds to respawn {1}", seconds, player.name);
+    } 
 
-private void WhyCantIGetCoroutinesWorking()
-{
-    Debug.Log("This is my scuffed coroutine");
-    SpawnPlayer(playerToRespawnIndex);
-    CancelInvoke("WhyCantIGetCoroutinesWorking");
-}
 
 }
