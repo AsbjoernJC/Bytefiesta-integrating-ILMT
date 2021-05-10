@@ -83,7 +83,14 @@ public class LevelInitializer : MonoBehaviour
         playerToRespawnIndex = Int16.Parse(player.name.Split( )[1]) - 1;
         Destroy(player);
         int playerListIndex = PowerUpInitializer.activePlayers.IndexOf(player);
-        PowerUpInitializer.activePlayers.RemoveAt(playerListIndex);
+        try
+        {
+            PowerUpInitializer.activePlayers.RemoveAt(playerListIndex);
+        }
+        catch(ArgumentOutOfRangeException)
+        {
+            Debug.Log("It happened here");
+        }
         StartCoroutine(RespawnPlayer(4, playerToRespawnIndex));
     }
 
