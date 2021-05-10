@@ -27,7 +27,7 @@ public class Stats : MonoBehaviour
         if (health <= 0)
         {
             // LevelInitializer.Instance.RespawnPlayer(player);
-            StartCoroutine(LevelInitializer.Instance.RespawnPlayer(4, player));
+            LevelInitializer.Instance.PlayerDeathInformation(player);
         }
     }
 }

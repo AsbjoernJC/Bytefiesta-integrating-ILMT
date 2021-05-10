@@ -84,19 +84,26 @@ public class LevelInitializer : MonoBehaviour
     //     InvokeRepeating("WhyCantIGetCoroutinesWorking", respawnTimer, 0f);
     // }
 
-    private void WhyCantIGetCoroutinesWorking()
+    // private void WhyCantIGetCoroutinesWorking()
+    // {
+    //     Debug.Log("This is my scuffed coroutine");
+    //     SpawnPlayer(playerToRespawnIndex);
+    //     CancelInvoke("WhyCantIGetCoroutinesWorking");
+    // }
+
+    public void PlayerDeathInformation(GameObject player)
     {
-        Debug.Log("This is my scuffed coroutine");
-        SpawnPlayer(playerToRespawnIndex);
-        CancelInvoke("WhyCantIGetCoroutinesWorking");
+        playerToRespawnIndex = Int16.Parse(player.name.Split( )[1]) - 1;
+        Destroy(player);
+        StartCoroutine(RespawnPlayer(4, playerToRespawnIndex));
+
     }
 
-    public IEnumerator RespawnPlayer(int seconds, GameObject player) 
+    public IEnumerator RespawnPlayer(int seconds, int playerIndex) 
     { 
-        playerToRespawnIndex = Int16.Parse(player.name.Split( )[1]) - 1;
         yield return new WaitForSeconds(seconds); 
-        SpawnPlayer(playerToRespawnIndex);
-        Debug.LogFormat("This SupidCoroutine waited {0} seconds to respawn {1}", seconds, player.name);
+        Debug.LogFormat("This SupidCoroutine waited {0} seconds to respawn {1}", seconds, playerIndex);
+        SpawnPlayer(playerIndex);
     } 
 
 
