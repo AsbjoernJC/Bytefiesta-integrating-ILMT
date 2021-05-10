@@ -31,6 +31,8 @@ public class PowerUpInitializer : MonoBehaviour
         FindPowerUps();
     }
 
+
+// Sometimes throws errors when multiple people have to be respawned.
     private void FindPlayers()
     {
         GameObject player; 

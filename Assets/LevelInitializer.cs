@@ -20,14 +20,14 @@ public class LevelInitializer : MonoBehaviour
 
     void Awake() 
     {
-        // if(Instance != null)
-        // {
-        //     Debug.Log("SINGLETON - Trying to create another instance of singleton!!");
-        // }
-        // else
-        // {
+        if(Instance != null)
+        {
+            Debug.Log("SINGLETON - Trying to create another instance of singleton!!");
+        }
+        else
+        {
         Instance = this;
-        // }        
+        }        
     }
     // Start is called before the first frame update
     void Start()
@@ -40,9 +40,6 @@ public class LevelInitializer : MonoBehaviour
     }
     
 
-// could try making it a public static void, so we can respawn players using the function
-// Bugged when multiple people die within the same time slot. InvokeRepeating probably only allows one of these to run and therefore forgets
-// to spawn the players dying after the first one and waiting on their respawn.
     public void SpawnPlayer(int playerIndex)
     {
         Debug.Log("Made it to SpawnPLayer");
@@ -67,42 +64,16 @@ public class LevelInitializer : MonoBehaviour
     }
 
 
-// This should be a coroutine, however, i could not get it working. If i recall correctly the player respawned immediately
-// even though respawnTimer was equal to 4f, or the player did not respawn at all, and the function just seemed to stop after yield return statement.
-
-// public IEnumerator RespawnPlayer(GameObject player)
-// {
-//     playerToRespawnIndex = Int16.Parse(player.name.Split( )[1]) - 1;
-//     Destroy(player);
-//     yield return new WaitForSeconds(respawnTimer);
-//     SpawnPlayer(playerToRespawnIndex);
-// }
-    // public void RespawnPlayer(GameObject player)
-    // {
-    //     playerToRespawnIndex = Int16.Parse(player.name.Split( )[1]) - 1;
-    //     Destroy(player);
-    //     InvokeRepeating("WhyCantIGetCoroutinesWorking", respawnTimer, 0f);
-    // }
-
-    // private void WhyCantIGetCoroutinesWorking()
-    // {
-    //     Debug.Log("This is my scuffed coroutine");
-    //     SpawnPlayer(playerToRespawnIndex);
-    //     CancelInvoke("WhyCantIGetCoroutinesWorking");
-    // }
-
     public void PlayerDeathInformation(GameObject player)
     {
         playerToRespawnIndex = Int16.Parse(player.name.Split( )[1]) - 1;
         Destroy(player);
         StartCoroutine(RespawnPlayer(4, playerToRespawnIndex));
-
     }
 
     public IEnumerator RespawnPlayer(int seconds, int playerIndex) 
     { 
         yield return new WaitForSeconds(seconds); 
-        Debug.LogFormat("This SupidCoroutine waited {0} seconds to respawn {1}", seconds, playerIndex);
         SpawnPlayer(playerIndex);
     } 
 
