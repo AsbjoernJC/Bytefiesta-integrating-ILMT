@@ -10,7 +10,6 @@ public class PowerUpInitializer : MonoBehaviour
     public Transform[] spawnPoints;
     private bool powerUpInScene;
     private int initialNumberOfPlayers = 0;
-    private bool firstInitialization = true;
     
     public static List<GameObject> activePlayers = new List<GameObject>();
     List<string> playerNames = new List<string>() 
@@ -43,19 +42,10 @@ public class PowerUpInitializer : MonoBehaviour
             if (GameObject.Find(playerNames[i]) != null)
             {
                 player = GameObject.Find(playerNames[i]);
-                // if (firstInitialization)
-                // {
                 activePlayers.Add(player);
                 initialNumberOfPlayers ++;
-                // }
-                // else 
-                // {
-                //     if (!activePlayers.Contains(player))
-                //         activePlayers.Insert(i, player);
-                // }
             }
         }
-        firstInitialization = false;
     }
 
 
@@ -79,29 +69,13 @@ public class PowerUpInitializer : MonoBehaviour
         {
             powerUpInScene = false;
             InvokeRepeating("FindEligibleSpawnPoint", spawnDelay, deathTimer);
-            // ArePlayersAlive();
         }
         else
         {
             powerUpInScene = true;
         }
     }
-    
-    // private void ArePlayersAlive()
-    // {
-    //     activePlayers.RemoveAll(item => item == null);
-    //     if (activePlayers.Count < initialNumberOfPlayers)
-    //     {
-    //         FindPlayers();
-    //     }
 
-    //     InvokeRepeating("FindEligibleSpawnPoint", spawnDelay, deathTimer);
-    // }
-
-// Iterates through the spawnPoint elements to find the best suited one by iterating through the active players' location
-// and choosing the location based on the player who would be the closest to this spawnpoint.
-// The spawnpoint index is then stored in bestSpawnPoint if the distance to the closest player is larger than the closest player from
-// the spawnpoint chosen before.
     private void FindEligibleSpawnPoint()
     {
         float bestDistanceToPlayers = 0;
