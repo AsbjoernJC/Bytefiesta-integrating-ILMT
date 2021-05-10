@@ -9,11 +9,12 @@ public class PowerUpInitializer : MonoBehaviour
     public GameObject[] powerUps; 
     public Transform[] spawnPoints;
     private bool powerUpInScene;
-    private int initialNumberOfPlayers;
+    private int initialNumberOfPlayers = 0;
     private bool firstInitialization = true;
     
     public static List<GameObject> activePlayers = new List<GameObject>();
-    List<string> playerNames = new List<string>() {
+    List<string> playerNames = new List<string>() 
+    {
         "Player 1",
         "Player 2",
         "Player 3",
@@ -36,22 +37,22 @@ public class PowerUpInitializer : MonoBehaviour
     private void FindPlayers()
     {
         GameObject player; 
-
+        Debug.Log(activePlayers + " beg");
         for (int i = 0; i < playerNames.Count -1; i++)
         {
             if (GameObject.Find(playerNames[i]) != null)
             {
                 player = GameObject.Find(playerNames[i]);
-                if (firstInitialization)
-                {
-                    activePlayers.Add(player);
-                    initialNumberOfPlayers = activePlayers.Count;
-                }
-                else 
-                {
-                    if (!activePlayers.Contains(player))
-                        activePlayers.Insert(i, player);
-                }
+                // if (firstInitialization)
+                // {
+                activePlayers.Add(player);
+                initialNumberOfPlayers ++;
+                // }
+                // else 
+                // {
+                //     if (!activePlayers.Contains(player))
+                //         activePlayers.Insert(i, player);
+                // }
             }
         }
         firstInitialization = false;
@@ -77,7 +78,8 @@ public class PowerUpInitializer : MonoBehaviour
         if (inactivePowerUps == powerUps.Length)
         {
             powerUpInScene = false;
-            ArePlayersAlive();
+            InvokeRepeating("FindEligibleSpawnPoint", spawnDelay, deathTimer);
+            // ArePlayersAlive();
         }
         else
         {
@@ -85,16 +87,16 @@ public class PowerUpInitializer : MonoBehaviour
         }
     }
     
-    private void ArePlayersAlive()
-    {
-        activePlayers.RemoveAll(item => item == null);
-        if (activePlayers.Count < initialNumberOfPlayers)
-        {
-            FindPlayers();
-        }
+    // private void ArePlayersAlive()
+    // {
+    //     activePlayers.RemoveAll(item => item == null);
+    //     if (activePlayers.Count < initialNumberOfPlayers)
+    //     {
+    //         FindPlayers();
+    //     }
 
-        InvokeRepeating("FindEligibleSpawnPoint", spawnDelay, deathTimer);
-    }
+    //     InvokeRepeating("FindEligibleSpawnPoint", spawnDelay, deathTimer);
+    // }
 
 // Iterates through the spawnPoint elements to find the best suited one by iterating through the active players' location
 // and choosing the location based on the player who would be the closest to this spawnpoint.

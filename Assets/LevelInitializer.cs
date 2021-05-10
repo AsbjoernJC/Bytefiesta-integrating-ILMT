@@ -42,7 +42,6 @@ public class LevelInitializer : MonoBehaviour
 
     public void SpawnPlayer(int playerIndex)
     {
-        Debug.Log("Made it to SpawnPLayer");
         var player = PlayerConfigurationManager.playerControllers[playerIndex];
         var playerController = PlayerConfigurationManager.playerControllers[playerIndex];
         var playerControlScheme = PlayerConfigurationManager.playerControlSchemes[playerIndex];
@@ -61,6 +60,21 @@ public class LevelInitializer : MonoBehaviour
         var inputUser = playerInput.user;
         playerInput.SwitchCurrentControlScheme(playerControlScheme);
         InputUser.PerformPairingWithDevice(playerController, inputUser, InputUserPairingOptions.UnpairCurrentDevicesFromUser);
+
+        var playerObject = GameObject.Find(playerInput.name); 
+
+        // Example with 3 players:
+        // If Player 3 is killed and hasn't respawned and Player 2 then is killed, it will try to insert Player 3 at index[2] even though 
+        // activePlayers = {Player 1} where Player 1 is a GameObject. Therefore it results in an ArgumentOutOfRangeException
+        try
+        {
+            PowerUpInitializer.activePlayers.Insert(playerIndex, playerObject);
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            PowerUpInitializer.activePlayers.Add(playerObject);
+        }
+
     }
 
 
@@ -68,6 +82,8 @@ public class LevelInitializer : MonoBehaviour
     {
         playerToRespawnIndex = Int16.Parse(player.name.Split( )[1]) - 1;
         Destroy(player);
+        int playerListIndex = PowerUpInitializer.activePlayers.IndexOf(player);
+        PowerUpInitializer.activePlayers.RemoveAt(playerListIndex);
         StartCoroutine(RespawnPlayer(4, playerToRespawnIndex));
     }
 
