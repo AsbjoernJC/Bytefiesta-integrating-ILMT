@@ -28,13 +28,6 @@ public class PlayerController : MonoBehaviour
     public GameObject[] powerUp;
     public Animator animator;
 
-
-    public void InitializePlayer(PlayerConfiguration pc)
-    {
-        playerConfig = pc;
-        playerConfig.input.onActionTriggered += Input_onActionTriggered;
-    }
-
     private void Input_onActionTriggered(InputAction.CallbackContext obj)
     {
         if (obj.action.name == controls.Player.Movement.name)
@@ -57,6 +50,20 @@ public class PlayerController : MonoBehaviour
         {
             cC2D = transform.GetComponent<CapsuleCollider2D>();
         }
+    }
+    void Update()
+    {
+        if (OutOfBounds() != new Vector3(0f, 0f))
+        {
+            transform.position = OutOfBounds();
+        }
+
+        if (IsGrounded())
+        {
+            animator.SetBool("IsJumping", false);
+            canDoubleJump = true;
+        }
+        HandleMovement();
     }
 
     public void OnHorizontalMove(InputAction.CallbackContext context)
@@ -151,7 +158,7 @@ public class PlayerController : MonoBehaviour
 
     private bool IsGrounded() 
     {
-        RaycastHit2D raycastHit2D = Physics2D.CapsuleCast(cC2D.bounds.center, cC2D.bounds.size, cC2D.direction, 0f, Vector2.down, 0.1f, platformLayerMask);
+        RaycastHit2D raycastHit2D = Physics2D.BoxCast(bC2D.bounds.center, bC2D.bounds.size, 0f, Vector2.down, .1f, platformLayerMask);
         return raycastHit2D.collider != null;
     }
 
@@ -209,19 +216,5 @@ public class PlayerController : MonoBehaviour
         return playerPosition;
     }
 
-    void Update()
-    {
-        if (OutOfBounds() != new Vector3(0f, 0f))
-        {
-            transform.position = OutOfBounds();
-        }
-
-        if (IsGrounded())
-        {
-            animator.SetBool("IsJumping", false);
-            canDoubleJump = true;
-        }
-        HandleMovement();
-    }
 }
 

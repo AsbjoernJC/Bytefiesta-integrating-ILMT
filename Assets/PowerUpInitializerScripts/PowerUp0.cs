@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PowerUp0 : MonoBehaviour
 {
+    private GameObject player;
     private GameObject SpawnedPowerUp;
     // Start is called before the first frame update
 
@@ -22,10 +23,14 @@ public class PowerUp0 : MonoBehaviour
 // Should somehow add the picked up powerup to the player, who it collided with.
     private void OnTriggerEnter2D(Collider2D collider) 
     {
-        GameObject player = collider.gameObject;
         string powerUpName = SpawnedPowerUp.name;
-        string Collision = collider.ToString();
-        if (Collision.Contains("Player") && powerUpName.Contains("KingoftheHill0"))
+        string collision = collider.ToString();
+        if (collision.Contains("HeadDetect"))
+            player = collider.transform.parent.gameObject;
+        else
+            player = collider.gameObject;
+
+        if (collision.Contains("Player") && powerUpName.Contains("KingoftheHill0"))
             player.GetComponent<PlayerController>().GotBulletPowerUp(powerUpName);
             Destroy(gameObject);
     }
