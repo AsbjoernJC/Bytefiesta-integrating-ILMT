@@ -36,7 +36,6 @@ public class PowerUpInitializer : MonoBehaviour
     private void FindPlayers()
     {
         GameObject player; 
-        Debug.Log(activePlayers + " beg");
         for (int i = 0; i < playerNames.Count -1; i++)
         {
             if (GameObject.Find(playerNames[i]) != null)

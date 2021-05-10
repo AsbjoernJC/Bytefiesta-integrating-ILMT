@@ -12,7 +12,7 @@ public class Bullet : MonoBehaviour
     private string playerWhoShot;
     private string collisionTag;
     private string bulletTag;
-
+    private GameObject player;
     // Start is called before the first frame update
 
     void Update() 
@@ -35,7 +35,12 @@ public class Bullet : MonoBehaviour
     {
         string collision = collider.ToString();
         collisionTag = collider.tag;
-        GameObject player = collider.gameObject;
+
+        if (collision.Contains("HeadDetect"))
+            player = collider.transform.parent.gameObject;
+        else
+            player = collider.gameObject;
+        
         playerWhoShot = bulletTag.Split( )[0] + " " + bulletTag.Split( )[1];
         if (playerWhoShot == collisionTag)
             return;
