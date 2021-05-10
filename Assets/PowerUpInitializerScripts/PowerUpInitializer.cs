@@ -9,11 +9,11 @@ public class PowerUpInitializer : MonoBehaviour
     public GameObject[] powerUps; 
     public Transform[] spawnPoints;
     private bool powerUpInScene;
-    private int initialNumberOfPlayers;
-    private bool firstInitialization = true;
+    private int initialNumberOfPlayers = 0;
     
     public static List<GameObject> activePlayers = new List<GameObject>();
-    List<string> playerNames = new List<string>() {
+    List<string> playerNames = new List<string>() 
+    {
         "Player 1",
         "Player 2",
         "Player 3",
@@ -31,28 +31,21 @@ public class PowerUpInitializer : MonoBehaviour
         FindPowerUps();
     }
 
+
+// Sometimes throws errors when multiple people have to be respawned.
     private void FindPlayers()
     {
         GameObject player; 
-
+        Debug.Log(activePlayers + " beg");
         for (int i = 0; i < playerNames.Count -1; i++)
         {
             if (GameObject.Find(playerNames[i]) != null)
             {
                 player = GameObject.Find(playerNames[i]);
-                if (firstInitialization)
-                {
-                    activePlayers.Add(player);
-                    initialNumberOfPlayers = activePlayers.Count;
-                }
-                else 
-                {
-                    if (!activePlayers.Contains(player))
-                        activePlayers.Insert(i, player);
-                }
+                activePlayers.Add(player);
+                initialNumberOfPlayers ++;
             }
         }
-        firstInitialization = false;
     }
 
 
@@ -75,29 +68,14 @@ public class PowerUpInitializer : MonoBehaviour
         if (inactivePowerUps == powerUps.Length)
         {
             powerUpInScene = false;
-            ArePlayersAlive();
+            InvokeRepeating("FindEligibleSpawnPoint", spawnDelay, deathTimer);
         }
         else
         {
             powerUpInScene = true;
         }
     }
-    
-    private void ArePlayersAlive()
-    {
-        activePlayers.RemoveAll(item => item == null);
-        if (activePlayers.Count < initialNumberOfPlayers)
-        {
-            FindPlayers();
-        }
 
-        InvokeRepeating("FindEligibleSpawnPoint", spawnDelay, deathTimer);
-    }
-
-// Iterates through the spawnPoint elements to find the best suited one by iterating through the active players' location
-// and choosing the location based on the player who would be the closest to this spawnpoint.
-// The spawnpoint index is then stored in bestSpawnPoint if the distance to the closest player is larger than the closest player from
-// the spawnpoint chosen before.
     private void FindEligibleSpawnPoint()
     {
         float bestDistanceToPlayers = 0;

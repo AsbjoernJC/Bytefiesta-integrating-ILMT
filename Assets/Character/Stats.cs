@@ -6,9 +6,6 @@ public class Stats : MonoBehaviour
 {
     public static int health = 1;
     private GameObject player;
-    public float deathTimer = 4f;
-    public float spawnDelay = 4f;
-    private GameObject playerReference;
 
     // Update is called once per frame
     void Start()
@@ -29,7 +26,8 @@ public class Stats : MonoBehaviour
         health -= damage;
         if (health <= 0)
         {
-            LevelInitializer.Instance.RespawnPlayer(player);
+            // LevelInitializer.Instance.RespawnPlayer(player);
+            LevelInitializer.Instance.PlayerDeathInformation(player);
         }
     }
 }
