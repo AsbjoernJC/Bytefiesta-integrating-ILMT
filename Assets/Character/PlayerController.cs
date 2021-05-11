@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float m_JumpForce = 20.0f;
     [SerializeField] private LayerMask platformLayerMask;
     private float horizontalMove = 0f;
+    private float terminalVelocity = 25.1f;
     private PlayerConfiguration playerConfig;
     private Vector2 horizontalMoveInput;
     private Rigidbody2D rB2D;
@@ -162,6 +163,8 @@ public class PlayerController : MonoBehaviour
         return raycastHit2D.collider != null;
     }
 
+
+// Handles vertical and horizontal input from a controller/keyboard and makes the character move on screen
     private void HandleMovement()
     {
         // horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
@@ -169,8 +172,17 @@ public class PlayerController : MonoBehaviour
 
         animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
 
-        rB2D.velocity = new Vector2(horizontalMove * 10f, rB2D.velocity.y);
+        // terminalVelocity, so y.velocity won't keep increasing after a certain speed when player goes out of bounds in y-direction
 
+        var v = rB2D.velocity;
+        if(v.sqrMagnitude > terminalVelocity*terminalVelocity)
+        {
+            rB2D.velocity = v.normalized*terminalVelocity;
+        }
+        else
+        {
+            rB2D.velocity = new Vector2(horizontalMove * 10f, rB2D.velocity.y);
+        }
         if (horizontalMove > 0 && !m_FacingRight)
         {
             // ... flip the player.
