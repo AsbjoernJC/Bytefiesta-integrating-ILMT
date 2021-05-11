@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour
 {
-    public static int health = 1;
+    public int health = 1;
     private GameObject player;
 
     // Update is called once per frame
@@ -29,6 +29,11 @@ public class Stats : MonoBehaviour
             // LevelInitializer.Instance.RespawnPlayer(player);
             LevelInitializer.Instance.PlayerDeathInformation(player);
         }
+    }
+
+    public void GainHealth(int healthGain)
+    {
+        health += healthGain;
     }
 }
  

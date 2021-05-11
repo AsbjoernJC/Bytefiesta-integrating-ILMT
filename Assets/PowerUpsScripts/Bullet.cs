@@ -35,15 +35,18 @@ public class Bullet : MonoBehaviour
     {
         string collision = collider.ToString();
         collisionTag = collider.tag;
+        playerWhoShot = bulletTag.Split( )[0] + " " + bulletTag.Split( )[1];
+
+        if (collision.Contains("KingoftheHill") || playerWhoShot == collisionTag || bulletTag == collisionTag)
+            return;
 
         if (collision.Contains("HeadDetect"))
             player = collider.transform.parent.gameObject;
         else
             player = collider.gameObject;
         
-        playerWhoShot = bulletTag.Split( )[0] + " " + bulletTag.Split( )[1];
-        if (playerWhoShot == collisionTag)
-            return;
+
+
 
         if (!collision.Contains(playerWhoShot) && bulletTag != collisionTag)
             if (collisionTag.Contains("Player"))

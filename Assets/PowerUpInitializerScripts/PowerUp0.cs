@@ -21,17 +21,29 @@ public class PowerUp0 : MonoBehaviour
 
 // Todo: The bullet should not be able to collide with the player who shot the bullet
 // Should somehow add the picked up powerup to the player, who it collided with.
+// Does not allow bullets spawned by players to collide withthe powerup.
     private void OnTriggerEnter2D(Collider2D collider) 
     {
         string powerUpName = SpawnedPowerUp.name;
         string collision = collider.ToString();
+        if (collision.Contains("Bullet(Clone)"))
+            return;
+
         if (collision.Contains("HeadDetect"))
             player = collider.transform.parent.gameObject;
         else
             player = collider.gameObject;
 
         if (collision.Contains("Player") && powerUpName.Contains("KingoftheHill0"))
-            player.GetComponent<PlayerController>().GotBulletPowerUp(powerUpName);
+        {
+            player.GetComponent<PlayerController>().GotBulletPowerUp();
             Destroy(gameObject);
+        }
+        else if (collision.Contains("Player") && powerUpName.Contains("KingoftheHill1"))
+        {
+            player.GetComponent<PlayerController>().GotShieldPowerUp();
+            Destroy(gameObject);
+        }
+        
     }
 }

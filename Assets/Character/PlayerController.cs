@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private PlayerControls controls;
     private bool m_FacingRight = true;
     private bool canDoubleJump;
+    private bool hasShieldPowerUp = false;
 
     private Quaternion shootingAngle;
 
@@ -127,11 +128,23 @@ public class PlayerController : MonoBehaviour
 
     public void UseBulletPowerUp(InputAction.CallbackContext context)
     {
+        if (context.action.triggered && hasShieldPowerUp)
+        {
+            var sS = GetComponentInChildren<SpriteSpawner>();
+            sS.RemoveSprite();
+            var player = this.gameObject;
+            player.GetComponent<Stats>().GainHealth(1);
+            hasShieldPowerUp = false;
+            return;
+        }
+
         if (context.action.triggered && bulletCounter > 0)
         {
             var playerName = this.name;
             Bullet.Shoot(firePoint, powerUp[0], shootingAngle, playerName);
             bulletCounter --;
+            var sS = GetComponentInChildren<SpriteSpawner>();
+            sS.RemoveBulletSprite(bulletCounter);
         }
     }
 
@@ -152,9 +165,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void GotBulletPowerUp(string powerUp)
+    public void GotBulletPowerUp()
     {
         bulletCounter = 3;
+        var sS = GetComponentInChildren<SpriteSpawner>();
+        sS.SpawnBulletSprites(bulletCounter);
+    }
+
+    public void GotShieldPowerUp()
+    {
+        hasShieldPowerUp = true;
+        var sS = GetComponentInChildren<SpriteSpawner>();
+        sS.SpawnShieldSprite();
     }
 
     private bool IsGrounded() 
