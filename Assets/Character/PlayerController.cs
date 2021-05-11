@@ -155,6 +155,8 @@ public class PlayerController : MonoBehaviour
     public void GotBulletPowerUp(string powerUp)
     {
         bulletCounter = 3;
+        var sS = GetComponentInChildren<SpriteSpawner>();
+        sS.SpawnBulletSprites(bulletCounter);
     }
 
     private bool IsGrounded() 
