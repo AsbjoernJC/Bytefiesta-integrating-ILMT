@@ -13,12 +13,6 @@ public class Stats : MonoBehaviour
         player = this.gameObject;
     }
 
-    void Update() 
-    {
-
-    }
-
-
     // Take Damage will be called when a player takes damage eg. getting shot/jumped on etc.
     // If a player's health goes below 0, the player is dead and should therefore be respawned on a timer.
     public void TakeDamage(int damage)
