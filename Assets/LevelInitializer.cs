@@ -40,6 +40,7 @@ public class LevelInitializer : MonoBehaviour
     }
     
 
+    // I believe there is a rare bug, where a death of a player can cause one player to control both the character prefabs
     public void SpawnPlayer(int playerIndex)
     {
         var player = PlayerConfigurationManager.playerControllers[playerIndex];
