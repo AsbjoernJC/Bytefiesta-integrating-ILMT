@@ -7,14 +7,9 @@ public class SpriteSpawner : MonoBehaviour
 
     [SerializeField]
     private SpriteRenderer[] spriteLocations;
+
     [SerializeField]
     private Sprite[] sprites;
-
-    // Start is called before the first frame update
-    void Awake()
-    {
-
-    }
 
 
     public void SpawnBulletSprites(int bulletCounter)
@@ -28,5 +23,15 @@ public class SpriteSpawner : MonoBehaviour
     public void RemoveBulletSprite(int bulletCounter)
     {
         spriteLocations[bulletCounter].sprite = null;
+    }
+
+    public void SpawnShieldSprite()
+    {
+        spriteLocations[0].sprite = sprites[1];
+    }
+
+    public void RemoveSprite()
+    {
+        spriteLocations[0].sprite = null;
     }
 }
