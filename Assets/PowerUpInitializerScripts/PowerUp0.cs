@@ -28,7 +28,7 @@ public class PowerUp0 : MonoBehaviour
         string collision = collider.ToString();
         if (collision.Contains("Bullet(Clone)"))
             return;
-            
+
         if (collision.Contains("HeadDetect"))
             player = collider.transform.parent.gameObject;
         else
@@ -37,5 +37,9 @@ public class PowerUp0 : MonoBehaviour
         if (collision.Contains("Player") && powerUpName.Contains("KingoftheHill0"))
             player.GetComponent<PlayerController>().GotBulletPowerUp(powerUpName);
             Destroy(gameObject);
+        else if (collision.Contains("Player") && powerUpName.Contains("KingoftheHill1"))
+            player.GetComponent<PlayerController>().GotBulletPowerUp(powerUpName);
+            Destroy(gameObject);
+        
     }
 }
