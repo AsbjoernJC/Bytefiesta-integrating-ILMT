@@ -173,7 +173,7 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
 
         // terminalVelocity, so y.velocity won't keep increasing after a certain speed when player goes out of bounds in y-direction
-
+        // Help from: https://answers.unity.com/questions/9985/limiting-rigidbody-velocity.html
         var v = rB2D.velocity;
         if(v.sqrMagnitude > terminalVelocity*terminalVelocity)
         {
