@@ -132,6 +132,8 @@ public class PlayerController : MonoBehaviour
             var playerName = this.name;
             Bullet.Shoot(firePoint, powerUp[0], shootingAngle, playerName);
             bulletCounter --;
+            var sS = GetComponentInChildren<SpriteSpawner>();
+            sS.RemoveBulletSprite(bulletCounter);
         }
     }
 
