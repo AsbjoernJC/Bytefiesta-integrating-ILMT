@@ -15,12 +15,13 @@ public class Stats : MonoBehaviour
 
     // Take Damage will be called when a player takes damage eg. getting shot/jumped on etc.
     // If a player's health goes below 0, the player is dead and should therefore be respawned on a timer.
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, string playerWhoDealtDamage)
     {
         health -= damage;
         if (health <= 0)
         {
-            // LevelInitializer.Instance.RespawnPlayer(player);
+            KingoftheHillTracker.playerScores[playerWhoDealtDamage] ++;
+            Debug.Log(playerWhoDealtDamage + " score = " + KingoftheHillTracker.playerScores[playerWhoDealtDamage]);
             LevelInitializer.Instance.PlayerDeathInformation(player);
         }
     }
