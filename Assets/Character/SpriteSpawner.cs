@@ -13,6 +13,7 @@ public class SpriteSpawner : MonoBehaviour
     private Sprite[] sprites;
     private int bulletSpriteCount;
     private int shieldSpriteCount;
+    private int spritesPushed;
 
 
     // should not be assigned to spriteLocations[0] as it could override a useable shield powerup slot.
@@ -40,7 +41,15 @@ public class SpriteSpawner : MonoBehaviour
 
     public void RemoveBulletSprite(int bulletCounter)
     {
-        spriteLocations[bulletCounter].sprite = null;
+        if (spritesPushed > 0)
+        {
+            spriteLocations[bulletCounter + 1].sprite = null;
+            spritesPushed --;
+        }
+        else 
+        {
+            spriteLocations[bulletCounter].sprite = null;
+        }
         bulletSpriteCount --;
     }
 
@@ -55,6 +64,7 @@ public class SpriteSpawner : MonoBehaviour
             for (int i = 0; i < bulletSpriteCount; i++)
             {
                 spriteLocations[i + 1].sprite = sprites[0];
+                spritesPushed = bulletSpriteCount;
             }
         }
         spriteLocations[0].sprite = sprites[1];
