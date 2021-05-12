@@ -40,18 +40,11 @@ public class PlayerController : MonoBehaviour
 
     private void Awake() 
     {
-        if (rB2D == null)
-        {
-            rB2D = gameObject.GetComponent<Rigidbody2D>();
-        }
-        if (bC2D == null)
-        {
-            bC2D = transform.GetComponent<BoxCollider2D>();
-        }
-        if (cC2D == null)
-        {
-            cC2D = transform.GetComponent<CapsuleCollider2D>();
-        }
+        // awake only runs once ie. on initialization.
+        rB2D = gameObject.GetComponent<Rigidbody2D>();
+        bC2D = transform.GetComponent<BoxCollider2D>();
+        cC2D = transform.GetComponent<CapsuleCollider2D>();
+
     }
     void Update()
     {

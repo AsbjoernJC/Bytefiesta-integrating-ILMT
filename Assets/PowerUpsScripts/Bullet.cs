@@ -50,7 +50,7 @@ public class Bullet : MonoBehaviour
 
         if (!collision.Contains(playerWhoShot) && bulletTag != collisionTag)
             if (collisionTag.Contains("Player"))
-                player.GetComponent<Stats>().TakeDamage(1);
+                player.GetComponent<Stats>().TakeDamage(1, playerWhoShot);
             Destroy(gameObject);
     }
 

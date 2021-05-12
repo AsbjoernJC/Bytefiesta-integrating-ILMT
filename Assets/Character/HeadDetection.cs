@@ -15,11 +15,12 @@ public class HeadDetection : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collider) 
     {
         string collision = collider.ToString();
+        string colliderName = collision.Split( )[0] + " " + collision.Split( )[1];
         if (collision.Contains("HeadDetect"))
             return;
 
         if (collision.Contains("Player") && collision.Contains("BoxCollider"))
-            player.GetComponent<Stats>().TakeDamage(1);
+            player.GetComponent<Stats>().TakeDamage(1, colliderName);
     }
 
 }

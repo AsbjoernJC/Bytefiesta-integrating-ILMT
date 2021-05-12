@@ -21,4 +21,8 @@ Assets/PlayerSelect/*
 !Assets/PowerUpInitializerScripts
 !Assets/PowerUpInitializerScripts/*.cs
 
+!Assets/ScoreTracking
+!Assets/ScoreTracking/KingoftheHill
+!Assets/ScoreTracking
+!Assets/ScoreTracking/KingoftheHill/*.cs
 !.gitignore
