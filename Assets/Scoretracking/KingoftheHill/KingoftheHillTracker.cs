@@ -17,7 +17,7 @@ public class KingoftheHillTracker : MonoBehaviour
     void Awake()
     {
         if (instance != null)
-            Debug.Log("Simpleton, tried to create another object");
+            Debug.Log("Singleton, tried to create another object");
         else
             instance = this;
     }
