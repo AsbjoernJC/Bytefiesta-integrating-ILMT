@@ -20,6 +20,8 @@ public class Stats : MonoBehaviour
         health -= damage;
         if (health <= 0)
         {
+            KingoftheHillTracker.playerScores[playerWhoDealtDamage] ++;
+            Debug.Log(playerWhoDealtDamage + " score = " + KingoftheHillTracker.playerScores[playerWhoDealtDamage]);
             LevelInitializer.Instance.PlayerDeathInformation(player);
         }
     }

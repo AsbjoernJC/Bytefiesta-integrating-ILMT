@@ -8,6 +8,7 @@ public class SpriteSpawner : MonoBehaviour
     [SerializeField]
     private SpriteRenderer[] spriteLocations;
 
+    // sprites[0] = bullet sprite, sprites [1] = heart sprite
     [SerializeField]
     private Sprite[] sprites;
     private int bulletSpriteCount;
@@ -48,6 +49,14 @@ public class SpriteSpawner : MonoBehaviour
     // Could make some kind of counter, that is incremented/decremented when sprites are added/removed
     public void SpawnShieldSprite()
     {
+        if (bulletSpriteCount > 0 && bulletSpriteCount != 3)
+        {
+            // spriteLocation[0] will be set to the health sprite
+            for (int i = 0; i < bulletSpriteCount; i++)
+            {
+                spriteLocations[i + 1].sprite = sprites[0];
+            }
+        }
         spriteLocations[0].sprite = sprites[1];
         shieldSpriteCount = 1;
     }
