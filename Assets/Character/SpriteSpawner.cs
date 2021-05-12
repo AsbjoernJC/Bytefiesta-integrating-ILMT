@@ -17,6 +17,8 @@ public class SpriteSpawner : MonoBehaviour
     // should not be assigned to spriteLocations[0] as it could override a useable shield powerup slot.
     public void SpawnBulletSprites(int bulletCounter)
     {
+        // If the player has a spriteLocations[0] is the shield sprite (sprites[1]) then the spriteLocations[1] and spriteLocations[2]
+        // should be bullet sprites (sprites[0]) 
         if (shieldSpriteCount == 1)
         {
             for (int i = 0; i < bulletCounter; i++)
@@ -50,6 +52,7 @@ public class SpriteSpawner : MonoBehaviour
         shieldSpriteCount = 1;
     }
 
+// when the shield power up is used and the player has 3 bullets. It shows the three bullet sprites.
     public void RemoveSprite()
     {
         spriteLocations[0].sprite = null;
