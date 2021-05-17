@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class KingoftheHillTracker : MonoBehaviour
 {
     public static Dictionary<string, int> playerScores = new Dictionary<string, int>()
@@ -20,6 +20,14 @@ public class KingoftheHillTracker : MonoBehaviour
             Debug.Log("Singleton, tried to create another object");
         else
             instance = this;
+    }
+
+    public void MiniGameEnd()
+    {
+        // If a player has a score equal to or higher than 5.
+        // Here we should load a scene that displays the amount of sips a player should drink
+        // After displaying that and or mystery shot it should display the amount of minigame wins a player has
+        // SceneManager.LoadScene("KingoftheHill2304");
     }
 
 }
