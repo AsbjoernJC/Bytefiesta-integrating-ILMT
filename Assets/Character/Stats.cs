@@ -22,6 +22,8 @@ public class Stats : MonoBehaviour
         {
             KingoftheHillTracker.playerScores[playerWhoDealtDamage] ++;
             Debug.Log(playerWhoDealtDamage + " score = " + KingoftheHillTracker.playerScores[playerWhoDealtDamage]);
+
+            ScoreUpdater.UpdatePlayerScoreUI(playerWhoDealtDamage);
             LevelInitializer.Instance.PlayerDeathInformation(player);
         }
     }
