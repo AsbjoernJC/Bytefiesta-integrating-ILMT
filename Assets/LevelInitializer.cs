@@ -12,6 +12,7 @@ public class LevelInitializer : MonoBehaviour
     private Transform[] playerSpawns;
     [SerializeField]
     private GameObject[] playerPrefab;
+    private GameObject scoreUI;
     int playerToRespawnIndex;
     public float respawnTimer = 4f;
 
@@ -75,7 +76,8 @@ public class LevelInitializer : MonoBehaviour
         {
             PowerUpInitializer.activePlayers.Add(playerObject);
         }
-
+        scoreUI = GameObject.FindGameObjectWithTag("ScoreUI");
+        scoreUI.GetComponent<ScoreUpdater>().SpawnPlayerScoreUI(playerIndex);
     }
 
 
