@@ -24,6 +24,7 @@ public class KingoftheHillTracker : MonoBehaviour
 
     public void MiniGameEnd()
     {
+        // If a player has a score equal to or higher than 5.
         // Here we should load a scene that displays the amount of sips a player should drink
         // After displaying that and or mystery shot it should display the amount of minigame wins a player has
         // SceneManager.LoadScene("KingoftheHill2304");

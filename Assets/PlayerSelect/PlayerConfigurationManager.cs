@@ -52,7 +52,8 @@ public class PlayerConfigurationManager : MonoBehaviour
                 playerControlSchemes.Add(playerInputComponent.playerIndex, playerInputComponent.currentControlScheme);
             }
             
-            SceneManager.LoadScene("KingoftheHill2304");
+            // SceneManager.LoadScene("KingoftheHill2304");
+            SceneManager.LoadScene("KingoftheHill1705");
         }
     }
 
