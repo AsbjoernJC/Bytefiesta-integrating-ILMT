@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -21,6 +22,7 @@ public class PlayerController : MonoBehaviour
     private bool m_FacingRight = true;
     private bool canDoubleJump;
     private bool hasShieldPowerUp = false;
+    private bool canCoyote = false;
 
     private Quaternion shootingAngle;
 
@@ -58,6 +60,11 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("IsJumping", false);
             canDoubleJump = true;
         }
+        else 
+        {
+            StartCoroutine(CoyoteTimer(0.1f));
+        }
+
         HandleMovement();
     }
 
@@ -146,16 +153,29 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("IsJumping", true);
         if (context.action.triggered)
         {
+            if (canCoyote)
+            {
+                rB2D.velocity = Vector2.up * m_JumpForce;
+                return;
+            }
+
             if (IsGrounded())
             {
                 rB2D.velocity = Vector2.up * m_JumpForce;
+                return;
             }
             else if (canDoubleJump)
             {
                 rB2D.velocity = Vector2.up * m_JumpForce;
-                canDoubleJump = false;                
+                canDoubleJump = false;
+                return;
             }
         }
+        
+        // else if (!IsGrounded() && canCoyote)
+        // {
+        //     StartCoroutine(CoyoteTimer(0.1f));
+        // }
     }
 
     public void GotBulletPowerUp()
@@ -176,6 +196,13 @@ public class PlayerController : MonoBehaviour
     {
         RaycastHit2D raycastHit2D = Physics2D.BoxCast(bC2D.bounds.center, bC2D.bounds.size, 0f, Vector2.down, .1f, platformLayerMask);
         return raycastHit2D.collider != null;
+    }
+
+    public IEnumerator CoyoteTimer(float bufferTime)
+    {
+        canCoyote = true;
+        yield return new WaitForSeconds(bufferTime);
+        canCoyote = false;
     }
 
 

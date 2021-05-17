@@ -23,9 +23,7 @@ public class ScoreSpawner : MonoBehaviour
             position = new Vector3(287.5f + playerMultiplier, 18, 0);    
 
         var playerPicture = Instantiate(playerUI[playerIndex]);
-
-        playerPicture.transform.parent = gameObject.transform;
-
+        playerPicture.transform.SetParent(gameObject.transform);
 
         playerPicture.transform.position = position;
         
