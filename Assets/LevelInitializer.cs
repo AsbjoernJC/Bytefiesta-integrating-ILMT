@@ -14,6 +14,7 @@ public class LevelInitializer : MonoBehaviour
     private GameObject[] playerPrefab;
     private GameObject scoreUI;
     int playerToRespawnIndex;
+    int numberOfScoreUI;
     public float respawnTimer = 4f;
 
     public static LevelInitializer Instance { get; private set; }
@@ -36,6 +37,7 @@ public class LevelInitializer : MonoBehaviour
         for (int i = 0; i < PlayerConfigurationManager.playerControllers.Count; i++)
         {
             SpawnPlayer(i);
+            InstantiatePlayerUI(i);
         }
 
     }
@@ -76,10 +78,14 @@ public class LevelInitializer : MonoBehaviour
         {
             PowerUpInitializer.activePlayers.Add(playerObject);
         }
-        scoreUI = GameObject.FindGameObjectWithTag("ScoreUI");
-        scoreUI.GetComponent<ScoreUpdater>().SpawnPlayerScoreUI(playerIndex);
+
     }
 
+    private void InstantiatePlayerUI(int playerIndex)
+    {
+        scoreUI = GameObject.FindGameObjectWithTag("ScoreUI");
+        scoreUI.GetComponent<ScoreSpawner>().SpawnPlayerScoreUI(playerIndex);
+    }
 
     public void PlayerDeathInformation(GameObject player)
     {
