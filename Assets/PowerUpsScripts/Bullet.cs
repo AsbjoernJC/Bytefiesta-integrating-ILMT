@@ -57,30 +57,29 @@ public class Bullet : MonoBehaviour
 // Stops bullets from leaving the scene/arena, however, this is quite intensive.
     private Vector3 OutOfBounds()
     {
-        if(transform.position.x >= 24.49)
+        if(transform.position.x >= 26.76)
         {
             bulletPosition = new Vector3(-transform.position.x + 0.1f, transform.position.y);
             return bulletPosition;
         }
-        else if (transform.position.x <= -24.49)
+        else if (transform.position.x <= -26.76)
         {
             bulletPosition = new Vector3(-transform.position.x - 0.1f, transform.position.y);
             return bulletPosition;
         }
-        else if (transform.position.y >= 15.16)
+        else if (transform.position.y >= 17.8)
         {
-            bulletPosition = new Vector3(transform.position.x, -13f);
+            bulletPosition = new Vector3(transform.position.x, -15.61f);
             return bulletPosition;
         }
-        else if (transform.position.y <= -13.1)
+        else if (transform.position.y <= -15.71)
         {
-            bulletPosition = new Vector3(transform.position.x, 15.10f);
+            bulletPosition = new Vector3(transform.position.x, 17.7f);
             return bulletPosition;
         }
         bulletPosition = new Vector3(0f, 0f);
         return bulletPosition;
     }
-
 
     public static void Shoot(Transform firePoint, GameObject powerUp, Quaternion shootingAngle, string playerName)
     {
