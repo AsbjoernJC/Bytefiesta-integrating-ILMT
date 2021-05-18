@@ -251,24 +251,24 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 OutOfBounds()
     {
-        if(transform.position.x >= 17.36)
+        if(transform.position.x >= 24)
         {
             playerPosition = new Vector3(-transform.position.x + 0.1f, transform.position.y);
             return playerPosition;
         }
-        else if (transform.position.x <= -17.36)
+        else if (transform.position.x <= -24)
         {
             playerPosition = new Vector3(-transform.position.x - 0.1f, transform.position.y);
             return playerPosition;
         }
-        else if (transform.position.y >= 13.4)
+        else if (transform.position.y >= 14.4)
         {
-            playerPosition = new Vector3(transform.position.x, -11.3099f);
+            playerPosition = new Vector3(transform.position.x, -12.1099f);
             return playerPosition;
         }
-        else if (transform.position.y <= -11.3199)
+        else if (transform.position.y <= -12.23)
         {
-            playerPosition = new Vector3(transform.position.x, 13.39f);
+            playerPosition = new Vector3(transform.position.x, 14.25f);
             return playerPosition;
         }
         playerPosition = new Vector3(0f, 0f);
