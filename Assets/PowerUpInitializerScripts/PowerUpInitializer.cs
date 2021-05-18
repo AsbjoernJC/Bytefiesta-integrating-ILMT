@@ -8,7 +8,7 @@ public class PowerUpInitializer : MonoBehaviour
     public float deathTimer = 6f;
     public GameObject[] powerUps; 
     public Transform[] spawnPoints;
-    private bool powerUpInScene;
+    private bool powerUpInScene = false;
     private int initialNumberOfPlayers = 0;
     
     public static List<GameObject> activePlayers = new List<GameObject>();

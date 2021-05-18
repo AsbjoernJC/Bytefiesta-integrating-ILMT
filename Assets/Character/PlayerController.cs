@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     private bool canDoubleJump;
     private bool hasShieldPowerUp = false;
     private bool canCoyote = false;
+    private bool coyoteStarted = false;
 
     private Quaternion shootingAngle;
 
@@ -59,10 +60,11 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("IsJumping", false);
             canDoubleJump = true;
+            coyoteStarted = false;
         }
-        else 
+        else if (!IsGrounded() && !coyoteStarted)
         {
-            StartCoroutine(CoyoteTimer(10f));
+            StartCoroutine(CoyoteTimer(0.1f));
         }
 
         HandleMovement();
@@ -148,6 +150,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+// Weird bug with the animator. When holding down the jumpbutton the Player_Jump animation will not be played but rather the Player_Idle or Player_Run
     public void OnJump(InputAction.CallbackContext context)
     {
         animator.SetBool("IsJumping", true);
@@ -199,8 +202,9 @@ public class PlayerController : MonoBehaviour
         return raycastHit2D.collider != null;
     }
 
-    public IEnumerator CoyoteTimer(float bufferTime)
+    private IEnumerator CoyoteTimer(float bufferTime)
     {
+        coyoteStarted = true;
         canCoyote = true;
         yield return new WaitForSeconds(bufferTime);
         canCoyote = false;
