@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
         }
         else 
         {
-            StartCoroutine(CoyoteTimer(0.1f));
+            StartCoroutine(CoyoteTimer(10f));
         }
 
         HandleMovement();
@@ -156,6 +156,7 @@ public class PlayerController : MonoBehaviour
             if (canCoyote)
             {
                 rB2D.velocity = Vector2.up * m_JumpForce;
+                canCoyote = false;
                 return;
             }
 
