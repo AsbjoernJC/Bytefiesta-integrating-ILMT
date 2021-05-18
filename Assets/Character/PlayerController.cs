@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -21,6 +22,8 @@ public class PlayerController : MonoBehaviour
     private bool m_FacingRight = true;
     private bool canDoubleJump;
     private bool hasShieldPowerUp = false;
+    private bool canCoyote = false;
+    private bool coyoteStarted = false;
 
     private Quaternion shootingAngle;
 
@@ -57,7 +60,13 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("IsJumping", false);
             canDoubleJump = true;
+            coyoteStarted = false;
         }
+        else if (!IsGrounded() && !coyoteStarted)
+        {
+            StartCoroutine(CoyoteTimer(0.1f));
+        }
+
         HandleMovement();
     }
 
@@ -141,21 +150,36 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+// Weird bug with the animator. When holding down the jumpbutton the Player_Jump animation will not be played but rather the Player_Idle or Player_Run
     public void OnJump(InputAction.CallbackContext context)
     {
         animator.SetBool("IsJumping", true);
         if (context.action.triggered)
         {
+            if (canCoyote)
+            {
+                rB2D.velocity = Vector2.up * m_JumpForce;
+                canCoyote = false;
+                return;
+            }
+
             if (IsGrounded())
             {
                 rB2D.velocity = Vector2.up * m_JumpForce;
+                return;
             }
             else if (canDoubleJump)
             {
                 rB2D.velocity = Vector2.up * m_JumpForce;
-                canDoubleJump = false;                
+                canDoubleJump = false;
+                return;
             }
         }
+        
+        // else if (!IsGrounded() && canCoyote)
+        // {
+        //     StartCoroutine(CoyoteTimer(0.1f));
+        // }
     }
 
     public void GotBulletPowerUp()
@@ -176,6 +200,14 @@ public class PlayerController : MonoBehaviour
     {
         RaycastHit2D raycastHit2D = Physics2D.BoxCast(bC2D.bounds.center, bC2D.bounds.size, 0f, Vector2.down, .1f, platformLayerMask);
         return raycastHit2D.collider != null;
+    }
+
+    private IEnumerator CoyoteTimer(float bufferTime)
+    {
+        coyoteStarted = true;
+        canCoyote = true;
+        yield return new WaitForSeconds(bufferTime);
+        canCoyote = false;
     }
 
 
