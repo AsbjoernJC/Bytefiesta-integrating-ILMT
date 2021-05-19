@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
 
     // Todo should use the bool to determine whether or not the player has a PowerUp
     private int bulletCounter = 0;
+    public Sprite shieldSprite;
+    public SpriteRenderer shieldPoint;
     public Transform firePoint; 
     public GameObject[] powerUp;
     public Animator animator;
@@ -136,6 +138,7 @@ public class PlayerController : MonoBehaviour
             sS.RemoveSprite();
             var player = this.gameObject;
             player.GetComponent<Stats>().GainHealth(1);
+            shieldPoint.sprite = shieldSprite;
             hasShieldPowerUp = false;
             return;
         }

@@ -25,7 +25,11 @@ public class Stats : MonoBehaviour
 
             ScoreUpdater.UpdatePlayerScoreUI(playerWhoDealtDamage);
             LevelInitializer.Instance.PlayerDeathInformation(player);
+            return;
         }
+        var shieldPoint = player.GetComponent<PlayerController>().shieldPoint;
+        var shieldSprite = player.GetComponent<PlayerController>().shieldSprite;
+        shieldPoint.sprite = null;
     }
 
     public void GainHealth(int healthGain)
