@@ -25,7 +25,11 @@ public class Stats : MonoBehaviour
 
             ScoreUpdater.UpdatePlayerScoreUI(playerWhoDealtDamage);
             LevelInitializer.Instance.PlayerDeathInformation(player);
+            return;
         }
+        var shieldPoint = player.GetComponent<PlayerController>().shieldPoint;
+        var shieldSprite = player.GetComponent<PlayerController>().shieldSprite;
+        shieldPoint.sprite = null;
     }
 
     public void GainHealth(int healthGain)
@@ -33,4 +37,4 @@ public class Stats : MonoBehaviour
         health += healthGain;
     }
 }
- 
+ "players will now get a sprite around their player model, when they use the 'shield' (KingoftheHill1) powerup. They will lose it when they take damage and don't die"
