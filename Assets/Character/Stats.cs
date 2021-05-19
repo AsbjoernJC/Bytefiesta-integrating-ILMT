@@ -37,4 +37,4 @@ public class Stats : MonoBehaviour
         health += healthGain;
     }
 }
- 
+ "players will now get a sprite around their player model, when they use the 'shield' (KingoftheHill1) powerup. They will lose it when they take damage and don't die"
