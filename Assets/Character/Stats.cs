@@ -7,6 +7,7 @@ public class Stats : MonoBehaviour
     public int health = 1;
     private GameObject player;
 
+
     // Update is called once per frame
     void Start()
     {
@@ -17,11 +18,13 @@ public class Stats : MonoBehaviour
     // If a player's health goes below 0, the player is dead and should therefore be respawned on a timer.
     public void TakeDamage(int damage, string playerWhoDealtDamage)
     {
+        if (health == 0)
+            return;
+
         health -= damage;
         if (health <= 0)
         {
             KingoftheHillTracker.playerScores[playerWhoDealtDamage] ++;
-            // Debug.Log(playerWhoDealtDamage + " score = " + KingoftheHillTracker.playerScores[playerWhoDealtDamage]);
 
             ScoreUpdater.UpdatePlayerScoreUI(playerWhoDealtDamage);
             LevelInitializer.Instance.PlayerDeathInformation(player);

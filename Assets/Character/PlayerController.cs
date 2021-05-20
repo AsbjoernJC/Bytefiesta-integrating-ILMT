@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using System;
+
 
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -22,8 +24,10 @@ public class PlayerController : MonoBehaviour
     private bool m_FacingRight = true;
     private bool canDoubleJump;
     private bool hasShieldPowerUp = false;
+    private bool hasNormalBullet = true;
     private bool canCoyote = false;
     private bool coyoteStarted = false;
+    private float reloadSpeed = 0.4f;
 
     private Quaternion shootingAngle;
 
@@ -48,7 +52,6 @@ public class PlayerController : MonoBehaviour
         rB2D = gameObject.GetComponent<Rigidbody2D>();
         bC2D = transform.GetComponent<BoxCollider2D>();
         cC2D = transform.GetComponent<CapsuleCollider2D>();
-
     }
     void Update()
     {
@@ -175,12 +178,25 @@ public class PlayerController : MonoBehaviour
         // Can remove sprite here and in the coroutine that rese ts the bullet could draw the sprite and
         // allow the player to shoot again, however, only when bulletCounter < 0. Should maybe allow the player to shoot
         // if hasShieldPowerUp = true;
-        if (context.action.triggered)
+        if (context.action.triggered && hasNormalBullet)
         {
             powerUpBullet = false;
             var playerName = this.name;
             Bullet.Shoot(firePoint, powerUp[1], shootingAngle, playerName, powerUpBullet);
+            var sS = GetComponentInChildren<SpriteSpawner>();
+            sS.RemoveSprite();
+            hasNormalBullet = false;
+            StartCoroutine(ReloadBullet(sS));
         }
+    }
+
+    private IEnumerator ReloadBullet(SpriteSpawner sS)
+    {
+        yield return new WaitForSeconds(reloadSpeed);
+        if (bulletCounter != 0 || hasShieldPowerUp)
+            yield return null;
+        hasNormalBullet = true;
+        sS.SpawnNormalBullet();
     }
 
 // Weird bug with the animator. When holding down the jumpbutton the Player_Jump animation will not be played but rather the Player_Idle or Player_Run

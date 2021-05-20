@@ -14,13 +14,20 @@ public class SpriteSpawner : MonoBehaviour
     private int bulletSpriteCount;
     private int shieldSpriteCount;
     private int spritesPushed;
+    private bool hasNormalBullet;
 
+
+// Players start with their normal bullet
+    private void Awake() 
+    {
+        SpawnNormalBullet();
+    }
 
     // should not be assigned to spriteLocations[0] as it could override a useable shield powerup slot.
     public void SpawnBulletSprites(int bulletCounter)
     {
-        // If the player has a spriteLocations[0] is the shield sprite (sprites[1]) then the spriteLocations[1] and spriteLocations[2]
-        // should be bullet sprites (sprites[0]) 
+        // If the player has a spriteLocations[0] is the shield sprite (sprites[1]) 
+        // then the spriteLocations[1] and spriteLocations[2] should be bullet sprites (sprites[0]). 
         if (shieldSpriteCount == 1)
         {
             for (int i = 0; i < bulletCounter; i++)
@@ -41,16 +48,23 @@ public class SpriteSpawner : MonoBehaviour
 
     public void RemoveBulletSprite(int bulletCounter)
     {
+        // Sprites are pushed when bulletCounter is > 0 and the player has picked up a 
+        // Shield powerup Look in SpawnShieldSprite().
         if (spritesPushed > 0)
         {
             spriteLocations[bulletCounter + 1].sprite = null;
             spritesPushed --;
+            bulletSpriteCount --;
+            return;
         }
         else 
         {
             spriteLocations[bulletCounter].sprite = null;
+            bulletSpriteCount --;
         }
-        bulletSpriteCount --;
+
+        if (bulletCounter == 0 && hasNormalBullet)
+            spriteLocations[0].sprite = sprites[2];
     }
 
 
@@ -60,7 +74,7 @@ public class SpriteSpawner : MonoBehaviour
     {
         if (bulletSpriteCount > 0 && bulletSpriteCount != 3)
         {
-            // spriteLocation[0] will be set to the health sprite
+            // spriteLocation[0] will be set to the health sprite and will push other sprites' index by 1 
             for (int i = 0; i < bulletSpriteCount; i++)
             {
                 spriteLocations[i + 1].sprite = sprites[0];
@@ -72,13 +86,40 @@ public class SpriteSpawner : MonoBehaviour
     }
 
 // when the shield power up is used and the player has 3 bullets. It shows the three bullet sprites.
+// Used only for removing normal bullet sprites or shield sprites.
     public void RemoveSprite()
     {
+        var sprite0 = spriteLocations[0].sprite;
         spriteLocations[0].sprite = null;
+
+        if(sprite0 == sprites[2])
+        {
+            hasNormalBullet = false;
+            return;
+        }
+        // Used when the player has 3 bullets in the chamber, however, one of the sprites have been replaced by a heart sprite (sprites[1])
         if (bulletSpriteCount == 3)
         {
             spriteLocations[0].sprite = sprites[0];
+            shieldSpriteCount --;
+            return;
         }
-        shieldSpriteCount --;
+        
+        if (sprite0 == sprites[1])
+        {
+            shieldSpriteCount --;
+
+            if (hasNormalBullet && shieldSpriteCount == 0)
+            {
+                spriteLocations[0].sprite = sprites[2];
+            }
+        }
+
+    }
+
+    public void SpawnNormalBullet()
+    {
+        spriteLocations[0].sprite = sprites[2];
+        hasNormalBullet = true;
     }
 }

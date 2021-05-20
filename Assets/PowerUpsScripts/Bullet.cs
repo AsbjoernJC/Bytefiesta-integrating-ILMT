@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -59,7 +58,9 @@ public class Bullet : MonoBehaviour
 
         if (!collision.Contains(playerWhoShot) && bulletTag != collisionTag)
             if (collisionTag.Contains("Player"))
+            {
                 player.GetComponent<Stats>().TakeDamage(1, playerWhoShot);
+            }
             Destroy(gameObject);
     }
 
