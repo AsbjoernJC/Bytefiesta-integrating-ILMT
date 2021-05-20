@@ -34,6 +34,8 @@ public class Stats : MonoBehaviour
 
     public void GainHealth(int healthGain)
     {
+        if (health >= 2)
+            return;
         health += healthGain;
     }
 }

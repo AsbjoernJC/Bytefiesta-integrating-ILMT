@@ -145,6 +145,7 @@ public class PlayerController : MonoBehaviour
 // Should probably change the name to UsePowerUp or something else. It is not limited to bullets only.
     public void UseBulletPowerUp(InputAction.CallbackContext context)
     {
+        bool powerUpBullet = false;
         if (context.action.triggered && hasShieldPowerUp)
         {
             var sS = GetComponentInChildren<SpriteSpawner>();
@@ -158,8 +159,9 @@ public class PlayerController : MonoBehaviour
 
         if (context.action.triggered && bulletCounter > 0)
         {
+            powerUpBullet = true;
             var playerName = this.name;
-            Bullet.Shoot(firePoint, powerUp[0], shootingAngle, playerName);
+            Bullet.Shoot(firePoint, powerUp[0], shootingAngle, playerName, powerUpBullet);
             bulletCounter --;
             var sS = GetComponentInChildren<SpriteSpawner>();
             sS.RemoveBulletSprite(bulletCounter);
@@ -170,13 +172,14 @@ public class PlayerController : MonoBehaviour
         // This can be done by calling a coroutine (RefillBullet or the likes) after having shot the normal bullet
         // The players should probably spawn with the normal bullet sprite and have it be ready for use.
         // Should also have a sprite for SpriteSpawner,
-        // Can remove sprite here and in the coroutine that resets the bullet could draw the sprite and
+        // Can remove sprite here and in the coroutine that rese ts the bullet could draw the sprite and
         // allow the player to shoot again, however, only when bulletCounter < 0. Should maybe allow the player to shoot
         // if hasShieldPowerUp = true;
         if (context.action.triggered)
         {
+            powerUpBullet = false;
             var playerName = this.name;
-            Bullet.Shoot(firePoint, powerUp[1], shootingAngle, playerName);
+            Bullet.Shoot(firePoint, powerUp[1], shootingAngle, playerName, powerUpBullet);
         }
     }
 
@@ -206,10 +209,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         
-        // else if (!IsGrounded() && canCoyote)
-        // {
-        //     StartCoroutine(CoyoteTimer(0.1f));
-        // }
+
     }
 
     public void GotBulletPowerUp()
@@ -232,6 +232,7 @@ public class PlayerController : MonoBehaviour
         return raycastHit2D.collider != null;
     }
 
+// Allows players to have both of their jumps for a certain amount of time when IsGrounded() == false;
     private IEnumerator CoyoteTimer(float bufferTime)
     {
         coyoteStarted = true;
@@ -244,7 +245,8 @@ public class PlayerController : MonoBehaviour
 // Handles vertical and horizontal input from a controller/keyboard and makes the character move on screen
     private void HandleMovement()
     {
-        // horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+
+        //Players should maybe not be slowed down when holding their control stick diagonally: 0.67 vs 1 (horizontal)
         horizontalMove = horizontalMoveInput.x * runSpeed;
 
         animator.SetFloat("Speed", Mathf.Abs(horizontalMove));

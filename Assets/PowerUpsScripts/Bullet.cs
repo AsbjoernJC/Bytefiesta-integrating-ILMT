@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,12 @@ public class Bullet : MonoBehaviour
     private GameObject player;
     // Start is called before the first frame update
 
+    public static Bullet instance { get; private set; }
+
+    private void Awake() 
+    {
+        instance = this;    
+    }
     void Update() 
     {
 
@@ -23,7 +30,9 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject);
         }
         if (bulletTag == null)
+        {
             bulletTag = this.tag;
+        }
     }
 
 
@@ -83,13 +92,26 @@ public class Bullet : MonoBehaviour
 
 // Todo: should check if the bullet is the powerup form or just the normal.
 // If it is the normal bullet the "lifespan" should be shortened via a coroutine
-    public static void Shoot(Transform firePoint, GameObject powerUp, Quaternion shootingAngle, string playerName)
+    public static void Shoot(Transform firePoint, GameObject powerUp, Quaternion shootingAngle, string playerName, bool powerUpBullet)
     {
         float bulletSpeed = 18f;
         GameObject bullet = Instantiate(powerUp, firePoint.transform.position, shootingAngle);
         bullet.tag = playerName + " bullet";
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         rb.AddForce(firePoint.up * bulletSpeed, ForceMode2D.Impulse);
+        if (powerUpBullet)
+        {
+            return;
+        }
+        instance.StartCoroutine("BulletLifeSpan");
     }
+
+    private IEnumerator BulletLifeSpan()
+    {
+        yield return new WaitForSeconds(0.5f);
+        Destroy(this.gameObject);
+    }
+
+
 
 }
