@@ -27,7 +27,6 @@ public class PlayerController : MonoBehaviour
 
     private Quaternion shootingAngle;
 
-    // Todo should use the bool to determine whether or not the player has a PowerUp
     private int bulletCounter = 0;
     public Sprite shieldSprite;
     public SpriteRenderer shieldPoint;
@@ -81,6 +80,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+// now rotates bullets by setting the shootingangle to the correct angle.
     private void RotateFirePoint()
     {
         firePoint.position = new Vector2(transform.position.x + horizontalMoveInput.x,
@@ -94,10 +94,12 @@ public class PlayerController : MonoBehaviour
         if (firePoint.localPosition.normalized.x == 1 && m_FacingRight)
         {
             rotZ = -90f;
+            shootingAngle.eulerAngles = new Vector3(0f, 0f, 0f);
         }
         else if (firePoint.localPosition.normalized.x == 1 && !m_FacingRight)
         {
             rotZ = 90;
+            shootingAngle.eulerAngles = new Vector3(0f, 0f, 180f);
         }
 
         if(m_FacingRight)
@@ -105,10 +107,12 @@ public class PlayerController : MonoBehaviour
             if (firePoint.localPosition.normalized.x > 0 && firePoint.localPosition.normalized.y > 0)
             {
                 rotZ = 315f;
+                shootingAngle.eulerAngles = new Vector3(0f, 0f, 45f);
             }
             else if (firePoint.localPosition.normalized.x > 0 && firePoint.localPosition.normalized.y < 0)
             {
                 rotZ = 225f;
+                shootingAngle.eulerAngles = new Vector3(0f, 0f, 315f);
             }    
         }
         else 
@@ -116,20 +120,29 @@ public class PlayerController : MonoBehaviour
             if (firePoint.localPosition.normalized.x > 0 && firePoint.localPosition.normalized.y < 0)
             {
                 rotZ = 135f;
+                shootingAngle.eulerAngles = new Vector3(0f, 0f, 225f);
             }
             else if (firePoint.localPosition.normalized.x > 0 && firePoint.localPosition.normalized.y > 0)
             {
                 rotZ = 45f;
+                shootingAngle.eulerAngles = new Vector3(0f, 0f, 135f);
             }
         }
 
         if (firePoint.localPosition.normalized.y == 1)
-            rotZ = 360f;
+            {
+                rotZ = 360f;
+                shootingAngle.eulerAngles = new Vector3(0f, 0f, 90f);
+            }
         else if (firePoint.localPosition.normalized.y == -1)
-            rotZ = 180f;
+            {
+                rotZ = 180f;
+                shootingAngle.eulerAngles = new Vector3(0f, 0f, 270f);
+            }
         firePoint.transform.rotation = Quaternion.Euler(0, 0, rotZ);
     }
 
+// Should probably change the name to UsePowerUp or something else. It is not limited to bullets only.
     public void UseBulletPowerUp(InputAction.CallbackContext context)
     {
         if (context.action.triggered && hasShieldPowerUp)
@@ -150,6 +163,20 @@ public class PlayerController : MonoBehaviour
             bulletCounter --;
             var sS = GetComponentInChildren<SpriteSpawner>();
             sS.RemoveBulletSprite(bulletCounter);
+            return;
+        }
+        // Shoots the normal bullet.
+        // Todo: The player should only be able to shoot a normal bullet once every x seconds thinking (0.5-1)
+        // This can be done by calling a coroutine (RefillBullet or the likes) after having shot the normal bullet
+        // The players should probably spawn with the normal bullet sprite and have it be ready for use.
+        // Should also have a sprite for SpriteSpawner,
+        // Can remove sprite here and in the coroutine that resets the bullet could draw the sprite and
+        // allow the player to shoot again, however, only when bulletCounter < 0. Should maybe allow the player to shoot
+        // if hasShieldPowerUp = true;
+        if (context.action.triggered)
+        {
+            var playerName = this.name;
+            Bullet.Shoot(firePoint, powerUp[1], shootingAngle, playerName);
         }
     }
 
