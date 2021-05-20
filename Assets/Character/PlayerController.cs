@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using System;
+
 
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -22,12 +24,13 @@ public class PlayerController : MonoBehaviour
     private bool m_FacingRight = true;
     private bool canDoubleJump;
     private bool hasShieldPowerUp = false;
+    private bool hasNormalBullet = true;
     private bool canCoyote = false;
     private bool coyoteStarted = false;
+    private float reloadSpeed = 0.4f;
 
     private Quaternion shootingAngle;
 
-    // Todo should use the bool to determine whether or not the player has a PowerUp
     private int bulletCounter = 0;
     public Sprite shieldSprite;
     public SpriteRenderer shieldPoint;
@@ -49,7 +52,6 @@ public class PlayerController : MonoBehaviour
         rB2D = gameObject.GetComponent<Rigidbody2D>();
         bC2D = transform.GetComponent<BoxCollider2D>();
         cC2D = transform.GetComponent<CapsuleCollider2D>();
-
     }
     void Update()
     {
@@ -81,6 +83,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+// now rotates bullets by setting the shootingangle to the correct angle.
     private void RotateFirePoint()
     {
         firePoint.position = new Vector2(transform.position.x + horizontalMoveInput.x,
@@ -94,10 +97,12 @@ public class PlayerController : MonoBehaviour
         if (firePoint.localPosition.normalized.x == 1 && m_FacingRight)
         {
             rotZ = -90f;
+            shootingAngle.eulerAngles = new Vector3(0f, 0f, 0f);
         }
         else if (firePoint.localPosition.normalized.x == 1 && !m_FacingRight)
         {
             rotZ = 90;
+            shootingAngle.eulerAngles = new Vector3(0f, 0f, 180f);
         }
 
         if(m_FacingRight)
@@ -105,10 +110,12 @@ public class PlayerController : MonoBehaviour
             if (firePoint.localPosition.normalized.x > 0 && firePoint.localPosition.normalized.y > 0)
             {
                 rotZ = 315f;
+                shootingAngle.eulerAngles = new Vector3(0f, 0f, 45f);
             }
             else if (firePoint.localPosition.normalized.x > 0 && firePoint.localPosition.normalized.y < 0)
             {
                 rotZ = 225f;
+                shootingAngle.eulerAngles = new Vector3(0f, 0f, 315f);
             }    
         }
         else 
@@ -116,22 +123,32 @@ public class PlayerController : MonoBehaviour
             if (firePoint.localPosition.normalized.x > 0 && firePoint.localPosition.normalized.y < 0)
             {
                 rotZ = 135f;
+                shootingAngle.eulerAngles = new Vector3(0f, 0f, 225f);
             }
             else if (firePoint.localPosition.normalized.x > 0 && firePoint.localPosition.normalized.y > 0)
             {
                 rotZ = 45f;
+                shootingAngle.eulerAngles = new Vector3(0f, 0f, 135f);
             }
         }
 
         if (firePoint.localPosition.normalized.y == 1)
-            rotZ = 360f;
+            {
+                rotZ = 360f;
+                shootingAngle.eulerAngles = new Vector3(0f, 0f, 90f);
+            }
         else if (firePoint.localPosition.normalized.y == -1)
-            rotZ = 180f;
+            {
+                rotZ = 180f;
+                shootingAngle.eulerAngles = new Vector3(0f, 0f, 270f);
+            }
         firePoint.transform.rotation = Quaternion.Euler(0, 0, rotZ);
     }
 
+// Should probably change the name to UsePowerUp or something else. It is not limited to bullets only.
     public void UseBulletPowerUp(InputAction.CallbackContext context)
     {
+        bool powerUpBullet = false;
         if (context.action.triggered && hasShieldPowerUp)
         {
             var sS = GetComponentInChildren<SpriteSpawner>();
@@ -145,12 +162,41 @@ public class PlayerController : MonoBehaviour
 
         if (context.action.triggered && bulletCounter > 0)
         {
+            powerUpBullet = true;
             var playerName = this.name;
-            Bullet.Shoot(firePoint, powerUp[0], shootingAngle, playerName);
+            Bullet.Shoot(firePoint, powerUp[0], shootingAngle, playerName, powerUpBullet);
             bulletCounter --;
             var sS = GetComponentInChildren<SpriteSpawner>();
             sS.RemoveBulletSprite(bulletCounter);
+            return;
         }
+        // Shoots the normal bullet.
+        // Todo: The player should only be able to shoot a normal bullet once every x seconds thinking (0.5-1)
+        // This can be done by calling a coroutine (RefillBullet or the likes) after having shot the normal bullet
+        // The players should probably spawn with the normal bullet sprite and have it be ready for use.
+        // Should also have a sprite for SpriteSpawner,
+        // Can remove sprite here and in the coroutine that rese ts the bullet could draw the sprite and
+        // allow the player to shoot again, however, only when bulletCounter < 0. Should maybe allow the player to shoot
+        // if hasShieldPowerUp = true;
+        if (context.action.triggered && hasNormalBullet)
+        {
+            powerUpBullet = false;
+            var playerName = this.name;
+            Bullet.Shoot(firePoint, powerUp[1], shootingAngle, playerName, powerUpBullet);
+            var sS = GetComponentInChildren<SpriteSpawner>();
+            sS.RemoveSprite();
+            hasNormalBullet = false;
+            StartCoroutine(ReloadBullet(sS));
+        }
+    }
+
+    private IEnumerator ReloadBullet(SpriteSpawner sS)
+    {
+        yield return new WaitForSeconds(reloadSpeed);
+        if (bulletCounter != 0 || hasShieldPowerUp)
+            yield return null;
+        hasNormalBullet = true;
+        sS.SpawnNormalBullet();
     }
 
 // Weird bug with the animator. When holding down the jumpbutton the Player_Jump animation will not be played but rather the Player_Idle or Player_Run
@@ -179,10 +225,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         
-        // else if (!IsGrounded() && canCoyote)
-        // {
-        //     StartCoroutine(CoyoteTimer(0.1f));
-        // }
+
     }
 
     public void GotBulletPowerUp()
@@ -205,6 +248,7 @@ public class PlayerController : MonoBehaviour
         return raycastHit2D.collider != null;
     }
 
+// Allows players to have both of their jumps for a certain amount of time when IsGrounded() == false;
     private IEnumerator CoyoteTimer(float bufferTime)
     {
         coyoteStarted = true;
@@ -217,7 +261,8 @@ public class PlayerController : MonoBehaviour
 // Handles vertical and horizontal input from a controller/keyboard and makes the character move on screen
     private void HandleMovement()
     {
-        // horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+
+        //Players should maybe not be slowed down when holding their control stick diagonally: 0.67 vs 1 (horizontal)
         horizontalMove = horizontalMoveInput.x * runSpeed;
 
         animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
