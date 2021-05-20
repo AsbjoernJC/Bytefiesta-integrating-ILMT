@@ -16,11 +16,12 @@ public class ScoreSpawner : MonoBehaviour
 
         // position is based on transform.parent whose position is 487,5 x, 285 y. 
         // position below will translate to the playerPicture position being (-200, -267, 0)
-        position = new Vector3(287.5f, 18, 0);
+        Debug.Log(this.transform.position);
+        position = new Vector3(800f, 27f, 0f);
         int playerMultiplier = playerIndex*100;
 
         if (playerIndex > 0)
-            position = new Vector3(287.5f + playerMultiplier, 18, 0);    
+            position = new Vector3(position.x + playerMultiplier, position.y, position.z);    
 
         var playerPicture = Instantiate(playerUI[playerIndex]);
         playerPicture.transform.SetParent(gameObject.transform);
