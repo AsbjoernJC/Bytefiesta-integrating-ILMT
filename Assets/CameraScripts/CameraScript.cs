@@ -6,12 +6,18 @@ public class CameraScript : MonoBehaviour
 {
     public static float aspectRatio;
     public static float sceneTargetRatio;
+    public static float targetWidth = 1920f;
+    public static float targetHeight = 1080f;
+    public static float currentWidth;
+    public static float currentHeight;
     public static float deltaRatio;
     public SpriteRenderer Background;
     // Start is called before the first frame update
     void Start()
     {
-        aspectRatio = (float) Screen.width / (float) Screen.height;
+        currentWidth = Screen.width;
+        currentHeight = Screen.height;
+        aspectRatio = currentWidth / currentHeight;
         sceneTargetRatio = Background.bounds.size.x / Background.bounds.size.y;
 
         if (aspectRatio >= sceneTargetRatio)
