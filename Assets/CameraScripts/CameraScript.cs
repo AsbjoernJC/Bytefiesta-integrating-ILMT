@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
+    public static float aspectRatio;
+    public static float sceneTargetRatio;
     public SpriteRenderer Background;
     // Start is called before the first frame update
     void Start()
     {
-        float aspectRatio = (float) Screen.width / (float) Screen.height;
-        float sceneTargetRatio = Background.bounds.size.x / Background.bounds.size.y;
+        aspectRatio = (float) Screen.width / (float) Screen.height;
+        sceneTargetRatio = Background.bounds.size.x / Background.bounds.size.y;
 
         if (aspectRatio >= sceneTargetRatio)
         {
