@@ -26,3 +26,6 @@ Assets/PlayerSelect/*
 !Assets/ScoreTracking
 !Assets/ScoreTracking/KingoftheHill/*.cs
 !.gitignore
+
+!Assets/CameraScripts
+!Assets/CameraScripts/*.cs
