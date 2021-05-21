@@ -14,9 +14,12 @@ public class ScoreSpawner : MonoBehaviour
     {
         Vector3 position;
 
+
+        float widthMultiplier = CameraScript.currentWidth / CameraScript.targetWidth;
+        float heightMultiplier = CameraScript.currentHeight / CameraScript.targetHeight;
         // position is based on transform.parent whose position is 960 x, 540 y. 
         // position below will translate to the playerPicture position being (-160, -513, 0)
-        position = new Vector3(800f, 27f, 0f);
+        position = new Vector3(780f * widthMultiplier, 27f * heightMultiplier, 0f);
         int playerMultiplier = playerIndex*100;
 
         if (playerIndex > 0)
@@ -24,9 +27,10 @@ public class ScoreSpawner : MonoBehaviour
 
         var playerPicture = Instantiate(playerUI[playerIndex]);
         playerPicture.transform.SetParent(gameObject.transform);
-
+        Debug.Log(playerPicture.transform.parent.position);
         playerPicture.transform.position = position;
-        
+        playerPicture.transform.localScale *= widthMultiplier;
+
         //Gets the Textmeshpro.text element from ther playerPicture component 
         var playerScoreText = playerPicture.GetComponentInChildren<TMP_Text>();
         ScoreUpdater.playerScoreTexts.Add(playerScoreText);
