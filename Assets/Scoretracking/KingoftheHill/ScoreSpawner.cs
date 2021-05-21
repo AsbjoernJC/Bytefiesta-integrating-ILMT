@@ -17,7 +17,7 @@ public class ScoreSpawner : MonoBehaviour
 
         float widthMultiplier = CameraScript.currentWidth / CameraScript.targetWidth;
         float heightMultiplier = CameraScript.currentHeight / CameraScript.targetHeight;
-        // position is based on transform.parent whose position is 960 x, 540 y. 
+        // position is based on transform.parent whose position is 960 x, 540 y, when the resolution is 1920x1080. 
         // position below will translate to the playerPicture position being (-160, -513, 0)
         position = new Vector3(780f * widthMultiplier, 27f * heightMultiplier, 0f);
         int playerMultiplier = playerIndex*100;
@@ -27,7 +27,6 @@ public class ScoreSpawner : MonoBehaviour
 
         var playerPicture = Instantiate(playerUI[playerIndex]);
         playerPicture.transform.SetParent(gameObject.transform);
-        Debug.Log(playerPicture.transform.parent.position);
         playerPicture.transform.position = position;
         playerPicture.transform.localScale *= widthMultiplier;
 
