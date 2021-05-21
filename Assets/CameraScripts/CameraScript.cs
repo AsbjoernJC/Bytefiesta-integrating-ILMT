@@ -6,6 +6,7 @@ public class CameraScript : MonoBehaviour
 {
     public static float aspectRatio;
     public static float sceneTargetRatio;
+    public static float deltaRatio;
     public SpriteRenderer Background;
     // Start is called before the first frame update
     void Start()
@@ -19,7 +20,7 @@ public class CameraScript : MonoBehaviour
         }
         else 
         {
-            float deltaRatio = sceneTargetRatio / aspectRatio;
+            deltaRatio = sceneTargetRatio / aspectRatio;
             Camera.main.orthographicSize = Background.bounds.size.y / 2 * deltaRatio;
         }
     }
