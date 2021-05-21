@@ -95,7 +95,7 @@ public class Bullet : MonoBehaviour
 // If it is the normal bullet the "lifespan" should be shortened via a coroutine
     public static void Shoot(Transform firePoint, GameObject powerUp, Quaternion shootingAngle, string playerName, bool powerUpBullet)
     {
-        float bulletSpeed = 18f;
+        float bulletSpeed = 21f;
         GameObject bullet = Instantiate(powerUp, firePoint.transform.position, shootingAngle);
         bullet.tag = playerName + " bullet";
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
@@ -109,7 +109,7 @@ public class Bullet : MonoBehaviour
 
     private IEnumerator BulletLifeSpan()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.4f);
         Destroy(this.gameObject);
     }
 
