@@ -64,7 +64,7 @@ public class PlayerSetupMenuController : MonoBehaviour
         {
             return;
         }
-
+        characterSelectionImage.color = new Color32(255, 255, 255, 140);
         PlayerConfigurationManager.Instance.ReadyPlayer(playerIndex);
         readyPanel.SetActive(false);
         
