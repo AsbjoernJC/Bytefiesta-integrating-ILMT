@@ -51,7 +51,6 @@ public class PlayerConfigurationManager : MonoBehaviour
                 playerControllers.Add(playerIndex, playerInputComponent.devices[0]);
                 playerControlSchemes.Add(playerInputComponent.playerIndex, playerInputComponent.currentControlScheme);
             }
-            
             SceneManager.LoadScene("KingoftheHillAdaptive");
         }
     }
