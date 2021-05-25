@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using System;
 
 public class PlayerConfigurationManager : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class PlayerConfigurationManager : MonoBehaviour
 
     [SerializeField]
     public int MaxPlayers = 1;
+
+    [SerializeField]
+    private GameObject controllerLayout;
     
     public int numberOfActivePlayers { get; private set; } = 0;
 
@@ -51,7 +55,6 @@ public class PlayerConfigurationManager : MonoBehaviour
                 playerControllers.Add(playerIndex, playerInputComponent.devices[0]);
                 playerControlSchemes.Add(playerInputComponent.playerIndex, playerInputComponent.currentControlScheme);
             }
-            
             SceneManager.LoadScene("KingoftheHillAdaptive");
         }
     }
@@ -60,8 +63,33 @@ public class PlayerConfigurationManager : MonoBehaviour
     // the Player Input Manager invokes the unity event in the 'PlayerSelect' scene.
     public void HandlePlayerJoin(PlayerInput pi)
     {
+        string controllerName;
+        string controllerID;
+        int actualControllerNumber;
         if (!playerConfigurations.Any(p => p.playerIndex == pi.playerIndex))
         {
+            if (pi.currentControlScheme != "Controller")
+            {
+                Debug.Log("Not a controller");
+            }
+            else
+            {
+                controllerName = pi.devices[0].name;
+                controllerID = string.Join("", controllerName.Where(char.IsDigit));
+                if (controllerID == "")
+                {
+                    controllerID = "1";
+                    controllerLayout.GetComponent<ControllerImageAndText>().ChangeControllerText(controllerID, pi.playerIndex);
+                }
+                else
+                {
+                    actualControllerNumber = Int32.Parse(controllerID) + 1;
+                    controllerID = actualControllerNumber.ToString();
+                    controllerLayout.GetComponent<ControllerImageAndText>().ChangeControllerText(controllerID, pi.playerIndex);
+                }
+                // Debug.Log("playerIndex is = " + pi.playerIndex);
+                // Debug.Log(controllerID);
+            }
             pi.transform.SetParent(transform);
             playerConfigurations.Add(new PlayerConfiguration(pi));
         }

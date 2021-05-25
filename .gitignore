@@ -29,3 +29,6 @@ Assets/PlayerSelect/*
 
 !Assets/CameraScripts
 !Assets/CameraScripts/*.cs
+
+!Assets/MenuScripts
+!Assets/MenuScripts/*.cs

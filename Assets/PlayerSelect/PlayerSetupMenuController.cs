@@ -8,22 +8,29 @@ public class PlayerSetupMenuController : MonoBehaviour
 {
     private int playerIndex;
     
+    // [SerializeField]
+    // private TextMeshProUGUI titleText;
     [SerializeField]
-    private TextMeshProUGUI titleText;
+    private GameObject characterPanel;
     [SerializeField]
     private GameObject readyPanel;
     [SerializeField]
-    private GameObject menuPanel;
+    private Image characterSelectionImage;
+    [SerializeField]
+    private Button characterSelectButton;
     [SerializeField]
     private Button readyButton;
-
+    [SerializeField]
+    private Sprite[] playerUI;
     private float ignoreInputTime = 1.5f;
     private bool inputEnabled;
 
     public void SetPlayerIndex(int pi)
     {
         playerIndex = pi;
-        titleText.SetText("Player " + (pi + 1).ToString());
+
+        // To do: Add tinycontroller sprite with text displaying which controller controls the character
+        // titleText.SetText("Player " + (pi + 1).ToString());
         ignoreInputTime = Time.time + ignoreInputTime;
     }
 
@@ -36,17 +43,19 @@ public class PlayerSetupMenuController : MonoBehaviour
         }
     }
 
-
-// Should have a name change
-    public void SetColor(Material color)
+    public void ShowPlayerModel()
     {
         if (!inputEnabled) 
         {
             return;
-        } 
+        }
+
+        characterSelectionImage.sprite = playerUI[playerIndex];
+        this.transform.localScale = new Vector3(0.6f, 0.6f);
+        characterPanel.SetActive(false);
         readyPanel.SetActive(true);
         readyButton.Select();
-        menuPanel.SetActive(false);
+        
     }
 
     public void ReadyPlayer()
@@ -55,9 +64,9 @@ public class PlayerSetupMenuController : MonoBehaviour
         {
             return;
         }
-
+        characterSelectionImage.color = new Color32(255, 255, 255, 140);
         PlayerConfigurationManager.Instance.ReadyPlayer(playerIndex);
-        readyButton.gameObject.SetActive(false);
+        readyPanel.SetActive(false);
         
     }
 
