@@ -15,7 +15,6 @@ public class ControllerImageAndText : MonoBehaviour
     {
         controllerPictures[playerIndex].enabled = true;
         controllerText[playerIndex].text = controllerID;
-        // controllerText 
     }
 
 }
