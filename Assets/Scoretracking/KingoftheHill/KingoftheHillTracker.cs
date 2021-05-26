@@ -36,14 +36,12 @@ public class KingoftheHillTracker : MonoBehaviour
     public static void MiniGameEnd(string playerWhoWon)
     {
         winner = playerWhoWon;
-
+        
+        // Adds a point to the player's overall score, amount of wins in each minigame that has been played
+        DifficultyAndScore.acrossGamemodePlayerScore[winner] ++;
         // Time.timeScale prevents players from moving.
         Time.timeScale = 0f;
         instance.StartCoroutine("DisplayWinner");
-        // If a player has a score equal to or higher than 5.
-        // Here we should load a scene that displays the amount of sips a player should drink
-        // After displaying that and or mystery shot it should display the amount of minigame wins a player has
-        // SceneManager.LoadScene("KingoftheHill2304");
         DifficultyAndScore.finishedMinigames ++;
     }
 
