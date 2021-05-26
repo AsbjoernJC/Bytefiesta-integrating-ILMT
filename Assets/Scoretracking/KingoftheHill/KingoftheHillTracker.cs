@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System;
 public class KingoftheHillTracker : MonoBehaviour
 {
     [SerializeField]
@@ -11,6 +12,7 @@ public class KingoftheHillTracker : MonoBehaviour
     private Image playerWhoWonSprite;
     [SerializeField]
     public Sprite[] playerSprites;
+    public static string winner;
     public static Dictionary<string, int> playerScores = new Dictionary<string, int>()
     {
         {"Player 1", 0},
@@ -29,11 +31,15 @@ public class KingoftheHillTracker : MonoBehaviour
             instance = this;
     }
 
+// This function get's called when a player has a score equal to or higer than 5. It will stop the players from moving
+// And will display an image of the winner for 3.5 seconds.
     public static void MiniGameEnd(string playerWhoWon)
     {
+        winner = playerWhoWon;
+
+        // Time.timeScale prevents players from moving.
         Time.timeScale = 0f;
-        Debug.Log("Minigame ended");
-        instance.StartCoroutine("DisplayWinTimer");
+        instance.StartCoroutine("DisplayWinner");
         // If a player has a score equal to or higher than 5.
         // Here we should load a scene that displays the amount of sips a player should drink
         // After displaying that and or mystery shot it should display the amount of minigame wins a player has
@@ -41,12 +47,18 @@ public class KingoftheHillTracker : MonoBehaviour
         DifficultyAndScore.finishedMinigames ++;
     }
 
-    private IEnumerator DisplayWinTimer()
+    // Displays the winner's character sprite for 3.5 seconds and should then load a new scene.
+    private IEnumerator DisplayWinner()
     {
-        playerWhoWonSprite.sprite = null;
+        // Instead of doing this everywhere i should just find pi.playerIndex. Look in PlayerConfigurationManager.
+        // winner can either be = "Player 1", "Player 2", "Player 3" or "Player 4". 
+        // Therefore splitting by spaces and taking the second index will give us the playerIndex eg. 1, 2, 3 or 4
+        int winnerIndex = Int32.Parse(winner.Split( )[1]) - 1;
+
+        // Will display the winner's charactersprite on screen
+        playerWhoWonSprite.sprite = playerSprites[winnerIndex];
         minigameEndImagery.gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(3.5f);
-        Debug.Log("Waited 3.5 seconds");
         // To do: load some scene that displays how many sips a player should drink
     }
 

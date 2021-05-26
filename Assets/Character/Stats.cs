@@ -27,7 +27,7 @@ public class Stats : MonoBehaviour
             KingoftheHillTracker.playerScores[playerWhoDealtDamage] ++;
             ScoreUpdater.UpdatePlayerScoreUI(playerWhoDealtDamage);
             LevelInitializer.Instance.PlayerDeathInformation(player);
-            if (KingoftheHillTracker.playerScores[playerWhoDealtDamage] == 5)
+            if (KingoftheHillTracker.playerScores[playerWhoDealtDamage] >= 5)
             {
                 KingoftheHillTracker.MiniGameEnd(playerWhoDealtDamage);
             }
