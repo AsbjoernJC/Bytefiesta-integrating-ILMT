@@ -12,7 +12,7 @@ public class KingoftheHillTracker : MonoBehaviour
     private Image playerWhoWonSprite;
     [SerializeField]
     public Sprite[] playerSprites;
-    public static string winner;
+    private static string winner;
     public static Dictionary<string, int> playerScores = new Dictionary<string, int>()
     {
         {"Player 1", 0},
