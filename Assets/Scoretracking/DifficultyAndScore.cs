@@ -5,6 +5,7 @@ using UnityEngine;
 public class DifficultyAndScore : MonoBehaviour
 {
     public static string difficulty;
+    public static int finishedMinigames = 0;
     public static Dictionary<string, bool> difficulties = new Dictionary<string, bool>
     {
         {"Hardcore", false},
