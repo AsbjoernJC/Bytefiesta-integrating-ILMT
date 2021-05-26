@@ -23,7 +23,7 @@ Assets/PlayerSelect/*
 
 !Assets/ScoreTracking
 !Assets/ScoreTracking/KingoftheHill
-!Assets/ScoreTracking
+!Assets/ScoreTracking/*.cs
 !Assets/ScoreTracking/KingoftheHill/*.cs
 !.gitignore
 

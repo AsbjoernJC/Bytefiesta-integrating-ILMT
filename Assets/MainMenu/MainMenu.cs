@@ -5,9 +5,22 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public void PlayGame ()
+    public void HardcorePlayGame ()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        DifficultyAndScore.SetDifficulty("Hardcore");
+    }
+
+    public void MediumPlayGame ()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        DifficultyAndScore.SetDifficulty("Medium");
+    }
+
+    public void LightPlayGame ()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        DifficultyAndScore.SetDifficulty("Light");
     }
 
     public void QuitGame()
