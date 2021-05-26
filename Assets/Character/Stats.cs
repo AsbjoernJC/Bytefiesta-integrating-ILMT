@@ -25,9 +25,12 @@ public class Stats : MonoBehaviour
         if (health <= 0)
         {
             KingoftheHillTracker.playerScores[playerWhoDealtDamage] ++;
-
             ScoreUpdater.UpdatePlayerScoreUI(playerWhoDealtDamage);
             LevelInitializer.Instance.PlayerDeathInformation(player);
+            if (KingoftheHillTracker.playerScores[playerWhoDealtDamage] >= 5)
+            {
+                KingoftheHillTracker.MiniGameEnd(playerWhoDealtDamage);
+            }
             return;
         }
         var shieldPoint = player.GetComponent<PlayerController>().shieldPoint;
