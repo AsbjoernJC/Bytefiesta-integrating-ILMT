@@ -8,6 +8,8 @@ public class KingoftheHillTracker : MonoBehaviour
     [SerializeField]
     private Canvas minigameEndImagery;
     [SerializeField]
+    private Image playerWhoWonSprite;
+    [SerializeField]
     public Sprite[] playerSprites;
     public static Dictionary<string, int> playerScores = new Dictionary<string, int>()
     {
@@ -41,6 +43,7 @@ public class KingoftheHillTracker : MonoBehaviour
 
     private IEnumerator DisplayWinTimer()
     {
+        playerWhoWonSprite.sprite = null;
         minigameEndImagery.gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(3.5f);
         Debug.Log("Waited 3.5 seconds");
