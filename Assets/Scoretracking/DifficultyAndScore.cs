@@ -30,7 +30,15 @@ public class DifficultyAndScore : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        if(Instance != null)
+        {
+            Debug.Log("SINGLETON - Trying to create another instance of singleton!!");
+            DontDestroyOnLoad(Instance);
+        }
+        else
+        {
+            Instance = this;
+        }        
     }
 
     public static void SetDifficulty(string gamemode)

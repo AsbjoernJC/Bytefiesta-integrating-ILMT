@@ -36,14 +36,19 @@ public class KingoftheHillTracker : MonoBehaviour
     public static void MiniGameEnd(string playerWhoWon)
     {
         winner = playerWhoWon;
-        
+        // Maybe MysteryDrinkManager should be called from here. 
+
+
+
         // Adds a point to the player's overall score, amount of wins in each minigame that has been played
         DifficultyAndScore.acrossGamemodePlayerScore[winner] ++;
         // Time.timeScale prevents players from moving.
         Time.timeScale = 0f;
         instance.StartCoroutine("DisplayWinner");
         DifficultyAndScore.finishedMinigames ++;
+
         SceneManager.LoadScene("MysteryDrink");
+
     }
 
     // Displays the winner's character sprite for 3.5 seconds and should then load a new scene.

@@ -20,7 +20,7 @@ public class MysteryDrinkManager : MonoBehaviour
     private PlayerInput playerInput;
 
     // Start is called before the first frame update
-    void Start()
+    private void LateUpdate()
     {
         mysteryPlayerImage.sprite = playerSprites[Random.Range(0, 3)];
         mysteryPlayerImage.color = new Color32(0, 0, 0, 255);
@@ -77,6 +77,8 @@ public class MysteryDrinkManager : MonoBehaviour
             InputUser.PerformPairingWithDevice(playerController, inputUser, InputUserPairingOptions.UnpairCurrentDevicesFromUser);
             // Debug.Log(inputUser);
             // https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/api/UnityEngine.InputSystem.UI.InputSystemUIInputModule.html
+            // https://www.youtube.com/watch?v=Ur2tBl58YOc
+            // https://www.youtube.com/watch?v=_5pOiYHJgl0
         }
     }
 
