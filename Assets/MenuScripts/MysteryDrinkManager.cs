@@ -11,7 +11,9 @@ public class MysteryDrinkManager : MonoBehaviour
     [SerializeField]
     private Sprite[] playerSprites;
     [SerializeField]
-    private GameObject[] playerButtons;
+    private GameObject playerButtonGroup;
+    [SerializeField]
+    private GridLayoutGroup buttonGroup;
 
     // Start is called before the first frame update
     void Start()
@@ -46,6 +48,18 @@ public class MysteryDrinkManager : MonoBehaviour
             timePassed += rotationSpeed + Time.deltaTime;
         }
         mysteryPlayerImage.color = new Color32(255, 255, 255, 255);
+        AllowPlayerControl();
         yield return null;
     }
+
+    private void AllowPlayerControl()
+    {
+        for (int i = 0; i < 1; i++)
+        {
+            var playerButtonController = Instantiate(playerButtonGroup);
+            playerButtonController.transform.SetParent(buttonGroup.transform);
+        }
+
+    }
+
 }
