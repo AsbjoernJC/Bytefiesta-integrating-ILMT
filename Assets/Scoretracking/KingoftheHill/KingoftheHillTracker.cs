@@ -43,6 +43,7 @@ public class KingoftheHillTracker : MonoBehaviour
         Time.timeScale = 0f;
         instance.StartCoroutine("DisplayWinner");
         DifficultyAndScore.finishedMinigames ++;
+        SceneManager.LoadScene("MysteryDrink");
     }
 
     // Displays the winner's character sprite for 3.5 seconds and should then load a new scene.

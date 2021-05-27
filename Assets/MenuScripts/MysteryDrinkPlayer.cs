@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class MysteryDrinkPlayer : MonoBehaviour
 {
-    
-    void Start()
+    private void Awake() 
     {
-        
     }
 
 }

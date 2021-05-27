@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using System;
+using UnityEngine.InputSystem.Users;
 
 public class PlayerConfigurationManager : MonoBehaviour
 {
@@ -53,6 +54,8 @@ public class PlayerConfigurationManager : MonoBehaviour
                 var playerIndex = playerInputComponent.playerIndex;
 
                 playerControllers.Add(playerIndex, playerInputComponent.devices[0]);
+                DifficultyAndScore.playerInputs.Add(playerIndex, playerInputComponent);
+                Debug.Log(DifficultyAndScore.playerInputs[playerIndex].user.id);
                 playerControlSchemes.Add(playerInputComponent.playerIndex, playerInputComponent.currentControlScheme);
             }
             SceneManager.LoadScene("KingoftheHillAdaptive");
