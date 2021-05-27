@@ -66,6 +66,7 @@ public class MysteryDrinkManager : MonoBehaviour
             var inputUser = DifficultyAndScore.playerInputs[playerIndex].user;
             // var playerControlScheme = PlayerConfigurationManager.playerControlSchemes[playerIndex];
 
+            // always equal to 0 here for some reason.
             Debug.Log(DifficultyAndScore.playerInputs[playerIndex].user.id);
             
             // PlayerInput playerInput = PlayerInput.Instantiate(playerPrefab[playerIndex], playerIndex, playerControlScheme, -1, playerController);
@@ -75,6 +76,7 @@ public class MysteryDrinkManager : MonoBehaviour
             // playerButtonInput.SwitchCurrentControlScheme(playerControlScheme);
             InputUser.PerformPairingWithDevice(playerController, inputUser, InputUserPairingOptions.UnpairCurrentDevicesFromUser);
             // Debug.Log(inputUser);
+            // https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/api/UnityEngine.InputSystem.UI.InputSystemUIInputModule.html
         }
     }
 
