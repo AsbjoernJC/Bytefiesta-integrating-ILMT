@@ -62,10 +62,19 @@ public class KingoftheHillTracker : MonoBehaviour
         DifficultyAndScore.finishedMinigames ++;
         Time.timeScale = 1f;
 
+
         // MysterDrink should only be loaded every 3rd minigame, maybe after the first minigame.
-        SceneManager.LoadScene("MysteryDrink");
-        
-        // SceneManager.LoadScene("KingoftheHill1705backgroundedges");
+        if (DifficultyAndScore.finishedMinigames == 1 || DifficultyAndScore.finishedMinigames % 3 == 0)
+        {
+            SceneManager.LoadScene("MysteryDrink");
+        }
+        // Should load a random minigame if it is not time to load the MysteryDrink scene
+        // For now there is only KingoftheHill
+        else 
+        {
+            SceneManager.LoadScene("KingoftheHillAdaptive");
+        }
+
     }
 
 }

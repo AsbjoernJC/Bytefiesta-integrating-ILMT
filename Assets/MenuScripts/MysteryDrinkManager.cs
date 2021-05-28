@@ -51,7 +51,7 @@ public class MysteryDrinkManager : MonoBehaviour
         }
     }
 
-// Takes a random sprite from playerSprites and shuffles to a new one every x seconds.
+// Takes a random sprite from playerSprites (only the ones being used) and shuffles to a new one every x seconds.
 // It slows down over time
     private IEnumerator ShufflePlayers()
     {
@@ -59,13 +59,13 @@ public class MysteryDrinkManager : MonoBehaviour
         float rotationSpeed = 0.27f;
         while (timePassed < 3f)
         {
-            mysteryPlayerImage.sprite = playerSprites[Random.Range(0, 3)];
+            mysteryPlayerImage.sprite = playerSprites[Random.Range(0, PlayerConfigurationManager.numberOfActivePlayers)];
             yield return new WaitForSeconds(rotationSpeed);
             timePassed += rotationSpeed + Time.deltaTime;
         }
         while (timePassed >= 3 && timePassed < 8.5)
         {
-            mysteryPlayerImage.sprite = playerSprites[Random.Range(0, 3)];
+            mysteryPlayerImage.sprite = playerSprites[Random.Range(0, PlayerConfigurationManager.numberOfActivePlayers)];
             // rotationSpeed is slowed down in this part
             if (rotationSpeed >= 0)
             // 13f is just an arbitrary amount of time. It fit well
