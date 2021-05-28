@@ -37,7 +37,7 @@ public class MysteryDrinkManager : MonoBehaviour
     // Start is called before the first frame update
     private void Start() 
     {
-        mysteryPlayerImage.sprite = playerSprites[Random.Range(0, 3)];
+        mysteryPlayerImage.sprite = playerSprites[Random.Range(0, PlayerConfigurationManager.numberOfActivePlayers)];
         mysteryPlayerImage.color = new Color32(0, 0, 0, 255);
         StartCoroutine("ShufflePlayers");
     }
@@ -57,24 +57,24 @@ public class MysteryDrinkManager : MonoBehaviour
     {
         float timePassed = 0f;
         float rotationSpeed = 0.27f;
-        // while (timePassed < 3f)
-        // {
-        //     mysteryPlayerImage.sprite = playerSprites[Random.Range(0, 3)];
-        //     yield return new WaitForSeconds(rotationSpeed);
-        //     timePassed += rotationSpeed + Time.deltaTime;
-        // }
-        // while (timePassed >= 3 && timePassed < 8.5)
-        // {
-        //     mysteryPlayerImage.sprite = playerSprites[Random.Range(0, 3)];
-        //     // rotationSpeed is slowed down in this part
-        //     if (rotationSpeed >= 0)
-        //     // 11.5f is just an arbitrary amount of time. It fit well
-        //         rotationSpeed += Time.deltaTime * 14f;
-        //         if (rotationSpeed < 0)
-        //             rotationSpeed = 0;
-        //     yield return new WaitForSeconds(rotationSpeed);
-        //     timePassed += rotationSpeed + Time.deltaTime;
-        // }
+        while (timePassed < 3f)
+        {
+            mysteryPlayerImage.sprite = playerSprites[Random.Range(0, 3)];
+            yield return new WaitForSeconds(rotationSpeed);
+            timePassed += rotationSpeed + Time.deltaTime;
+        }
+        while (timePassed >= 3 && timePassed < 8.5)
+        {
+            mysteryPlayerImage.sprite = playerSprites[Random.Range(0, 3)];
+            // rotationSpeed is slowed down in this part
+            if (rotationSpeed >= 0)
+            // 13f is just an arbitrary amount of time. It fit well
+                rotationSpeed += Time.deltaTime * 13f;
+                if (rotationSpeed < 0)
+                    rotationSpeed = 0;
+            yield return new WaitForSeconds(rotationSpeed);
+            timePassed += rotationSpeed + Time.deltaTime;
+        }
         
 
         mysteryPlayerImage.color = new Color32(255, 255, 255, 255);
@@ -90,11 +90,12 @@ public class MysteryDrinkManager : MonoBehaviour
             var inputUser = DifficultyAndScore.playerInputs[playerIndex].user;
             var playerControlScheme = PlayerConfigurationManager.playerControlSchemes[playerIndex];
 
-            // Pairs the correct controller with the playerIndex. So if player 1 is using xboxcontroller2 (starts at 0)
-            // Player 1 will controll the leftmost button with xboxcontroller2
+            // Spawns the playerButtonGroup and assigns the PlayerInput object to a specific controller, controller scheme etc.
             PlayerInput playerInput = PlayerInput.Instantiate(playerButtonGroup, playerIndex, playerControlScheme, -1, playerController);
             playerInput.transform.SetParent(buttonGroup.transform);
             playerInput.enabled = true;
+            // Pairs the correct controller with the playerIndex. So if player 1 is using xboxcontroller2 (starts at 0)
+            // Player 1 will controll the leftmost button with xboxcontroller2
             InputUser.PerformPairingWithDevice(playerController, inputUser, InputUserPairingOptions.UnpairCurrentDevicesFromUser);
         }
     }
