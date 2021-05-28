@@ -36,13 +36,14 @@ public class KingoftheHillTracker : MonoBehaviour
     public static void MiniGameEnd(string playerWhoWon)
     {
         winner = playerWhoWon;
-        
+
         // Adds a point to the player's overall score, amount of wins in each minigame that has been played
         DifficultyAndScore.acrossGamemodePlayerScore[winner] ++;
         // Time.timeScale prevents players from moving.
         Time.timeScale = 0f;
         instance.StartCoroutine("DisplayWinner");
-        DifficultyAndScore.finishedMinigames ++;
+
+
     }
 
     // Displays the winner's character sprite for 3.5 seconds and should then load a new scene.
@@ -58,6 +59,22 @@ public class KingoftheHillTracker : MonoBehaviour
         minigameEndImagery.gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(3.5f);
         // To do: load some scene that displays how many sips a player should drink
+        DifficultyAndScore.finishedMinigames ++;
+        Time.timeScale = 1f;
+
+
+        // MysterDrink should only be loaded every 3rd minigame, maybe after the first minigame.
+        if (DifficultyAndScore.finishedMinigames == 1 || DifficultyAndScore.finishedMinigames % 3 == 0)
+        {
+            SceneManager.LoadScene("MysteryDrink");
+        }
+        // Should load a random minigame if it is not time to load the MysteryDrink scene
+        // For now there is only KingoftheHill
+        else 
+        {
+            SceneManager.LoadScene("KingoftheHillAdaptive");
+        }
+
     }
 
 }

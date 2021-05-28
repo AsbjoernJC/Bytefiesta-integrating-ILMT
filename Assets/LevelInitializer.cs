@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
-
 // for bugs see: https://www.youtube.com/watch?v=_5pOiYHJgl0
 public class LevelInitializer : MonoBehaviour
 {
@@ -46,7 +45,6 @@ public class LevelInitializer : MonoBehaviour
     // I believe there is a rare bug, where a death of a player can cause one player to control both the character prefabs
     public void SpawnPlayer(int playerIndex)
     {
-        var player = PlayerConfigurationManager.playerControllers[playerIndex];
         var playerController = PlayerConfigurationManager.playerControllers[playerIndex];
         var playerControlScheme = PlayerConfigurationManager.playerControlSchemes[playerIndex];
 
