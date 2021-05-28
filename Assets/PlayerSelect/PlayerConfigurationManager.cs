@@ -55,7 +55,6 @@ public class PlayerConfigurationManager : MonoBehaviour
 
                 playerControllers.Add(playerIndex, playerInputComponent.devices[0]);
                 DifficultyAndScore.playerInputs.Add(playerIndex, playerInputComponent);
-                Debug.Log("Characterselect Player " + i + 1 + " = " + DifficultyAndScore.playerInputs[playerIndex].user.id);
                 playerControlSchemes.Add(playerInputComponent.playerIndex, playerInputComponent.currentControlScheme);
             }
             SceneManager.LoadScene("KingoftheHillAdaptive");

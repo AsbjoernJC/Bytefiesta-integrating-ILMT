@@ -74,6 +74,8 @@ public class PowerUpInitializer : MonoBehaviour
 
     private void FindEligibleSpawnPoint()
     {
+        activePlayers.RemoveAll(gO => gO == null);
+
         float bestDistanceToPlayers = 0;
         float smallestDistanceToPlayer = 50f;
         for (int i = 0; i < spawnPoints.Length; i++)

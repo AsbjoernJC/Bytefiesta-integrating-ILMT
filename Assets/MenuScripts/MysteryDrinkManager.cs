@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
+using UnityEngine.SceneManagement;
 
 public class MysteryDrinkManager : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class MysteryDrinkManager : MonoBehaviour
     private GameObject playerButtonGroup;
     [SerializeField]
     private GridLayoutGroup buttonGroup;
+
+    public static int numberOfReadyPlayers = 0;
 
 
     public static MysteryDrinkManager Instance { get; private set; }
@@ -37,6 +40,15 @@ public class MysteryDrinkManager : MonoBehaviour
         mysteryPlayerImage.sprite = playerSprites[Random.Range(0, 3)];
         mysteryPlayerImage.color = new Color32(0, 0, 0, 255);
         StartCoroutine("ShufflePlayers");
+    }
+
+    private void Update()
+    {
+        if (numberOfReadyPlayers == PlayerConfigurationManager.numberOfActivePlayers)
+        {
+            SceneManager.LoadScene("KingoftheHillAdaptive");
+            numberOfReadyPlayers = 0;
+        }
     }
 
 // Takes a random sprite from playerSprites and shuffles to a new one every x seconds.
@@ -86,5 +98,4 @@ public class MysteryDrinkManager : MonoBehaviour
             InputUser.PerformPairingWithDevice(playerController, inputUser, InputUserPairingOptions.UnpairCurrentDevicesFromUser);
         }
     }
-
 }
