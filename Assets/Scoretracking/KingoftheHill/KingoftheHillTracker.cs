@@ -46,8 +46,10 @@ public class KingoftheHillTracker : MonoBehaviour
         Time.timeScale = 0f;
         instance.StartCoroutine("DisplayWinner");
         DifficultyAndScore.finishedMinigames ++;
-
+        Time.timeScale = 1f;
         SceneManager.LoadScene("MysteryDrink");
+        
+        // SceneManager.LoadScene("KingoftheHill1705backgroundedges");
 
     }
 

@@ -52,10 +52,6 @@ public class PlayerController : MonoBehaviour
         rB2D = gameObject.GetComponent<Rigidbody2D>();
         bC2D = transform.GetComponent<BoxCollider2D>();
         cC2D = transform.GetComponent<CapsuleCollider2D>();
-        for (int i = 0; i < 2; i++)
-        {
-            Debug.Log("UserIDs king of the hill load = " + DifficultyAndScore.playerInputs[i].user.id);
-        }
     }
     void Update()
     {

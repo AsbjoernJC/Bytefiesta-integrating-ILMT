@@ -16,11 +16,23 @@ public class MysteryDrinkManager : MonoBehaviour
     private GameObject playerButtonGroup;
     [SerializeField]
     private GridLayoutGroup buttonGroup;
-    [SerializeField]
-    private PlayerInput playerInput;
 
+
+    public static MysteryDrinkManager Instance { get; private set; }
+
+    private void Awake() 
+    {
+        if(Instance != null)
+        {
+            Debug.Log("SINGLETON - Trying to create another instance of singleton!!");
+        }
+        else
+        {
+            Instance = this;
+        }        
+    }
     // Start is called before the first frame update
-    private void LateUpdate()
+    private void Start() 
     {
         mysteryPlayerImage.sprite = playerSprites[Random.Range(0, 3)];
         mysteryPlayerImage.color = new Color32(0, 0, 0, 255);
@@ -64,21 +76,14 @@ public class MysteryDrinkManager : MonoBehaviour
         {
             var playerController = PlayerConfigurationManager.playerControllers[playerIndex];
             var inputUser = DifficultyAndScore.playerInputs[playerIndex].user;
-            // var playerControlScheme = PlayerConfigurationManager.playerControlSchemes[playerIndex];
+            var playerControlScheme = PlayerConfigurationManager.playerControlSchemes[playerIndex];
 
-            // always equal to 0 here for some reason.
-            Debug.Log(DifficultyAndScore.playerInputs[playerIndex].user.id);
-            
-            // PlayerInput playerInput = PlayerInput.Instantiate(playerPrefab[playerIndex], playerIndex, playerControlScheme, -1, playerController);
-            var playerButtonController = Instantiate(playerButtonGroup);
-            playerButtonController.transform.SetParent(buttonGroup.transform);
+            // Pairs the correct controller with the playerIndex. So if player 1 is using xboxcontroller2 (starts at 0)
+            // Player 1 will controll the leftmost button with xboxcontroller2
+            PlayerInput playerInput = PlayerInput.Instantiate(playerButtonGroup, playerIndex, playerControlScheme, -1, playerController);
+            playerInput.transform.SetParent(buttonGroup.transform);
             playerInput.enabled = true;
-            // playerButtonInput.SwitchCurrentControlScheme(playerControlScheme);
             InputUser.PerformPairingWithDevice(playerController, inputUser, InputUserPairingOptions.UnpairCurrentDevicesFromUser);
-            // Debug.Log(inputUser);
-            // https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/api/UnityEngine.InputSystem.UI.InputSystemUIInputModule.html
-            // https://www.youtube.com/watch?v=Ur2tBl58YOc
-            // https://www.youtube.com/watch?v=_5pOiYHJgl0
         }
     }
 
