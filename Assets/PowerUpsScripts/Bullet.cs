@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 
 public class Bullet : MonoBehaviour
 {
@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour
     private Quaternion shootingAngle;
     private string playerWhoShot;
     private string collisionTag;
-    private string bulletTag;
+    private static string bulletTag;
     private GameObject player;
     // Start is called before the first frame update
 
@@ -28,10 +28,7 @@ public class Bullet : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        if (bulletTag == null)
-        {
-            bulletTag = this.tag;
-        }
+
     }
 
 
@@ -98,10 +95,12 @@ public class Bullet : MonoBehaviour
         float bulletSpeed = 21f;
         GameObject bullet = Instantiate(powerUp, firePoint.transform.position, shootingAngle);
         bullet.tag = playerName + " bullet";
+        bulletTag = instance.tag;
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         rb.AddForce(firePoint.up * bulletSpeed, ForceMode2D.Impulse);
         if (powerUpBullet)
         {
+            FindPlayerPositions();
             return;
         }
         instance.StartCoroutine("BulletLifeSpan");
@@ -113,6 +112,32 @@ public class Bullet : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    private static void FindPlayerPositions()
+    {
+        Vector3 distanceToPlayer;
+        Vector3 smallestDistanceToPlayer = new Vector3(50f, 50f, 0f);
+        string playerWhoShot = bulletTag.Split( )[0] + " " + bulletTag.Split( )[1];
+        GameObject player;
+        
+        for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
+            {
+            
+            LoopStart:
+                if (playerWhoShot == $"Player {i + 1}")
+                {
+                    i++;
+                    goto LoopStart;
+                }
+                player = GameObject.Find($"Player {i + 1}");
+                distanceToPlayer = Vector3.Lerp(instance.transform.position, player.transform.position, Time.deltaTime * 1f);
+                if (distanceToPlayer.magnitude < smallestDistanceToPlayer.magnitude)
+                {
+                    smallestDistanceToPlayer = distanceToPlayer;
+                }
 
+                Debug.Log("X distance to player = " + (player.transform.position.x - instance.transform.position.x).ToString());
+                Debug.Log("Y distance to player = " + (player.transform.position.y - instance.transform.position.y).ToString());
+            }
+    }
 
 }
