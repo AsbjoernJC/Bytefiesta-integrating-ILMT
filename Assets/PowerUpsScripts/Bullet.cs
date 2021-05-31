@@ -5,12 +5,9 @@ using System;
 
 public class Bullet : MonoBehaviour
 {
-    public Rigidbody2D rB2D;
-    [SerializeField]
-    private float smoothing = 0.0001f;
+    private Rigidbody2D rB2D;
     private Vector3 bulletPosition;
-    private Transform firePoint; 
-    private Quaternion shootingAngle;
+    private Quaternion bulletAngle;
     private string playerWhoShot;
     private string collisionTag;
     private static string bulletTag;
@@ -24,6 +21,9 @@ public class Bullet : MonoBehaviour
     private void Awake() 
     {
         instance = this;    
+        
+        rB2D = this.GetComponent<Rigidbody2D>();
+
     }
     void Update() 
     {
@@ -151,14 +151,22 @@ public class Bullet : MonoBehaviour
                 }
             }
 
-// For some reason the transform.position.y value jumps quite a bit at some point instead of slowly increasing
-        float timePassed = 0f;
-        while (smallestDistanceToPlayer < 13f && smallestDistanceToPlayer > 4f)
+// The path to the targetedPlayer is messed up at one point it rotates the wrong direction and has to correct the path.
+// https://www.youtube.com/watch?v=0v_H3oOR0aU
+        while (smallestDistanceToPlayer < 20f)
         {
-            transform.position = Vector3.Lerp(transform.position, targetedPlayer.transform.position, 1f/21f * Time.deltaTime);
-            // instance.transform.position = Vector3.MoveTowards(instance.transform.position, targetedPlayer.transform.position, 0.01f);
-            smallestDistanceToPlayer = Vector3.Distance(transform.position, targetedPlayer.transform.position);
-            timePassed += Time.deltaTime;
+            // transform.rotation = new Quaternion.Euler
+            Vector2 direction = (Vector2)targetedPlayer.transform.position - (Vector2)transform.position;
+            direction.Normalize();
+            float rotateAmount = Vector3.Cross(direction, transform.up).z;
+            float rotateSpeed = 5500f;
+
+            rB2D.angularVelocity = -rotateAmount * rotateSpeed;
+
+            rB2D.velocity = transform.up * 21f;
+            // transform.position = Vector3.Lerp(transform.position, targetedPlayer.transform.position, 1f/21f * Time.deltaTime * 1.3f);
+            // // instance.transform.position = Vector3.MoveTowards(instance.transform.position, targetedPlayer.transform.position, 0.01f);
+            // smallestDistanceToPlayer = Vector3.Distance(transform.position, targetedPlayer.transform.position);
             yield return null;
         }
     }
