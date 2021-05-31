@@ -35,7 +35,7 @@ public class Bullet : MonoBehaviour
         }
         if (isPowerUpBullet)
         {
-            FindPlayerPositions();
+            StartCoroutine(FindPlayerPositions());
         }
 
     }
@@ -129,7 +129,7 @@ public class Bullet : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    private void FindPlayerPositions()
+    private IEnumerator FindPlayerPositions()
     {
         float distanceToPlayer;
         float smallestDistanceToPlayer = 100f;
@@ -144,7 +144,7 @@ public class Bullet : MonoBehaviour
                     goto LoopStart;
                 }
                 targetedPlayer = GameObject.Find($"Player {i + 1}");
-                distanceToPlayer = Vector3.Distance(instance.transform.position, targetedPlayer.transform.position);
+                distanceToPlayer = Vector3.Distance(transform.position, targetedPlayer.transform.position);
                 if (distanceToPlayer < smallestDistanceToPlayer)
                 {
                     smallestDistanceToPlayer = distanceToPlayer;
@@ -152,11 +152,16 @@ public class Bullet : MonoBehaviour
             }
 
 // For some reason the transform.position.y value jumps quite a bit at some point instead of slowly increasing
+        float timePassed = 0f;
         while (smallestDistanceToPlayer < 13f && smallestDistanceToPlayer > 4f)
         {
-            instance.transform.position = Vector3.Lerp(instance.transform.position, targetedPlayer.transform.position, Time.deltaTime * smoothing);
-            smallestDistanceToPlayer = Vector3.Distance(instance.transform.position, targetedPlayer.transform.position);
+            transform.position = Vector3.Lerp(transform.position, targetedPlayer.transform.position, 1f/21f * Time.deltaTime);
+            // instance.transform.position = Vector3.MoveTowards(instance.transform.position, targetedPlayer.transform.position, 0.01f);
+            smallestDistanceToPlayer = Vector3.Distance(transform.position, targetedPlayer.transform.position);
+            timePassed += Time.deltaTime;
+            yield return null;
         }
     }
+
 
 }
