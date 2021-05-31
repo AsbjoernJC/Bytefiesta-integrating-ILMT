@@ -152,6 +152,7 @@ public class Bullet : MonoBehaviour
             }
 
 // The path to the targetedPlayer is messed up at one point it rotates the wrong direction and has to correct the path.
+// I believe taking a look at the rotateAmount might give an idea of the problem.
 // https://www.youtube.com/watch?v=0v_H3oOR0aU
         while (smallestDistanceToPlayer < 20f)
         {
