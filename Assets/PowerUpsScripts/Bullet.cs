@@ -6,6 +6,8 @@ using System;
 public class Bullet : MonoBehaviour
 {
     public Rigidbody2D rB2D;
+    [SerializeField]
+    private float smoothing = 0.0001f;
     private Vector3 bulletPosition;
     private Transform firePoint; 
     private Quaternion shootingAngle;
@@ -14,6 +16,8 @@ public class Bullet : MonoBehaviour
     private static string bulletTag;
     private GameObject player;
     // Start is called before the first frame update
+    private static GameObject targetedPlayer;
+    private bool isPowerUpBullet = false;
 
     public static Bullet instance { get; private set; }
 
@@ -26,12 +30,20 @@ public class Bullet : MonoBehaviour
 
         if (OutOfBounds() != new Vector3(0,0))
         {
+            StopAllCoroutines();
             Destroy(gameObject);
+        }
+        if (isPowerUpBullet)
+        {
+            FindPlayerPositions();
         }
 
     }
 
-
+    private void FixedUpdate() 
+    {
+        
+    }
 
 // Checks who the bullet is created by, by looking at the GameObject's tag
 // If it is not the player who shot the bullet, or another bullet from the same player
@@ -54,11 +66,15 @@ public class Bullet : MonoBehaviour
 
 
         if (!collision.Contains(playerWhoShot) && bulletTag != collisionTag)
+        {
             if (collisionTag.Contains("Player"))
             {
                 player.GetComponent<Stats>().TakeDamage(1, playerWhoShot);
             }
+            StopAllCoroutines();
             Destroy(gameObject);
+        }
+
     }
 
 // Stops bullets from leaving the scene/arena, however, this is quite intensive.
@@ -100,7 +116,8 @@ public class Bullet : MonoBehaviour
         rb.AddForce(firePoint.up * bulletSpeed, ForceMode2D.Impulse);
         if (powerUpBullet)
         {
-            FindPlayerPositions();
+            instance.StartCoroutine("FindPlayerPositions");
+            instance.GetComponent<Bullet>().isPowerUpBullet = true;
             return;
         }
         instance.StartCoroutine("BulletLifeSpan");
@@ -112,32 +129,34 @@ public class Bullet : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    private static void FindPlayerPositions()
+    private void FindPlayerPositions()
     {
-        Vector3 distanceToPlayer;
-        Vector3 smallestDistanceToPlayer = new Vector3(50f, 50f, 0f);
+        float distanceToPlayer;
+        float smallestDistanceToPlayer = 100f;
         string playerWhoShot = bulletTag.Split( )[0] + " " + bulletTag.Split( )[1];
-        GameObject player;
-        
+
         for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
             {
-            
             LoopStart:
                 if (playerWhoShot == $"Player {i + 1}")
                 {
                     i++;
                     goto LoopStart;
                 }
-                player = GameObject.Find($"Player {i + 1}");
-                distanceToPlayer = Vector3.Lerp(instance.transform.position, player.transform.position, Time.deltaTime * 1f);
-                if (distanceToPlayer.magnitude < smallestDistanceToPlayer.magnitude)
+                targetedPlayer = GameObject.Find($"Player {i + 1}");
+                distanceToPlayer = Vector3.Distance(instance.transform.position, targetedPlayer.transform.position);
+                if (distanceToPlayer < smallestDistanceToPlayer)
                 {
                     smallestDistanceToPlayer = distanceToPlayer;
                 }
-
-                Debug.Log("X distance to player = " + (player.transform.position.x - instance.transform.position.x).ToString());
-                Debug.Log("Y distance to player = " + (player.transform.position.y - instance.transform.position.y).ToString());
             }
+
+// For some reason the transform.position.y value jumps quite a bit at some point instead of slowly increasing
+        while (smallestDistanceToPlayer < 13f && smallestDistanceToPlayer > 4f)
+        {
+            instance.transform.position = Vector3.Lerp(instance.transform.position, targetedPlayer.transform.position, Time.deltaTime * smoothing);
+            smallestDistanceToPlayer = Vector3.Distance(instance.transform.position, targetedPlayer.transform.position);
+        }
     }
 
 }
