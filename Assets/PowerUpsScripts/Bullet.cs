@@ -162,13 +162,13 @@ public class Bullet : MonoBehaviour
             }
 
     // Navigates the bullet to the targeted player by changing the angularVelocity and thereby the z rotation.
-        while (smallestDistanceToPlayer < 20f)
+        while (smallestDistanceToPlayer < 9f && smallestDistanceToPlayer > 3.5f)
         {
             // transform.rotation = new Quaternion.Euler
             Vector2 direction = (Vector2)targetedPlayer.transform.position - (Vector2)transform.position;
             direction.Normalize();
             float rotateAmount = Vector3.Cross(direction, transform.up).z;
-            float rotateSpeed = 300f;
+            float rotateSpeed = 350f;
 
             rB2D.angularVelocity = -rotateAmount * rotateSpeed;
 
