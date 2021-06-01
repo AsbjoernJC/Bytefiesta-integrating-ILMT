@@ -162,6 +162,7 @@ public class Bullet : MonoBehaviour
             }
 
     // Navigates the bullet to the targeted player by changing the angularVelocity and thereby the z rotation.
+    // Bullets should maybe only be allowed to chase down a single player. Will have to look at that in playdemos.
         while (smallestDistanceToPlayer < 9f && smallestDistanceToPlayer > 3.5f)
         {
             // transform.rotation = new Quaternion.Euler
