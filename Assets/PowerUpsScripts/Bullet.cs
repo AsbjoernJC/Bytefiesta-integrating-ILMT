@@ -13,6 +13,7 @@ public class Bullet : MonoBehaviour
     private static string bulletTag;
     private GameObject player;
     // Start is called before the first frame update
+    private static GameObject potentialPlayerTarget;
     private static GameObject targetedPlayer;
     private bool isPowerUpBullet = false;
 
@@ -106,6 +107,8 @@ public class Bullet : MonoBehaviour
 
 // Todo: should check if the bullet is the powerup form or just the normal.
 // If it is the normal bullet the "lifespan" should be shortened via a coroutine
+
+//  The shootingAngle is wrong
     public static void Shoot(Transform firePoint, GameObject powerUp, Quaternion shootingAngle, string playerName, bool powerUpBullet)
     {
         float bulletSpeed = 21f;
@@ -143,24 +146,29 @@ public class Bullet : MonoBehaviour
                     i++;
                     goto LoopStart;
                 }
-                targetedPlayer = GameObject.Find($"Player {i + 1}");
-                distanceToPlayer = Vector3.Distance(transform.position, targetedPlayer.transform.position);
+
+                potentialPlayerTarget = GameObject.Find($"Player {i + 1}");
+                if (potentialPlayerTarget == null)
+                {
+                    break;
+                }
+
+                distanceToPlayer = Vector3.Distance(transform.position, potentialPlayerTarget.transform.position);
                 if (distanceToPlayer < smallestDistanceToPlayer)
                 {
                     smallestDistanceToPlayer = distanceToPlayer;
+                    targetedPlayer = potentialPlayerTarget;
                 }
             }
 
-// The path to the targetedPlayer is messed up at one point it rotates the wrong direction and has to correct the path.
-// I believe taking a look at the rotateAmount might give an idea of the problem.
-// https://www.youtube.com/watch?v=0v_H3oOR0aU
+    // Navigates the bullet to the targeted player by changing the angularVelocity and thereby the z rotation.
         while (smallestDistanceToPlayer < 20f)
         {
             // transform.rotation = new Quaternion.Euler
             Vector2 direction = (Vector2)targetedPlayer.transform.position - (Vector2)transform.position;
             direction.Normalize();
             float rotateAmount = Vector3.Cross(direction, transform.up).z;
-            float rotateSpeed = 5500f;
+            float rotateSpeed = 300f;
 
             rB2D.angularVelocity = -rotateAmount * rotateSpeed;
 
