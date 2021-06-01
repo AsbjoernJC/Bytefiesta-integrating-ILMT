@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     private float reloadSpeed = 0.4f;
 
     private Quaternion shootingAngle;
+    private Quaternion normalBulletAngle; 
 
     private int bulletCounter = 0;
     public Sprite shieldSprite;
@@ -94,53 +95,67 @@ public class PlayerController : MonoBehaviour
 
         // float rotZ = Mathf.Atan2(firePoint.transform.position.y, firePoint.transform.position.x) * Mathf.Rad2Deg;
         float rotZ = 0f;
-        if (firePoint.localPosition.normalized.x == 1 && m_FacingRight)
+        // Shooting horizontally to the right side
+        if (horizontalMoveInput.normalized.x == 1)
         {
             rotZ = -90f;
-            shootingAngle.eulerAngles = new Vector3(0f, 0f, 0f);
+            shootingAngle.eulerAngles = new Vector3(0f, 0f, -90f);
+            normalBulletAngle.eulerAngles = new Vector3(0f, 0f, 0f);
         }
-        else if (firePoint.localPosition.normalized.x == 1 && !m_FacingRight)
+        // Shooting horizontally to the left side
+        else if (horizontalMoveInput.normalized.x == -1)
         {
             rotZ = 90;
-            shootingAngle.eulerAngles = new Vector3(0f, 0f, 180f);
+            shootingAngle.eulerAngles = new Vector3(0f, 0f, 90f);
+            normalBulletAngle.eulerAngles = new Vector3(0f, 0f, 180f);
         }
 
         if(m_FacingRight)
         {
+            // Shooting diagonally up to the right side
             if (firePoint.localPosition.normalized.x > 0 && firePoint.localPosition.normalized.y > 0)
             {
                 rotZ = 315f;
-                shootingAngle.eulerAngles = new Vector3(0f, 0f, 45f);
+                shootingAngle.eulerAngles = new Vector3(0f, 0f, 315f);
+                normalBulletAngle.eulerAngles = new Vector3(0f, 0f, 45f);
             }
+            // Shooting diagonally down to the right side
             else if (firePoint.localPosition.normalized.x > 0 && firePoint.localPosition.normalized.y < 0)
             {
                 rotZ = 225f;
-                shootingAngle.eulerAngles = new Vector3(0f, 0f, 315f);
+                shootingAngle.eulerAngles = new Vector3(0f, 0f, 225f);
+                normalBulletAngle.eulerAngles = new Vector3(0f, 0f, 315f);
             }    
         }
         else 
         {
+            // Shooting diagonally down to the left side
             if (firePoint.localPosition.normalized.x > 0 && firePoint.localPosition.normalized.y < 0)
             {
                 rotZ = 135f;
-                shootingAngle.eulerAngles = new Vector3(0f, 0f, 225f);
+                shootingAngle.eulerAngles = new Vector3(0f, 0f, 135f);
+                normalBulletAngle.eulerAngles = new Vector3(0f, 0f, 225f);
             }
+            // Shooting diagonally up to the left side
             else if (firePoint.localPosition.normalized.x > 0 && firePoint.localPosition.normalized.y > 0)
             {
                 rotZ = 45f;
-                shootingAngle.eulerAngles = new Vector3(0f, 0f, 135f);
+                shootingAngle.eulerAngles = new Vector3(0f, 0f, 45f);
+                normalBulletAngle.eulerAngles = new Vector3(0f, 0f, 135f);
             }
         }
 
         if (firePoint.localPosition.normalized.y == 1)
             {
                 rotZ = 360f;
-                shootingAngle.eulerAngles = new Vector3(0f, 0f, 90f);
+                shootingAngle.eulerAngles = new Vector3(0f, 0f, 360f);
+                normalBulletAngle.eulerAngles = new Vector3(0f, 0f, 90f);
             }
         else if (firePoint.localPosition.normalized.y == -1)
             {
                 rotZ = 180f;
-                shootingAngle.eulerAngles = new Vector3(0f, 0f, 270f);
+                shootingAngle.eulerAngles = new Vector3(0f, 0f, 180f);
+                normalBulletAngle.eulerAngles = new Vector3(0f, 0f, 270f);
             }
         firePoint.transform.rotation = Quaternion.Euler(0, 0, rotZ);
     }
@@ -164,6 +179,7 @@ public class PlayerController : MonoBehaviour
         {
             powerUpBullet = true;
             var playerName = this.name;
+            
             Bullet.Shoot(firePoint, powerUp[0], shootingAngle, playerName, powerUpBullet);
             bulletCounter --;
             var sS = GetComponentInChildren<SpriteSpawner>();
@@ -182,7 +198,7 @@ public class PlayerController : MonoBehaviour
         {
             powerUpBullet = false;
             var playerName = this.name;
-            Bullet.Shoot(firePoint, powerUp[1], shootingAngle, playerName, powerUpBullet);
+            Bullet.Shoot(firePoint, powerUp[1], normalBulletAngle, playerName, powerUpBullet);
             var sS = GetComponentInChildren<SpriteSpawner>();
             sS.RemoveSprite();
             hasNormalBullet = false;
