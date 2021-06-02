@@ -72,7 +72,7 @@ public class KingoftheHillTracker : MonoBehaviour
         // For now there is only KingoftheHill
         else 
         {
-            SceneManager.LoadScene("KingoftheHillAdaptive");
+            SceneManager.LoadScene("KingoftheHill");
         }
 
     }
