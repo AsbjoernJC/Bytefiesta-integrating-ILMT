@@ -97,7 +97,7 @@ public class MysteryDrinkManager : MonoBehaviour
             playerInput.enabled = true;
             // Pairs the correct controller with the playerIndex. So if player 1 is using xboxcontroller2 (starts at 0)
             // Player 1 will controll the leftmost button with xboxcontroller2
-            InputUser.PerformPairingWithDevice(playerController, inputUser, InputUserPairingOptions.UnpairCurrentDevicesFromUser);
+            // InputUser.PerformPairingWithDevice(playerController, inputUser, InputUserPairingOptions.UnpairCurrentDevicesFromUser);
         }
     }
 }
