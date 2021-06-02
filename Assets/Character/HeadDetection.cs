@@ -12,6 +12,8 @@ public class HeadDetection : MonoBehaviour
         player = this.transform.parent.gameObject;
     }
 
+// When something collides with the player's head collider we check if it is another player who is falling: has a velocity.y value < 0
+// if it is then the player should take damage and the player who jumped on this player, should be pushed upwards. 
     private void OnTriggerEnter2D(Collider2D collider) 
     {
         string collision = collider.ToString();
@@ -24,8 +26,8 @@ public class HeadDetection : MonoBehaviour
         if (collision.Contains("Player") && collision.Contains("BoxCollider") && jumper.velocity.y < 0)
         {
             player.GetComponent<Stats>().TakeDamage(1, colliderName);
-            // This is very inconsistent for some reason
-            jumper.AddForce(jumperTransform.up * 20f, ForceMode2D.Impulse);
+
+            jumper.velocity = jumperTransform.up * 18f;
         }
     }
 
