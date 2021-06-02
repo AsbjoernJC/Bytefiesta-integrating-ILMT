@@ -35,6 +35,11 @@ public class GameInstructionsManager : MonoBehaviour
         }        
     }
 
+
+    private void Start() 
+    {
+        AllowPlayerControl();    
+    }
     private void Update()
     {
         if (numberOfReadyPlayers == PlayerConfigurationManager.numberOfActivePlayers)

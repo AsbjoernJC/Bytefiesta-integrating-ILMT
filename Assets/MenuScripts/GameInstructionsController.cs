@@ -17,6 +17,7 @@ public class GameInstructionsController : MonoBehaviour
     // Used to reset the buttons;
     protected void Start() 
     {
+        transform.localScale = new Vector3(1f, 1f, 0f);
         readyButton.gameObject.SetActive(true);
         pressedReadyButton.gameObject.SetActive(false);
     }

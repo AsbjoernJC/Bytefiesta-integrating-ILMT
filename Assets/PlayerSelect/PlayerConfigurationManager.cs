@@ -57,7 +57,8 @@ public class PlayerConfigurationManager : MonoBehaviour
                 DifficultyAndScore.playerInputs.Add(playerIndex, playerInputComponent);
                 playerControlSchemes.Add(playerInputComponent.playerIndex, playerInputComponent.currentControlScheme);
             }
-            SceneManager.LoadScene("KingoftheHillAdaptive");
+            // Todo add more minigames and have it select a scene randomly
+            SceneManager.LoadScene("KingoftheHill");
         }
     }
 
