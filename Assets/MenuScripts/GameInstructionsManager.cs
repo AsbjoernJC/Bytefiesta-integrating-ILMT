@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
-using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameInstructionsManager : MonoBehaviour
 {
@@ -16,8 +16,15 @@ public class GameInstructionsManager : MonoBehaviour
     private GameObject playerButtonGroup;
     [SerializeField]
     private GridLayoutGroup buttonGroup;
+    [SerializeField]
+    private TMP_Text countdownText;
+    [SerializeField]
+    private GameObject instructionImage;
+    [SerializeField]
+    private GameObject readyButtonGroup;
 
-    // Should add a script where the player presses ready that inherits from MysteryDrinkPlayer or maybe rather the other way around.
+    private bool startedInitialiazation = false;
+    
     public static int numberOfReadyPlayers = 0;
 
 
@@ -42,13 +49,16 @@ public class GameInstructionsManager : MonoBehaviour
     }
     private void Update()
     {
-        if (numberOfReadyPlayers == PlayerConfigurationManager.numberOfActivePlayers)
+        if (numberOfReadyPlayers == PlayerConfigurationManager.numberOfActivePlayers && startedInitialiazation == false)
         {
+            startedInitialiazation = true;
             StartLevelInitialization();
         }
     }
 
-
+// Spawns in a menu where a player's assigned controller (from the characterselect menu) will be assigned to a menu
+// Here they are allowed to push a button that increments numberOfReadyPlayers, which is a way for the player to tell
+// That they are ready.
     private void AllowPlayerControl()
     {
         for (int playerIndex = 0; playerIndex < PlayerConfigurationManager.numberOfActivePlayers; playerIndex++)
@@ -67,9 +77,40 @@ public class GameInstructionsManager : MonoBehaviour
         }
     }
 
+// Called when all the players are ready and it has not been called before.
     private void StartLevelInitialization()
     {
-        gameInstructions.SetActive(false);
+        Time.timeScale = 0f;
+        StartCoroutine("CountDown");
+    }
+    
+
+    // Counts down to the start of the minigame ie. the excact point in time where players are allowed to move.
+    private IEnumerator CountDown()
+    {
+
+        //Disables UI elements that should not be displayed when counting down
+        instructionImage.SetActive(false);
+        readyButtonGroup.SetActive(false);
+
+        // Spawns in the players
         levelInitializer.SetActive(true);
+
+        countdownText.text = "3";
+        yield return new WaitForSecondsRealtime(1f);
+
+        countdownText.text = "2";
+        yield return new WaitForSecondsRealtime(1f);
+
+        countdownText.text = "1";
+        yield return new WaitForSecondsRealtime(1f);
+
+        countdownText.text = "GO";
+
+        // Disables the entirety of the game instructions UI panel. 
+        gameInstructions.SetActive(false);
+
+        // Allows for playermovement
+        Time.timeScale = 1f;
     }
 }
