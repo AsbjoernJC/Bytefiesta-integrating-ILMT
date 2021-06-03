@@ -32,3 +32,9 @@ Assets/PlayerSelect/*
 
 !Assets/MenuScripts
 !Assets/MenuScripts/*.cs
+
+!Assets/EnemyScripts
+!Assets/EnemyScripts/Bullets
+!Assets/EnemyScripts/Turrets
+!Assets/EnemyScripts/Bullets/*.cs
+!Assets/EnemyScripts/Turrets/*.cs
