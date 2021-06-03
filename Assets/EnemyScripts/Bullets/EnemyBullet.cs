@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class EnemyBullets : MonoBehaviour
+public class EnemyBullet : MonoBehaviour
 {
     private Rigidbody2D rB2D;
     private Vector3 bulletPosition;
@@ -13,7 +13,7 @@ public class EnemyBullets : MonoBehaviour
     private GameObject player;
     // Start is called before the first frame update
 
-    public static EnemyBullets instance { get; private set; }
+    public static EnemyBullet instance { get; private set; }
 
     private void Awake() 
     {
