@@ -7,7 +7,6 @@ public class Bullet : MonoBehaviour
 {
     private Rigidbody2D rB2D;
     private Vector3 bulletPosition;
-    private Quaternion bulletAngle;
     private string playerWhoShot;
     private string collisionTag;
     private static string bulletTag;
@@ -41,10 +40,6 @@ public class Bullet : MonoBehaviour
 
     }
 
-    private void FixedUpdate() 
-    {
-        
-    }
 
 // Checks who the bullet is created by, by looking at the GameObject's tag
 // If it is not the player who shot the bullet, or another bullet from the same player
