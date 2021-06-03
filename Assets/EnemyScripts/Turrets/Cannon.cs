@@ -10,6 +10,7 @@ public class Cannon : MonoBehaviour
     [SerializeField]
     private GameObject bulletPrefab;
     private float bulletSpeed = 21f;
+    private Quaternion shootingAngle;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,17 +20,21 @@ public class Cannon : MonoBehaviour
 
     private IEnumerator SpawnCannonball()
     {
-        float timePassed = 0;
+        shootingAngle.eulerAngles = new Vector3(0f, 0f, 0f);
+        float timePassed = 1f;
         int chosenCannon;
 
-        while ((int)timePassed <= 6)
+    // Todo spawn bullets more often over time
+        while (timePassed <= 15)
         {
-            if ((int)timePassed % 1 == 0)
+            if (timePassed % 1 == 0)
             {
-                chosenCannon = Random.Range(0, 1);
-                EnemyBullets.Shoot(cannonFirepoints[chosenCannon], bulletPrefab, cannonFirepoints[chosenCannon].rotation ,bulletSpeed);
-            }
-            timePassed = Time.deltaTime;
+                chosenCannon = Random.Range(0, 2);
+                EnemyBullet.Shoot(cannonFirepoints[chosenCannon], bulletPrefab, shootingAngle, bulletSpeed);
+                yield return new WaitForSeconds(1f);
+                timePassed += 1f;
+            } 
+            yield return null;
         }
         yield return null;
     }

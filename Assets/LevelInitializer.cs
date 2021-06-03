@@ -36,7 +36,9 @@ public class LevelInitializer : MonoBehaviour
         for (int i = 0; i < PlayerConfigurationManager.playerControllers.Count; i++)
         {
             SpawnPlayer(i);
-            InstantiatePlayerUI(i);
+            // Todo be able to differentiate whether or not the gamemode displays scores,
+            // should respawn players and interact with powerupinitializer
+            // InstantiatePlayerUI(i);
         }
 
     }

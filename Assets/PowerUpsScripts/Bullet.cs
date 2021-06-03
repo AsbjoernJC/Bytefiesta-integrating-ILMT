@@ -5,7 +5,7 @@ using System;
 
 public class Bullet : MonoBehaviour
 {
-    private Rigidbody2D rB2D;
+    private static Rigidbody2D rB2D;
     private Vector3 bulletPosition;
     private string playerWhoShot;
     private string collisionTag;
@@ -110,8 +110,7 @@ public class Bullet : MonoBehaviour
         GameObject bullet = Instantiate(powerUp, firePoint.transform.position, shootingAngle);
         bullet.tag = playerName + " bullet";
         bulletTag = instance.tag;
-        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-        rb.AddForce(firePoint.up * bulletSpeed, ForceMode2D.Impulse);
+        rB2D.AddForce(firePoint.up * bulletSpeed, ForceMode2D.Impulse);
         if (powerUpBullet)
         {
             instance.StartCoroutine("FindPlayerPositions");
