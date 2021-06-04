@@ -62,6 +62,7 @@ public class GameInstructionsManager : MonoBehaviour
 // Spawns in a menu where a player's assigned controller (from the characterselect menu) will be assigned to a menu
 // Here they are allowed to push a button that increments numberOfReadyPlayers, which is a way for the player to tell
 // That they are ready.
+// There is still a bug where a player somehow loses controll of their button.
     private void AllowPlayerControl()
     {
         for (int playerIndex = 0; playerIndex < PlayerConfigurationManager.numberOfActivePlayers; playerIndex++)
