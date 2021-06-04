@@ -25,7 +25,6 @@ Assets/PlayerSelect/*
 !Assets/ScoreTracking/KingoftheHill
 !Assets/ScoreTracking/*.cs
 !Assets/ScoreTracking/KingoftheHill/*.cs
-!.gitignore
 
 !Assets/CameraScripts
 !Assets/CameraScripts/*.cs
@@ -38,3 +37,6 @@ Assets/PlayerSelect/*
 !Assets/EnemyScripts/Turrets
 !Assets/EnemyScripts/Bullets/*.cs
 !Assets/EnemyScripts/Turrets/*.cs
+
+!Assets/InitializeGameObjectsScripts
+!Assets/InitializeGameObjectsScripts/*.cs
