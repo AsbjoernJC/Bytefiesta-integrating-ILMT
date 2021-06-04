@@ -74,6 +74,7 @@ public class PowerUpInitializer : MonoBehaviour
 
     private void FindEligibleSpawnPoint()
     {
+        // removes all gameObjects (type) elements from the list that are null
         activePlayers.RemoveAll(gO => gO == null);
 
         float bestDistanceToPlayers = 0;

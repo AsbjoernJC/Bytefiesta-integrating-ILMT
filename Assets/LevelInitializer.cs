@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
+using UnityEngine.SceneManagement;
 // for bugs see: https://www.youtube.com/watch?v=_5pOiYHJgl0
 public class LevelInitializer : MonoBehaviour
 {
@@ -12,22 +13,41 @@ public class LevelInitializer : MonoBehaviour
     [SerializeField]
     private GameObject[] playerPrefab;
     private GameObject scoreUI;
+    public string sceneName;
     int playerToRespawnIndex;
     int numberOfScoreUI;
     public float respawnTimer = 4f;
+    public static Dictionary<string, Dictionary<string, bool>> levelRules = new Dictionary<string, Dictionary<string, bool>>()
+    {
+        {"KingoftheHill", new Dictionary<string, bool>{
+            {"hasPowerUp", true},
+            {"playersRespawn", true},
+            {"hasScoreUI", true}
+        }
+        },
 
+        {"GunnedDown", new Dictionary<string, bool>{
+            {"hasPowerUp", false},
+            {"playersRespawn", false},
+            {"hasScoreUI", false}
+        }
+        }
+    };
     public static LevelInitializer Instance { get; private set; }
 
 
     void Awake() 
     {
+        sceneName = SceneManager.GetActiveScene().name;
+        Debug.Log(sceneName);
+
         if(Instance != null)
         {
             Debug.Log("SINGLETON - Trying to create another instance of singleton!!");
         }
         else
         {
-        Instance = this;
+            Instance = this;
         }        
     }
     // Start is called before the first frame update
@@ -38,13 +58,15 @@ public class LevelInitializer : MonoBehaviour
             SpawnPlayer(i);
             // Todo be able to differentiate whether or not the gamemode displays scores,
             // should respawn players and interact with powerupinitializer
-            // InstantiatePlayerUI(i);
+            
+            if (levelRules[sceneName]["hasScoreUI"])
+                InstantiatePlayerUI(i);
         }
 
     }
     
 
-    // I believe there is a rare bug, where a death of a player can cause one player to control both the character prefabs
+    // Instantiates the player in the current scene
     public void SpawnPlayer(int playerIndex)
     {
         var playerController = PlayerConfigurationManager.playerControllers[playerIndex];
@@ -91,11 +113,16 @@ public class LevelInitializer : MonoBehaviour
     {
         playerToRespawnIndex = Int16.Parse(player.name.Split( )[1]) - 1;
         Destroy(player);
-        int playerListIndex = PowerUpInitializer.activePlayers.IndexOf(player);
-        if (playerListIndex == -1)
-            return;
-        PowerUpInitializer.activePlayers.RemoveAt(playerListIndex);
-        StartCoroutine(RespawnPlayer(4, playerToRespawnIndex));
+
+        if (levelRules[sceneName]["hasPowerUp"])
+        {
+            int playerListIndex = PowerUpInitializer.activePlayers.IndexOf(player);
+            if (playerListIndex == -1)
+                return;
+            PowerUpInitializer.activePlayers.RemoveAt(playerListIndex);
+        }
+        if (levelRules[sceneName]["playersRespawn"])
+            StartCoroutine(RespawnPlayer(4, playerToRespawnIndex));
     }
 
     public IEnumerator RespawnPlayer(int seconds, int playerIndex) 

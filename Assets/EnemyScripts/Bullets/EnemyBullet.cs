@@ -24,16 +24,21 @@ public class EnemyBullet : MonoBehaviour
 // Checks who the bullet is created by, by looking at the GameObject's tag
 // If it is not the player who shot the bullet, or another bullet from the same player
 // the bullet will be destroyed. 
+
+// Sometimes deals damage twice.
     private void OnTriggerEnter2D(Collider2D collider) 
     {
         string collision = collider.ToString();
         collisionTag = collider.tag;
 
+        // Anything that isn't a player
         if (collision.Contains("KingoftheHill") || collision.Contains(this.name) ||collision.Contains("Cannon"))
             return;
 
+        // A player's head detection is a child of the player prefab therefore we need to get the gameobject of the parent
         if (collision.Contains("HeadDetect"))
             player = collider.transform.parent.gameObject;
+        // If the collider still belongs to the player it is directly a part of the player GameObject/prefab
         else
             player = collider.gameObject;
         
@@ -43,9 +48,8 @@ public class EnemyBullet : MonoBehaviour
         if (collisionTag.Contains("Player"))
         {
             // Todo create a function in Stats script to take damage "anonymously"
-            // player.GetComponent<Stats>().TakeDamage(1, playerWhoShot);
+            player.GetComponent<Stats>().TakeDamageAnonomously(1);
         }
-        StopAllCoroutines();
         Destroy(gameObject);
     }
 

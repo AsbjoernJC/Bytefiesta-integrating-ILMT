@@ -47,8 +47,22 @@ public class ScoreUpdater : MonoBehaviour
     {
         Instance = this;        
     }
+
+    private void Start()
+    {
+
+    }
     public static void UpdatePlayerScoreUI(string player)
     {
+        // Removes elements in the list which are null
+        // There will be null elements when the scene has ended, as we load a new scene old gameObjects will be null
+        //  and we are not removing elements from playerScoreTexts.
+        for (int i = 0; i < playerScoreTexts.Count; i++)
+        {
+            playerScoreTexts.RemoveAll(element => element == null);
+        }
+
+
         int playerIndex = Int16.Parse(player.Split( )[1]);
         // playerIndex - 1 as player can be Player 1, Player 2, Player 3 or Player 4
         playerScoreTexts[playerIndex - 1].text = KingoftheHillTracker.playerScores[player].ToString();

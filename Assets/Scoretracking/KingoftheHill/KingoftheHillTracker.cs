@@ -75,6 +75,7 @@ public class KingoftheHillTracker : MonoBehaviour
             SceneManager.LoadScene("KingoftheHill");
         }
 
+        playerScores["Player 1"] = 0;
     }
 
 }
