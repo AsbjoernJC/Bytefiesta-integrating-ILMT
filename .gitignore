@@ -26,6 +26,10 @@ Assets/PlayerSelect/*
 !Assets/ScoreTracking/*.cs
 !Assets/ScoreTracking/KingoftheHill/*.cs
 
+!Assets/ScoreTracking/GunnedDown
+!Assets/ScoreTracking/GunnedDown/*.cs
+
+
 !Assets/CameraScripts
 !Assets/CameraScripts/*.cs
 
@@ -40,3 +44,6 @@ Assets/PlayerSelect/*
 
 !Assets/InitializeGameObjectsScripts
 !Assets/InitializeGameObjectsScripts/*.cs
+
+
+
