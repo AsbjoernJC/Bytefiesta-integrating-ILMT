@@ -45,6 +45,7 @@ public class EnemyBullet : MonoBehaviour
 
         if (collisionTag.Contains("Player") && hasCollided == false)
         {
+            // Todo make dynamic
             player.GetComponent<Stats>().TakeDamageAnonomously(1);
             hasCollided = true;
         }
