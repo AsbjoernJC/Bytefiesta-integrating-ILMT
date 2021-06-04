@@ -15,13 +15,14 @@ public class LastManStanding : MonoBehaviour
     public Sprite[] playerSprites;
     private static string winner;
     private bool displayingWinner = false;
-    public static Dictionary<string, bool> alivePlayers = new Dictionary<string, bool>()
+    public static Dictionary<string, int> playerStandings = new Dictionary<string, int>
     {
-        {"Player 1", false},
-        {"Player 2", false},
-        {"Player 3", false},
-        {"Player 4", false}
+        {"Player 1", 0},
+        {"Player 2", 0},
+        {"Player 3", 0},
+        {"Player 4", 0}
     };
+    public static int deadPlayers = 0;
 
     public static LastManStanding instance { get; private set; }
     void Awake()
@@ -35,17 +36,16 @@ public class LastManStanding : MonoBehaviour
     private void Start() 
     {
         for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
-            alivePlayers[$"Player {i}"] = true;   
+            {
+                playerStandings[$"Player {i}"] = 0;   
+            }
+            deadPlayers = 0;
     }
 
-    private void Update() 
-    {
-        
-    }
 
 // This function get's called when a player has a score equal to or higer than 5. It will stop the players from moving
 // And will display an image of the winner for 3.5 seconds.
-    private void MiniGameEnd(string playerWhoWon)
+    public static void MiniGameEnd(string playerWhoWon)
     {
         winner = playerWhoWon;
 
@@ -87,6 +87,10 @@ public class LastManStanding : MonoBehaviour
             SceneManager.LoadScene("KingoftheHill");
         }
 
+        for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
+            playerStandings[$"Player {i}"] = 0;
+
+        deadPlayers = 0;   
     }
 
 }

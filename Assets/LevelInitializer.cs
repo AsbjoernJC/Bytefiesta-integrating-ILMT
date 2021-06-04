@@ -22,14 +22,16 @@ public class LevelInitializer : MonoBehaviour
         {"KingoftheHill", new Dictionary<string, bool>{
             {"hasPowerUp", true},
             {"playersRespawn", true},
-            {"hasScoreUI", true}
+            {"hasScoreUI", true},
+            {"lastManStanding", false}
         }
         },
 
         {"GunnedDown", new Dictionary<string, bool>{
             {"hasPowerUp", false},
             {"playersRespawn", false},
-            {"hasScoreUI", false}
+            {"hasScoreUI", false},
+            {"lastManStanding", true}
         }
         }
     };
@@ -113,6 +115,7 @@ public class LevelInitializer : MonoBehaviour
         playerToRespawnIndex = Int16.Parse(player.name.Split( )[1]) - 1;
         Destroy(player);
 
+        // Checks in levelRules if the players are able to get powerups
         if (levelRules[sceneName]["hasPowerUp"])
         {
             int playerListIndex = PowerUpInitializer.activePlayers.IndexOf(player);
@@ -120,8 +123,35 @@ public class LevelInitializer : MonoBehaviour
                 return;
             PowerUpInitializer.activePlayers.RemoveAt(playerListIndex);
         }
+        
+        // Checks in levelRules if this players should respawn in this minigame
         if (levelRules[sceneName]["playersRespawn"])
             StartCoroutine(RespawnPlayer(4, playerToRespawnIndex));
+
+        // Checks in the levelRules if is a lastmanstanding type of game meaning the last player alive wins
+        if (levelRules[sceneName]["lastManStanding"])
+        {
+            //The maximum amount of players is 4 therefore 4 - the active players will result in the correct player standing
+            // on death eg. 3 player game. Player 2 dies first and therefore gets player standing 3 - 0 = 3.
+            // So the player correctly gets a 3rd place placement.
+            LastManStanding.playerStandings[player.name] = PlayerConfigurationManager.numberOfActivePlayers - LastManStanding.deadPlayers;
+            LastManStanding.deadPlayers ++;
+
+            // When all players but one are dead. That is the last man standing.
+            if (LastManStanding.deadPlayers == PlayerConfigurationManager.numberOfActivePlayers - 1)
+            {
+                for (int i = 1; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
+                {
+                    // Keyvalue pair = string (where string is Player 1-4), int.
+                    // When the int is unchanged that is = 0 then it is the last player standing
+                    if (LastManStanding.playerStandings[$"Player {i}"] == 0)
+                    {
+                        LastManStanding.playerStandings[$"Player {i}"] = 1;
+                        LastManStanding.MiniGameEnd($"Player {i}");
+                    }
+                }
+            }
+        }
     }
 
     public IEnumerator RespawnPlayer(int seconds, int playerIndex) 

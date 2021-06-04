@@ -58,7 +58,7 @@ public class PlayerConfigurationManager : MonoBehaviour
                 playerControlSchemes.Add(playerInputComponent.playerIndex, playerInputComponent.currentControlScheme);
             }
             // Todo add more minigames and have it select a scene randomly
-            SceneManager.LoadScene("KingoftheHill");
+            SceneManager.LoadScene("GunnedDown");
         }
     }
 
