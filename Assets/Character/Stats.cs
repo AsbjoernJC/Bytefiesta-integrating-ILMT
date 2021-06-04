@@ -58,7 +58,7 @@ public class Stats : MonoBehaviour
         // If a player's health is equal to 0 or less then the player should die
         if (health <= 0)
         {
-            Destroy(this.gameObject);
+            LevelInitializer.Instance.PlayerDeathInformation(player);
         }
     }
 
