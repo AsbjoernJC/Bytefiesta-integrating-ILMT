@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using System;
 public class KingoftheHillTracker : MonoBehaviour
 {
+    // Todo change name of KingoftheHillTracker as it may be used for other minigames with same score scheme
     [SerializeField]
     private Canvas minigameEndImagery;
     [SerializeField]
