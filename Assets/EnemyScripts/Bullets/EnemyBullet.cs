@@ -9,6 +9,7 @@ public class EnemyBullet : MonoBehaviour
     private Vector3 bulletPosition;
     private string collisionTag;
     private GameObject player;
+    private bool hasCollided = false;
 
     // Start is called before the first frame update
 
@@ -21,11 +22,8 @@ public class EnemyBullet : MonoBehaviour
         rB2D = this.GetComponent<Rigidbody2D>();
     }
 
-// Checks who the bullet is created by, by looking at the GameObject's tag
-// If it is not the player who shot the bullet, or another bullet from the same player
-// the bullet will be destroyed. 
 
-// Sometimes deals damage twice.
+// Checks the object the enemy's bullet is colliding with
     private void OnTriggerEnter2D(Collider2D collider) 
     {
         string collision = collider.ToString();
@@ -45,10 +43,10 @@ public class EnemyBullet : MonoBehaviour
 
 
 
-        if (collisionTag.Contains("Player"))
+        if (collisionTag.Contains("Player") && hasCollided == false)
         {
-            // Todo create a function in Stats script to take damage "anonymously"
             player.GetComponent<Stats>().TakeDamageAnonomously(1);
+            hasCollided = true;
         }
         Destroy(gameObject);
     }

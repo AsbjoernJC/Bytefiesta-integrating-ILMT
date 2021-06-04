@@ -39,7 +39,6 @@ public class LevelInitializer : MonoBehaviour
     void Awake() 
     {
         sceneName = SceneManager.GetActiveScene().name;
-        Debug.Log(sceneName);
 
         if(Instance != null)
         {

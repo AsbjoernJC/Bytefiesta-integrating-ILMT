@@ -25,7 +25,7 @@ public class Cannon : MonoBehaviour
         int chosenCannon;
 
     // Todo spawn bullets more often over time
-        while (timePassed <= 15)
+        while (timePassed <= 30)
         {
             if (timePassed % 1 == 0)
             {

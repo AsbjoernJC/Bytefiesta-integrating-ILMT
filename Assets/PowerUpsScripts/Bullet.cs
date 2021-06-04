@@ -100,10 +100,7 @@ public class Bullet : MonoBehaviour
         return bulletPosition;
     }
 
-// Todo: should check if the bullet is the powerup form or just the normal.
-// If it is the normal bullet the "lifespan" should be shortened via a coroutine
 
-//  The shootingAngle is wrong
     public static void Shoot(Transform firePoint, GameObject powerUp, Quaternion shootingAngle, string playerName, bool powerUpBullet)
     {
         float bulletSpeed = 21f;

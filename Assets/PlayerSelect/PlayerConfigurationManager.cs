@@ -58,7 +58,7 @@ public class PlayerConfigurationManager : MonoBehaviour
                 playerControlSchemes.Add(playerInputComponent.playerIndex, playerInputComponent.currentControlScheme);
             }
             // Todo add more minigames and have it select a scene randomly
-            SceneManager.LoadScene("KingoftheHill");
+            SceneManager.LoadScene("GunnedDown");
         }
     }
 
@@ -73,6 +73,7 @@ public class PlayerConfigurationManager : MonoBehaviour
         {
             if (pi.currentControlScheme != "Controller")
             {
+                // Could use this place in the future to change the images in the menu for this player
                 Debug.Log("Not a controller");
             }
             else
