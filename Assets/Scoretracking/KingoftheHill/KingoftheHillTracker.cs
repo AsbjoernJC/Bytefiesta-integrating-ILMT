@@ -30,6 +30,12 @@ public class KingoftheHillTracker : MonoBehaviour
             Debug.Log("Singleton, tried to create another object");
         else
             instance = this;
+
+        // As the playerScores are saved to a public static dictionary we need to reset them when the minigame's finished
+        // As the players might run into the minigame again.
+        // Should reevaluate saving playerScores to a public static dict
+        for (int i = 0; i < playerScores.Count; i++)
+            playerScores[$"Player {i}"] = 0;
     }
 
 // This function get's called when a player has a score equal to or higer than 5. It will stop the players from moving
@@ -59,28 +65,15 @@ public class KingoftheHillTracker : MonoBehaviour
         playerWhoWonSprite.sprite = playerSprites[winnerIndex];
         minigameEndImagery.gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(3.5f);
-        // To do: load some scene that displays how many sips a player should drink
+
         DifficultyAndScore.finishedMinigames ++;
         Time.timeScale = 1f;
 
 
-        // MysterDrink should only be loaded every 3rd minigame, maybe after the first minigame.
-        if (DifficultyAndScore.finishedMinigames == 1 || DifficultyAndScore.finishedMinigames % 3 == 0)
-        {
-            SceneManager.LoadScene("MysteryDrink");
-        }
-        // Should load a random minigame if it is not time to load the MysteryDrink scene
-        // For now there is only KingoftheHill
-        else 
-        {
-            SceneManager.LoadScene("KingoftheHill");
-        }
+        // Minigame has finished and therefore we should load MinigameWinsMenu to display
+        // The amount of minigame wins a player has and how much they should drink
+        SceneManager.LoadScene("MinigameWinsMenu");
 
-        // As the playerScores are saved to a public static dictionary we need to reset them when the minigame's finished
-        // As the players might run into the minigame again.
-        // Should reevaluate saving playerScores to a public static dict
-        for (int i = 0; i < playerScores.Count; i++)
-            playerScores[$"Player {i}"] = 0;
     }
 
 }
