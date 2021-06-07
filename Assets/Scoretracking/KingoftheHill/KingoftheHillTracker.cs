@@ -76,6 +76,9 @@ public class KingoftheHillTracker : MonoBehaviour
             SceneManager.LoadScene("KingoftheHill");
         }
 
+        // As the playerScores are saved to a public static dictionary we need to reset them when the minigame's finished
+        // As the players might run into the minigame again.
+        // Should reevaluate saving playerScores to a public static dict
         for (int i = 0; i < playerScores.Count; i++)
             playerScores[$"Player {i}"] = 0;
     }

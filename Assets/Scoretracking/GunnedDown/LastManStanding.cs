@@ -34,6 +34,9 @@ public class LastManStanding : MonoBehaviour
 
     private void Start() 
     {
+        // As the playerStandings are saved to a public static dictionary we need to reset them when the minigame's finished
+        // As the players might run into the minigame again.
+        // Should reevaluate saving playerStandings to a public static dict. The same is true for deadPlayers.
         for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
             {
                 playerStandings[$"Player {i}"] = 0;   
@@ -86,6 +89,9 @@ public class LastManStanding : MonoBehaviour
             SceneManager.LoadScene("KingoftheHill");
         }
 
+        // As the playerStandings are saved to a public static dictionary we need to reset them when the minigame's finished
+        // As the players might run into the minigame again.
+        // Should reevaluate saving playerStandings to a public static dict
         for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
             playerStandings[$"Player {i}"] = 0;
 
