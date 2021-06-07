@@ -41,7 +41,19 @@ public class MinigameWinManager : MonoBehaviour
         if (numberOfReadyPlayers == PlayerConfigurationManager.numberOfActivePlayers)
         {
             // Todo add more minigames and select one at random here
-            SceneManager.LoadScene("KingoftheHill");
+                // Todo MysteryDrink should be loaded from MinigameWinManger
+        // MysterDrink should only be loaded every 3rd minigame, maybe after the first minigame.
+        if (DifficultyAndScore.finishedMinigames == 1 || DifficultyAndScore.finishedMinigames % 3 == 0)
+        {
+            // Todo playerStandings should be given to SipInitializer
+            SceneManager.LoadScene("MysteryDrink");
+        }
+        // Should load a random minigame if it is not time to load the MysteryDrink scene
+        // For now there is only KingoftheHill and GunnedDown (although not polished)
+        else 
+        {
+            SceneManager.LoadScene("GunnedDown");
+        }
             numberOfReadyPlayers = 0;
         }
     }

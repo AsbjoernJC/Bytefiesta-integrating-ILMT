@@ -29,16 +29,14 @@ public class LastManStanding : MonoBehaviour
             Debug.Log("Singleton, tried to create another object");
         else
             instance = this;
-    }
-
-    private void Start() 
-    {
+        
+        
         // As the playerStandings are saved to a public static dictionary we need to reset them when the minigame's finished
         // As the players might run into the minigame again.
         // Should reevaluate saving playerStandings to a public static dict. The same is true for deadPlayers.
         for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
             {
-                playerStandings[$"Player {i}"] = 0;   
+                playerStandings[$"Player {i + 1}"] = 0;   
             }
             deadPlayers = 0;
     }
@@ -76,25 +74,12 @@ public class LastManStanding : MonoBehaviour
         Time.timeScale = 1f;
 
 
-        // MysterDrink should only be loaded every 3rd minigame, maybe after the first minigame.
-        if (DifficultyAndScore.finishedMinigames == 1 || DifficultyAndScore.finishedMinigames % 3 == 0)
-        {
-            SceneManager.LoadScene("MinigameWinsMenu");
-        }
-        // Should load a random minigame if it is not time to load the MysteryDrink scene
-        // For now there is only KingoftheHill
-        else 
-        {
-            SceneManager.LoadScene("KingoftheHill");
-        }
 
-        // As the playerStandings are saved to a public static dictionary we need to reset them when the minigame's finished
-        // As the players might run into the minigame again.
-        // Should reevaluate saving playerStandings to a public static dict
-        for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
-            playerStandings[$"Player {i}"] = 0;
+        // Minigame has finished and therefore we should load MinigameWinsMenu to display
+        // The amount of minigame wins a player has and how much they should drink
+        SceneManager.LoadScene("MinigameWinsMenu");
 
-        deadPlayers = 0;   
+
     }
 
 }
