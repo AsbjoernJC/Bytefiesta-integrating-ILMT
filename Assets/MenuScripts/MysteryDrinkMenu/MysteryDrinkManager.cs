@@ -23,7 +23,7 @@ public class MysteryDrinkManager : MonoBehaviour
 
     public static MysteryDrinkManager Instance { get; private set; }
 
-    private void Awake() 
+    protected void Awake() 
     {
         if(Instance != null)
         {
