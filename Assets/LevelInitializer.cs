@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
+using UnityEngine.SceneManagement;
 // for bugs see: https://www.youtube.com/watch?v=_5pOiYHJgl0
 public class LevelInitializer : MonoBehaviour
 {
@@ -12,22 +13,42 @@ public class LevelInitializer : MonoBehaviour
     [SerializeField]
     private GameObject[] playerPrefab;
     private GameObject scoreUI;
+    public string sceneName;
     int playerToRespawnIndex;
     int numberOfScoreUI;
     public float respawnTimer = 4f;
+    public static Dictionary<string, Dictionary<string, bool>> levelRules = new Dictionary<string, Dictionary<string, bool>>()
+    {
+        {"KingoftheHill", new Dictionary<string, bool>{
+            {"hasPowerUp", true},
+            {"playersRespawn", true},
+            {"hasScoreUI", true},
+            {"lastManStanding", false}
+        }
+        },
 
+        {"GunnedDown", new Dictionary<string, bool>{
+            {"hasPowerUp", false},
+            {"playersRespawn", false},
+            {"hasScoreUI", false},
+            {"lastManStanding", true}
+        }
+        }
+    };
     public static LevelInitializer Instance { get; private set; }
 
 
     void Awake() 
     {
+        sceneName = SceneManager.GetActiveScene().name;
+
         if(Instance != null)
         {
             Debug.Log("SINGLETON - Trying to create another instance of singleton!!");
         }
         else
         {
-        Instance = this;
+            Instance = this;
         }        
     }
     // Start is called before the first frame update
@@ -36,13 +57,16 @@ public class LevelInitializer : MonoBehaviour
         for (int i = 0; i < PlayerConfigurationManager.playerControllers.Count; i++)
         {
             SpawnPlayer(i);
-            InstantiatePlayerUI(i);
+            // should respawn players and interact with powerupinitializer
+            
+            if (levelRules[sceneName]["hasScoreUI"])
+                InstantiatePlayerUI(i);
         }
 
     }
     
 
-    // I believe there is a rare bug, where a death of a player can cause one player to control both the character prefabs
+    // Instantiates the player in the current scene
     public void SpawnPlayer(int playerIndex)
     {
         var playerController = PlayerConfigurationManager.playerControllers[playerIndex];
@@ -89,11 +113,44 @@ public class LevelInitializer : MonoBehaviour
     {
         playerToRespawnIndex = Int16.Parse(player.name.Split( )[1]) - 1;
         Destroy(player);
-        int playerListIndex = PowerUpInitializer.activePlayers.IndexOf(player);
-        if (playerListIndex == -1)
-            return;
-        PowerUpInitializer.activePlayers.RemoveAt(playerListIndex);
-        StartCoroutine(RespawnPlayer(4, playerToRespawnIndex));
+
+        // Checks in levelRules if the players are able to get powerups
+        if (levelRules[sceneName]["hasPowerUp"])
+        {
+            int playerListIndex = PowerUpInitializer.activePlayers.IndexOf(player);
+            if (playerListIndex == -1)
+                return;
+            PowerUpInitializer.activePlayers.RemoveAt(playerListIndex);
+        }
+        
+        // Checks in levelRules if this players should respawn in this minigame
+        if (levelRules[sceneName]["playersRespawn"])
+            StartCoroutine(RespawnPlayer(4, playerToRespawnIndex));
+
+        // Checks in the levelRules if is a lastmanstanding type of game meaning the last player alive wins
+        if (levelRules[sceneName]["lastManStanding"])
+        {
+            //The maximum amount of players is 4 therefore 4 - the active players will result in the correct player standing
+            // on death eg. 3 player game. Player 2 dies first and therefore gets player standing 3 - 0 = 3.
+            // So the player correctly gets a 3rd place placement.
+            LastManStanding.playerStandings[player.name] = PlayerConfigurationManager.numberOfActivePlayers - LastManStanding.deadPlayers;
+            LastManStanding.deadPlayers ++;
+
+            // When all players but one are dead. That is the last man standing.
+            if (LastManStanding.deadPlayers == PlayerConfigurationManager.numberOfActivePlayers - 1)
+            {
+                for (int i = 1; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
+                {
+                    // Keyvalue pair = string (where string is Player 1-4), int.
+                    // When the int is unchanged that is = 0 then it is the last player standing
+                    if (LastManStanding.playerStandings[$"Player {i}"] == 0)
+                    {
+                        LastManStanding.playerStandings[$"Player {i}"] = 1;
+                        LastManStanding.MiniGameEnd($"Player {i}");
+                    }
+                }
+            }
+        }
     }
 
     public IEnumerator RespawnPlayer(int seconds, int playerIndex) 

@@ -9,6 +9,11 @@ using System;
 
 public class PlayerController : MonoBehaviour
 {
+    // Todo
+    // Figure out if the PlayerController Script should be added to in-minigame player objects where all
+    // of this class applies
+    // or should i create a playerprefab for each minigame with playercontroller variance.
+    // These scripts would inherit from PlayerController 
     [SerializeField] private float runSpeed = 1.5f;
     [SerializeField] private float m_JumpForce = 20.0f;
     [SerializeField] private LayerMask platformLayerMask;

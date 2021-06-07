@@ -5,9 +5,8 @@ using System;
 
 public class Bullet : MonoBehaviour
 {
-    private Rigidbody2D rB2D;
+    private static Rigidbody2D rB2D;
     private Vector3 bulletPosition;
-    private Quaternion bulletAngle;
     private string playerWhoShot;
     private string collisionTag;
     private static string bulletTag;
@@ -41,10 +40,6 @@ public class Bullet : MonoBehaviour
 
     }
 
-    private void FixedUpdate() 
-    {
-        
-    }
 
 // Checks who the bullet is created by, by looking at the GameObject's tag
 // If it is not the player who shot the bullet, or another bullet from the same player
@@ -105,18 +100,14 @@ public class Bullet : MonoBehaviour
         return bulletPosition;
     }
 
-// Todo: should check if the bullet is the powerup form or just the normal.
-// If it is the normal bullet the "lifespan" should be shortened via a coroutine
 
-//  The shootingAngle is wrong
     public static void Shoot(Transform firePoint, GameObject powerUp, Quaternion shootingAngle, string playerName, bool powerUpBullet)
     {
         float bulletSpeed = 21f;
         GameObject bullet = Instantiate(powerUp, firePoint.transform.position, shootingAngle);
         bullet.tag = playerName + " bullet";
         bulletTag = instance.tag;
-        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-        rb.AddForce(firePoint.up * bulletSpeed, ForceMode2D.Impulse);
+        rB2D.AddForce(firePoint.up * bulletSpeed, ForceMode2D.Impulse);
         if (powerUpBullet)
         {
             instance.StartCoroutine("FindPlayerPositions");

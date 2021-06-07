@@ -4,9 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
-public class KingoftheHillTracker : MonoBehaviour
+public class LastManStanding : MonoBehaviour
 {
-    // Todo change name of KingoftheHillTracker as it may be used for other minigames with same score scheme
     [SerializeField]
     private Canvas minigameEndImagery;
     [SerializeField]
@@ -14,16 +13,17 @@ public class KingoftheHillTracker : MonoBehaviour
     [SerializeField]
     public Sprite[] playerSprites;
     private static string winner;
-    public static Dictionary<string, int> playerScores = new Dictionary<string, int>()
+    private bool displayingWinner = false;
+    public static Dictionary<string, int> playerStandings = new Dictionary<string, int>
     {
         {"Player 1", 0},
         {"Player 2", 0},
         {"Player 3", 0},
         {"Player 4", 0}
     };
+    public static int deadPlayers = 0;
 
-    public static KingoftheHillTracker instance { get; private set; }
-    // Start is called before the first frame update
+    public static LastManStanding instance { get; private set; }
     void Awake()
     {
         if (instance != null)
@@ -31,6 +31,19 @@ public class KingoftheHillTracker : MonoBehaviour
         else
             instance = this;
     }
+
+    private void Start() 
+    {
+        // As the playerStandings are saved to a public static dictionary we need to reset them when the minigame's finished
+        // As the players might run into the minigame again.
+        // Should reevaluate saving playerStandings to a public static dict. The same is true for deadPlayers.
+        for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
+            {
+                playerStandings[$"Player {i}"] = 0;   
+            }
+            deadPlayers = 0;
+    }
+
 
 // This function get's called when a player has a score equal to or higer than 5. It will stop the players from moving
 // And will display an image of the winner for 3.5 seconds.
@@ -76,11 +89,13 @@ public class KingoftheHillTracker : MonoBehaviour
             SceneManager.LoadScene("KingoftheHill");
         }
 
-        // As the playerScores are saved to a public static dictionary we need to reset them when the minigame's finished
+        // As the playerStandings are saved to a public static dictionary we need to reset them when the minigame's finished
         // As the players might run into the minigame again.
-        // Should reevaluate saving playerScores to a public static dict
-        for (int i = 0; i < playerScores.Count; i++)
-            playerScores[$"Player {i}"] = 0;
+        // Should reevaluate saving playerStandings to a public static dict
+        for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
+            playerStandings[$"Player {i}"] = 0;
+
+        deadPlayers = 0;   
     }
 
 }
