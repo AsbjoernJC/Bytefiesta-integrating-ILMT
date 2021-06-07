@@ -91,6 +91,9 @@ public class MysteryDrinkManager : MonoBehaviour
             var inputUser = DifficultyAndScore.playerInputs[playerIndex].user;
             var playerControlScheme = PlayerConfigurationManager.playerControlSchemes[playerIndex];
 
+            //Might be useful for debugging the problem where a player sometimes can't control their assigned button
+            Debug.Log($"Player {playerIndex + 1}'s deviceId = {PlayerConfigurationManager.playerControllers[playerIndex].deviceId}");
+
             // Spawns the playerButtonGroup and assigns the PlayerInput object to a specific controller, controller scheme etc.
             PlayerInput playerInput = PlayerInput.Instantiate(playerButtonGroup, playerIndex, playerControlScheme, -1, playerController);
             playerInput.transform.SetParent(buttonGroup.transform);
