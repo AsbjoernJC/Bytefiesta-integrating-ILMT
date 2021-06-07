@@ -34,7 +34,16 @@ Assets/PlayerSelect/*
 !Assets/CameraScripts/*.cs
 
 !Assets/MenuScripts
-!Assets/MenuScripts/*.cs
+!Assets/MenuScripts/MinigameWinsMenu
+!Assets/MenuScripts/GameInstructionsMenu
+!Assets/MenuScripts/CharacterSelectionMenu
+!Assets/MenuScripts/MysteryDrinkMenu
+!Assets/MenuScripts/MinigameWinsMenu/*.cs
+!Assets/MenuScripts/GameInstructionsMenu/*.cs
+!Assets/MenuScripts/CharacterSelectionMenu/*.cs
+!Assets/MenuScripts/MysteryDrinkMenu/*.cs
+
+
 
 !Assets/EnemyScripts
 !Assets/EnemyScripts/Bullets
