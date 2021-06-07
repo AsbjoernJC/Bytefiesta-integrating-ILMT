@@ -28,8 +28,7 @@ public class SipInitializer : MonoBehaviour
             Debug.Log($"Player {i + 1} came in as number : " + minigamePlacement);
             playerBeerCanvas[i].SetActive(true);
 
-            // Todo should have knowledge of a player's placement in the prior minigame
-            CalculateSips(i, 2);
+            CalculateSips(i, minigamePlacement);
 
         }
     }
@@ -40,8 +39,8 @@ public class SipInitializer : MonoBehaviour
     {
         // Todo Calculate the amount of sips a player should drink based on their performance in the last minigame.
         string chosenDifficulty = DifficultyAndScore.difficulty;
-
         
+
 
         int player1Sips = 5;
         InitializeBeerSprites(playerIndex, player1Sips);

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
-public class KingoftheHillTracker : MonoBehaviour
+public class PointMinigameTracker : MonoBehaviour
 {
     // Todo change name of KingoftheHillTracker as it may be used for other minigames with same score scheme
     [SerializeField]
@@ -22,7 +22,7 @@ public class KingoftheHillTracker : MonoBehaviour
         {"Player 4", 0}
     };
 
-    public static KingoftheHillTracker instance { get; private set; }
+    public static PointMinigameTracker instance { get; private set; }
     // Start is called before the first frame update
     void Awake()
     {
