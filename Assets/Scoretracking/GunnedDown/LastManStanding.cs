@@ -79,7 +79,7 @@ public class LastManStanding : MonoBehaviour
         // MysterDrink should only be loaded every 3rd minigame, maybe after the first minigame.
         if (DifficultyAndScore.finishedMinigames == 1 || DifficultyAndScore.finishedMinigames % 3 == 0)
         {
-            SceneManager.LoadScene("MysteryDrink");
+            SceneManager.LoadScene("MinigameWinsMenu");
         }
         // Should load a random minigame if it is not time to load the MysteryDrink scene
         // For now there is only KingoftheHill
