@@ -54,6 +54,10 @@ public class PlayerConfigurationManager : MonoBehaviour
                 var playerIndex = playerInputComponent.playerIndex;
 
                 playerControllers.Add(playerIndex, playerInputComponent.devices[0]);
+
+                //Might be useful for debugging the problem where a player sometimes can't control their assigned button
+                Debug.Log($"Player {playerIndex + 1}'s deviceId = {playerInputComponent.devices[0].deviceId}");
+                
                 DifficultyAndScore.playerInputs.Add(playerIndex, playerInputComponent);
                 playerControlSchemes.Add(playerInputComponent.playerIndex, playerInputComponent.currentControlScheme);
             }
