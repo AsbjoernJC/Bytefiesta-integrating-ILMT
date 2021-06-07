@@ -136,17 +136,17 @@ public class LevelInitializer : MonoBehaviour
             LastManStanding.playerStandings[player.name] = PlayerConfigurationManager.numberOfActivePlayers - LastManStanding.deadPlayers;
             LastManStanding.deadPlayers ++;
 
-            // When all players but one are dead. That is the last man standing.
             if (LastManStanding.deadPlayers == PlayerConfigurationManager.numberOfActivePlayers - 1)
             {
-                for (int i = 1; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
+                for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
                 {
                     // Keyvalue pair = string (where string is Player 1-4), int.
                     // When the int is unchanged that is = 0 then it is the last player standing
-                    if (LastManStanding.playerStandings[$"Player {i}"] == 0)
+                    // Game does not always end when all players except one are dead
+                    if (LastManStanding.playerStandings[$"Player {i + 1}"] == 0)
                     {
-                        LastManStanding.playerStandings[$"Player {i}"] = 1;
-                        LastManStanding.MiniGameEnd($"Player {i}");
+                        LastManStanding.playerStandings[$"Player {i + 1}"] = 1;
+                        LastManStanding.MiniGameEnd($"Player {i + 1}");
                     }
                 }
             }

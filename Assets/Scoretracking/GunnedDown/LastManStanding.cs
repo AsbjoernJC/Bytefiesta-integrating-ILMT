@@ -13,7 +13,6 @@ public class LastManStanding : MonoBehaviour
     [SerializeField]
     public Sprite[] playerSprites;
     private static string winner;
-    private bool displayingWinner = false;
     public static Dictionary<string, int> playerStandings = new Dictionary<string, int>
     {
         {"Player 1", 0},
