@@ -12,6 +12,8 @@ public class SipInitializer : MonoBehaviour
     public List<Image> player2BeerSprites;
     public List<Image> player3BeerSprites;
     public List<Image> player4BeerSprites;
+
+    // Todo Calculate the amount of sips a player should drink based on their performance in the last minigame.
     // Start is called before the first frame update
     void Start()
     {
@@ -39,7 +41,7 @@ public class SipInitializer : MonoBehaviour
     {
         // Todo Calculate the amount of sips a player should drink based on their performance in the last minigame.
         string chosenDifficulty = DifficultyAndScore.difficulty;
-        
+
 
 
         int player1Sips = 5;

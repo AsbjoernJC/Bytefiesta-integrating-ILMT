@@ -73,7 +73,7 @@ public class MinigameWinManager : MonoBehaviour
             // Spawns the playerButtonGroup and assigns the PlayerInput object to a specific controller, controller scheme etc.
             PlayerInput playerInput = PlayerInput.Instantiate(playerButtonGroup, playerIndex, playerControlScheme, -1, playerController);
             playerInput.transform.SetParent(buttonGroup.transform);
-            playerInput.enabled = true;
+            // playerInput.enabled = true;
             // Pairs the correct controller with the playerIndex. So if player 1 is using xboxcontroller2 (starts at 0)
             // Player 1 will controll the leftmost button with xboxcontroller2
             // InputUser.PerformPairingWithDevice(playerController, inputUser, InputUserPairingOptions.UnpairCurrentDevicesFromUser);
