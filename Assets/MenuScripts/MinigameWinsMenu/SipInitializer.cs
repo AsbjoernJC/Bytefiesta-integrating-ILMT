@@ -78,6 +78,9 @@ public class SipInitializer : MonoBehaviour
                 break;
         }
 
+            // Todo incorporate PointMinigameTracker.playerStandings in a for loop
+            // find the player's index and then playerStandings[player'sIndex] will be the player's
+            // Placement in the last minigame.
             Debug.Log($"Player {i + 1} came in as number : " + minigamePlacement);
             playerBeerCanvas[i].SetActive(true);
 
