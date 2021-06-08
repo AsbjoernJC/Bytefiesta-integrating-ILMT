@@ -38,6 +38,7 @@ public class MinigameWinManager : MonoBehaviour
 
     private void Update()
     {
+        // Todo end game after a player has 5 minigame wins
         if (numberOfReadyPlayers == PlayerConfigurationManager.numberOfActivePlayers)
         {
             // Todo add more minigames and select one at random here

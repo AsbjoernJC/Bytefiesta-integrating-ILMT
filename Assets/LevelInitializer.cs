@@ -13,7 +13,7 @@ public class LevelInitializer : MonoBehaviour
     [SerializeField]
     private GameObject[] playerPrefab;
     private GameObject scoreUI;
-    public string sceneName;
+    public static string sceneName;
     int playerToRespawnIndex;
     int numberOfScoreUI;
     public float respawnTimer = 4f;

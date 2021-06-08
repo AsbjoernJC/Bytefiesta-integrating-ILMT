@@ -70,6 +70,7 @@ public class PointMinigameTracker : MonoBehaviour
         Time.timeScale = 1f;
 
 
+
         // Minigame has finished and therefore we should load MinigameWinsMenu to display
         // The amount of minigame wins a player has and how much they should drink
         SceneManager.LoadScene("MinigameWinsMenu");
