@@ -44,6 +44,8 @@ public class LastManStanding : MonoBehaviour
 
 // This function get's called when a player has a score equal to or higer than 5. It will stop the players from moving
 // And will display an image of the winner for 3.5 seconds.
+
+// Todo: this should definitely be called from within an update function in lastmanstanding
     public static void MiniGameEnd(string playerWhoWon)
     {
         winner = playerWhoWon;
@@ -51,10 +53,21 @@ public class LastManStanding : MonoBehaviour
         // Adds a point to the player's overall score, amount of wins in each minigame that has been played
         DifficultyAndScore.acrossGamemodePlayerScore[winner] ++;
         // Time.timeScale prevents players from moving.
+        FindPlayerPlacements();
         Time.timeScale = 0f;
         instance.StartCoroutine("DisplayWinner");
 
 
+    }
+
+    private static void FindPlayerPlacements()
+    {
+        Debug.Log("Hi");
+        foreach (var element in playerStandings)
+        {
+            var playerPlacement = (element.Key, element.Value);
+            Debug.Log(playerPlacement);
+        }
     }
 
     // Displays the winner's character sprite for 3.5 seconds and should then load a new scene.
@@ -68,8 +81,8 @@ public class LastManStanding : MonoBehaviour
         // Will display the winner's charactersprite on screen
         playerWhoWonSprite.sprite = playerSprites[winnerIndex];
         minigameEndImagery.gameObject.SetActive(true);
+
         yield return new WaitForSecondsRealtime(3.5f);
-        // To do: load some scene that displays how many sips a player should drink
         DifficultyAndScore.finishedMinigames ++;
         Time.timeScale = 1f;
 
@@ -80,6 +93,8 @@ public class LastManStanding : MonoBehaviour
 
 
     }
+
+
 
 }
 
