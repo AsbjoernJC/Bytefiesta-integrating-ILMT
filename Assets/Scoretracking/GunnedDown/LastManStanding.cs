@@ -53,21 +53,10 @@ public class LastManStanding : MonoBehaviour
         // Adds a point to the player's overall score, amount of wins in each minigame that has been played
         DifficultyAndScore.acrossGamemodePlayerScore[winner] ++;
         // Time.timeScale prevents players from moving.
-        FindPlayerPlacements();
         Time.timeScale = 0f;
         instance.StartCoroutine("DisplayWinner");
 
 
-    }
-
-    private static void FindPlayerPlacements()
-    {
-        Debug.Log("Hi");
-        foreach (var element in playerStandings)
-        {
-            var playerPlacement = (element.Key, element.Value);
-            Debug.Log(playerPlacement);
-        }
     }
 
     // Displays the winner's character sprite for 3.5 seconds and should then load a new scene.

@@ -53,6 +53,15 @@ public class PointMinigameTracker : MonoBehaviour
 
     }
 
+    private void FindPlayerPlacements()
+    {
+        foreach (var element in playerScores)
+        {
+            var playerPlacement = (element.Key, element.Value);
+            Debug.Log(playerPlacement);
+        }
+    }
+
     // Displays the winner's character sprite for 3.5 seconds and should then load a new scene.
     private IEnumerator DisplayWinner()
     {
@@ -64,6 +73,8 @@ public class PointMinigameTracker : MonoBehaviour
         // Will display the winner's charactersprite on screen
         playerWhoWonSprite.sprite = playerSprites[winnerIndex];
         minigameEndImagery.gameObject.SetActive(true);
+
+        FindPlayerPlacements();
         yield return new WaitForSecondsRealtime(3.5f);
 
         DifficultyAndScore.finishedMinigames ++;
