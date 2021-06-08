@@ -52,7 +52,6 @@ public class PlayerConfigurationManager : MonoBehaviour
             {
                 var playerInputComponent = configurationManagerClones[i].GetComponent<PlayerInput>();
                 var playerIndex = playerInputComponent.playerIndex;
-
                 playerControllers.Add(playerIndex, playerInputComponent.devices[0]);
 
                 //Might be useful for debugging the problem where a player sometimes can't control their assigned button

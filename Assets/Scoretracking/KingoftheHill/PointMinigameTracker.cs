@@ -13,6 +13,7 @@ public class PointMinigameTracker : MonoBehaviour
     private Image playerWhoWonSprite;
     [SerializeField]
     public Sprite[] playerSprites;
+    private int assumedPosition; 
     private static string winner;
     public static Dictionary<string, int> playerScores = new Dictionary<string, int>()
     {
@@ -21,6 +22,8 @@ public class PointMinigameTracker : MonoBehaviour
         {"Player 3", 0},
         {"Player 4", 0}
     };
+
+    public static List<(string, int)> playerStandings = new List<(string, int)>();
 
     public static PointMinigameTracker instance { get; private set; }
     // Start is called before the first frame update
@@ -36,6 +39,8 @@ public class PointMinigameTracker : MonoBehaviour
         // Should reevaluate saving playerScores to a public static dict
         for (int i = 0; i < playerScores.Count; i++)
             playerScores[$"Player {i}"] = 0;
+
+        playerStandings = new List<(string, int)>();
     }
 
 // This function get's called when a player has a score equal to or higer than 5. It will stop the players from moving
@@ -55,9 +60,35 @@ public class PointMinigameTracker : MonoBehaviour
 
     private void FindPlayerPlacements()
     {
-        foreach (var element in playerScores)
+        (string, int) playerPlacement;
+
+        for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
         {
-            var playerPlacement = (element.Key, element.Value);
+            playerPlacement = ($"Player {i + 1}", playerScores[$"Player {i + 1}"]);
+            if (i == 0)
+            {
+                playerStandings.Add(playerPlacement);
+            }
+            else 
+            {
+                if (playerPlacement.Item2 > playerStandings[playerStandings.Count - 1].Item2)
+                {
+                    playerStandings.Add(playerPlacement);
+                }
+                else
+                {
+                    // playerStandings.Insert(i - 1, playerPlacement);
+                    for (int j = 0; j < playerStandings.Count; j++)
+                    {
+                        if (playerPlacement.Item2 < playerStandings[playerStandings.Count - 1 - j].Item2)
+                        {
+                            assumedPosition = playerStandings.Count - 1 - j;
+                        }
+                    }
+                    playerStandings.Insert(assumedPosition, playerPlacement);
+
+                }
+            }
             Debug.Log(playerPlacement);
         }
     }

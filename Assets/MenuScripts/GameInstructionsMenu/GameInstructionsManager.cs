@@ -89,6 +89,8 @@ public class GameInstructionsManager : MonoBehaviour
     private void StartLevelInitialization()
     {
         Time.timeScale = 0f;
+        // Spawns in the players
+        levelInitializer.SetActive(true);
         StartCoroutine("CountDown");
     }
     
@@ -101,8 +103,7 @@ public class GameInstructionsManager : MonoBehaviour
         instructionImage.SetActive(false);
         readyButtonGroup.SetActive(false);
 
-        // Spawns in the players
-        levelInitializer.SetActive(true);
+
 
         countdownText.text = "3";
         yield return new WaitForSecondsRealtime(1f);
