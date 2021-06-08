@@ -71,6 +71,10 @@ public class SipInitializer : MonoBehaviour
         switch (minigamePlayed)
         {
             case "KingoftheHill":
+                for (int j = 0; j < PointMinigameTracker.playerPointStandings.Count; j ++ )
+                {
+                    minigamePlacement = PointMinigameTracker.ReturnPlayerPlacement($"Player {i + 1}");
+                }
                 // Todo add a placement system to PointMinigameTracker
                 break;
             case "GunnedDown":
@@ -81,6 +85,7 @@ public class SipInitializer : MonoBehaviour
             // Todo incorporate PointMinigameTracker.playerStandings in a for loop
             // find the player's index and then playerStandings[player'sIndex] will be the player's
             // Placement in the last minigame.
+
             Debug.Log($"Player {i + 1} came in as number : " + minigamePlacement);
             playerBeerCanvas[i].SetActive(true);
 
@@ -95,10 +100,9 @@ public class SipInitializer : MonoBehaviour
         // Todo Calculate the amount of sips a player should drink based on their performance in the last minigame.
         string chosenDifficulty = DifficultyAndScore.difficulty;
 
+        int playerSips = sipAmount[chosenDifficulty][minigamePlacement];
 
-
-        int player1Sips = 5;
-        InitializeBeerSprites(playerIndex, player1Sips);
+        InitializeBeerSprites(playerIndex, playerSips);
     }
 
 

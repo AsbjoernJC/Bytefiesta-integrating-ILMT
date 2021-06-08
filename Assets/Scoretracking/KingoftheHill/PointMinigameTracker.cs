@@ -14,6 +14,8 @@ public class PointMinigameTracker : MonoBehaviour
     [SerializeField]
     public Sprite[] playerSprites;
     private int assumedPosition; 
+    private int standardizedAssumedPosition;
+    private static int placement;
     private static string winner;
     public static Dictionary<string, int> playerScores = new Dictionary<string, int>()
     {
@@ -23,8 +25,8 @@ public class PointMinigameTracker : MonoBehaviour
         {"Player 4", 0}
     };
 
-    public static List<(string, int)> playerStandings = new List<(string, int)>();
-
+    public static List<(string, int)> playerPointStandings = new List<(string, int)>();
+    public static List<(string, int)> standardizedPlayerStandings = new List<(string, int)>();
     public static PointMinigameTracker instance { get; private set; }
     // Start is called before the first frame update
     void Awake()
@@ -40,7 +42,7 @@ public class PointMinigameTracker : MonoBehaviour
         for (int i = 0; i < playerScores.Count; i++)
             playerScores[$"Player {i}"] = 0;
 
-        playerStandings = new List<(string, int)>();
+        playerPointStandings = new List<(string, int)>();
     }
 
 // This function get's called when a player has a score equal to or higer than 5. It will stop the players from moving
@@ -58,7 +60,7 @@ public class PointMinigameTracker : MonoBehaviour
 
     }
 
-    private void FindPlayerPlacements()
+    private void SortPlayerPlacements()
     {
         (string, int) playerPlacement;
 
@@ -67,30 +69,72 @@ public class PointMinigameTracker : MonoBehaviour
             playerPlacement = ($"Player {i + 1}", playerScores[$"Player {i + 1}"]);
             if (i == 0)
             {
-                playerStandings.Add(playerPlacement);
+                playerPointStandings.Add(playerPlacement);
             }
             else 
             {
-                if (playerPlacement.Item2 > playerStandings[playerStandings.Count - 1].Item2)
+                if (playerPlacement.Item2 > playerPointStandings[playerPointStandings.Count - 1].Item2)
                 {
-                    playerStandings.Add(playerPlacement);
+                    playerPointStandings.Add(playerPlacement);
                 }
                 else
                 {
                     // playerStandings.Insert(i - 1, playerPlacement);
-                    for (int j = 0; j < playerStandings.Count; j++)
+                    for (int j = 0; j < playerPointStandings.Count; j++)
                     {
-                        if (playerPlacement.Item2 < playerStandings[playerStandings.Count - 1 - j].Item2)
+                        if (playerPlacement.Item2 < playerPointStandings[playerPointStandings.Count - 1 - j].Item2)
                         {
-                            assumedPosition = playerStandings.Count - 1 - j;
+                            assumedPosition = playerPointStandings.Count - 1 - j;
                         }
                     }
-                    playerStandings.Insert(assumedPosition, playerPlacement);
+                    playerPointStandings.Insert(assumedPosition, playerPlacement);
 
                 }
             }
+
             Debug.Log(playerPlacement);
         }
+
+        // Finding standardized player standings meaning players can only place: 1st, 2nd, 3rd and 4th
+        for (int i = 0; i < playerPointStandings.Count; i++)
+        {
+            // Need to check if the PlayerPointstandings[i - 1] in playerPointStandings is equal to playerPointStandings[i]
+            // This is for when players are tied in points.
+            // Player 1 has a score of 5 (won), player 2 has a score of 3
+            // Player 3 has a score of 3 and player 4 has a score of 3.
+            // This would in my eyes lead player 2, 3 and 4 to all have a tied second place
+            // , however, there will be some exceptions
+            for (int j = 0; j < playerPointStandings.Count; j++)
+            {
+                if (playerPointStandings[i].Item2 == playerPointStandings[j].Item2)
+                {
+                    standardizedAssumedPosition = playerPointStandings.Count - j;
+                }
+
+            }
+            
+            // If players tie with 0 points they should still get placed as if they came in last (standardizedAssumedPosition should be
+            // equal to 4)
+            // If players tie with 1 point they should get placed as if they came in second last (3rd)
+
+            standardizedPlayerStandings.Add((playerPointStandings[i].Item1, standardizedAssumedPosition));
+
+        }
+    }
+
+    public static int ReturnPlayerPlacement(string playerName)
+    {
+
+
+        for (int i = 0; i < standardizedPlayerStandings.Count; i++)
+        {
+            if (standardizedPlayerStandings[i].Item1 == playerName)
+            {
+                placement = standardizedPlayerStandings[i].Item2;
+            }
+        }
+
+        return placement;
     }
 
     // Displays the winner's character sprite for 3.5 seconds and should then load a new scene.
@@ -105,7 +149,7 @@ public class PointMinigameTracker : MonoBehaviour
         playerWhoWonSprite.sprite = playerSprites[winnerIndex];
         minigameEndImagery.gameObject.SetActive(true);
 
-        FindPlayerPlacements();
+        SortPlayerPlacements();
         yield return new WaitForSecondsRealtime(3.5f);
 
         DifficultyAndScore.finishedMinigames ++;
