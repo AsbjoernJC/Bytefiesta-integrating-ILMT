@@ -107,6 +107,7 @@ public class SipInitializer : MonoBehaviour
 
 
     // Displays an amount of beer sprites over the player's according to the amount of sips they should drink
+    // Todo add a TMP_text object and write some text when sips == 0;
     private void InitializeBeerSprites(int playerIndex, int sips)
     {
         switch (playerIndex)
