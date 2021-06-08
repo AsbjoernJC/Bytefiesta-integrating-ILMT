@@ -38,10 +38,23 @@ public class MinigameWinManager : MonoBehaviour
 
     private void Update()
     {
+        // Todo end game after a player has 5 minigame wins
         if (numberOfReadyPlayers == PlayerConfigurationManager.numberOfActivePlayers)
         {
             // Todo add more minigames and select one at random here
-            SceneManager.LoadScene("KingoftheHill");
+                // Todo MysteryDrink should be loaded from MinigameWinManger
+        // MysterDrink should only be loaded every 3rd minigame, maybe after the first minigame.
+        if (DifficultyAndScore.finishedMinigames == 1 || DifficultyAndScore.finishedMinigames % 3 == 0)
+        {
+            // Todo playerStandings should be given to SipInitializer
+            SceneManager.LoadScene("MysteryDrink");
+        }
+        // Should load a random minigame if it is not time to load the MysteryDrink scene
+        // For now there is only KingoftheHill and GunnedDown (although not polished)
+        else 
+        {
+            SceneManager.LoadScene("GunnedDown");
+        }
             numberOfReadyPlayers = 0;
         }
     }
@@ -55,13 +68,13 @@ public class MinigameWinManager : MonoBehaviour
             var playerControlScheme = PlayerConfigurationManager.playerControlSchemes[playerIndex];
 
             //Might be useful for debugging the problem where a player sometimes can't control their assigned button
-            Debug.Log("MysteryDrink \n __________________________");
+            Debug.Log("MinigameWinMenu \n __________________________");
             Debug.Log($"Player {playerIndex + 1}'s deviceId = {PlayerConfigurationManager.playerControllers[playerIndex].deviceId}");
 
             // Spawns the playerButtonGroup and assigns the PlayerInput object to a specific controller, controller scheme etc.
             PlayerInput playerInput = PlayerInput.Instantiate(playerButtonGroup, playerIndex, playerControlScheme, -1, playerController);
             playerInput.transform.SetParent(buttonGroup.transform);
-            playerInput.enabled = true;
+            // playerInput.enabled = true;
             // Pairs the correct controller with the playerIndex. So if player 1 is using xboxcontroller2 (starts at 0)
             // Player 1 will controll the leftmost button with xboxcontroller2
             // InputUser.PerformPairingWithDevice(playerController, inputUser, InputUserPairingOptions.UnpairCurrentDevicesFromUser);

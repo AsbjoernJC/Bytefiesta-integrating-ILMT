@@ -52,7 +52,6 @@ public class PlayerConfigurationManager : MonoBehaviour
             {
                 var playerInputComponent = configurationManagerClones[i].GetComponent<PlayerInput>();
                 var playerIndex = playerInputComponent.playerIndex;
-
                 playerControllers.Add(playerIndex, playerInputComponent.devices[0]);
 
                 //Might be useful for debugging the problem where a player sometimes can't control their assigned button
@@ -63,7 +62,7 @@ public class PlayerConfigurationManager : MonoBehaviour
                 playerControlSchemes.Add(playerInputComponent.playerIndex, playerInputComponent.currentControlScheme);
             }
             // Todo add more minigames and have it select a scene randomly
-            SceneManager.LoadScene("MinigameWinsMenu");
+            SceneManager.LoadScene("KingoftheHill");
         }
     }
 

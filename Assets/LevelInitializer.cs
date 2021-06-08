@@ -13,7 +13,7 @@ public class LevelInitializer : MonoBehaviour
     [SerializeField]
     private GameObject[] playerPrefab;
     private GameObject scoreUI;
-    public string sceneName;
+    public static string sceneName;
     int playerToRespawnIndex;
     int numberOfScoreUI;
     public float respawnTimer = 4f;
@@ -83,8 +83,9 @@ public class LevelInitializer : MonoBehaviour
 
         //  *** It seems...that the above Instantiation doesn't exactly work... I'm assuming, because the PlayerInput component on the prefab is starting off
         // disabled, that it...doesn't work.  This code here will force it to keep the device/scheme/etc... that we tried to assign the wretch above!
-        var inputUser = playerInput.user;
+        
         playerInput.SwitchCurrentControlScheme(playerControlScheme);
+        var inputUser = playerInput.user;
         InputUser.PerformPairingWithDevice(playerController, inputUser, InputUserPairingOptions.UnpairCurrentDevicesFromUser);
 
         var playerObject = GameObject.Find(playerInput.name); 

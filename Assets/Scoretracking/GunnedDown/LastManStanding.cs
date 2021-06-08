@@ -29,16 +29,14 @@ public class LastManStanding : MonoBehaviour
             Debug.Log("Singleton, tried to create another object");
         else
             instance = this;
-    }
-
-    private void Start() 
-    {
+        
+        
         // As the playerStandings are saved to a public static dictionary we need to reset them when the minigame's finished
         // As the players might run into the minigame again.
         // Should reevaluate saving playerStandings to a public static dict. The same is true for deadPlayers.
         for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
             {
-                playerStandings[$"Player {i}"] = 0;   
+                playerStandings[$"Player {i + 1}"] = 0;   
             }
             deadPlayers = 0;
     }
@@ -46,6 +44,8 @@ public class LastManStanding : MonoBehaviour
 
 // This function get's called when a player has a score equal to or higer than 5. It will stop the players from moving
 // And will display an image of the winner for 3.5 seconds.
+
+// Todo: this should definitely be called from within an update function in lastmanstanding
     public static void MiniGameEnd(string playerWhoWon)
     {
         winner = playerWhoWon;
@@ -70,32 +70,20 @@ public class LastManStanding : MonoBehaviour
         // Will display the winner's charactersprite on screen
         playerWhoWonSprite.sprite = playerSprites[winnerIndex];
         minigameEndImagery.gameObject.SetActive(true);
+
         yield return new WaitForSecondsRealtime(3.5f);
-        // To do: load some scene that displays how many sips a player should drink
         DifficultyAndScore.finishedMinigames ++;
         Time.timeScale = 1f;
 
 
-        // MysterDrink should only be loaded every 3rd minigame, maybe after the first minigame.
-        if (DifficultyAndScore.finishedMinigames == 1 || DifficultyAndScore.finishedMinigames % 3 == 0)
-        {
-            SceneManager.LoadScene("MysteryDrink");
-        }
-        // Should load a random minigame if it is not time to load the MysteryDrink scene
-        // For now there is only KingoftheHill
-        else 
-        {
-            SceneManager.LoadScene("KingoftheHill");
-        }
+        // Minigame has finished and therefore we should load MinigameWinsMenu to display
+        // The amount of minigame wins a player has and how much they should drink
+        SceneManager.LoadScene("MinigameWinsMenu");
 
-        // As the playerStandings are saved to a public static dictionary we need to reset them when the minigame's finished
-        // As the players might run into the minigame again.
-        // Should reevaluate saving playerStandings to a public static dict
-        for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
-            playerStandings[$"Player {i}"] = 0;
 
-        deadPlayers = 0;   
     }
+
+
 
 }
 
