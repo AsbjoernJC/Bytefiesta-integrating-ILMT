@@ -199,7 +199,7 @@ public class PlayerController : MonoBehaviour
             powerUpBullet = true;
             var playerName = this.name;
             
-            // BulletManager.Shoot(firePoint, powerUp[0], shootingAngle, playerName, powerUpBullet);
+            BulletManager.Shoot(firePoint, powerUp[0], shootingAngle, playerName, powerUpBullet);
             bulletCounter --;
             var sS = GetComponentInChildren<SpriteSpawner>();
             sS.RemoveBulletSprite(bulletCounter);
@@ -217,7 +217,7 @@ public class PlayerController : MonoBehaviour
         {
             powerUpBullet = false;
             var playerName = this.name;
-            // BulletManager.Shoot(firePoint, powerUp[1], normalBulletAngle, playerName, powerUpBullet);
+            BulletManager.Shoot(firePoint, powerUp[1], normalBulletAngle, playerName, powerUpBullet);
             var sS = GetComponentInChildren<SpriteSpawner>();
             sS.RemoveSprite();
             hasNormalBullet = false;
