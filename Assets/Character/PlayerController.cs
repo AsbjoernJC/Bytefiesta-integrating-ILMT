@@ -19,7 +19,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask platformLayerMask;
     private float horizontalMove = 0f;
     private float terminalVelocity = 25.1f;
-    private PlayerConfiguration playerConfig;
     private Vector2 horizontalMoveInput;
     private Rigidbody2D rB2D;
     private BoxCollider2D bC2D;
@@ -200,7 +199,7 @@ public class PlayerController : MonoBehaviour
             powerUpBullet = true;
             var playerName = this.name;
             
-            Bullet.Shoot(firePoint, powerUp[0], shootingAngle, playerName, powerUpBullet);
+            BulletManager.Shoot(firePoint, powerUp[0], shootingAngle, playerName, powerUpBullet);
             bulletCounter --;
             var sS = GetComponentInChildren<SpriteSpawner>();
             sS.RemoveBulletSprite(bulletCounter);
@@ -218,7 +217,7 @@ public class PlayerController : MonoBehaviour
         {
             powerUpBullet = false;
             var playerName = this.name;
-            Bullet.Shoot(firePoint, powerUp[1], normalBulletAngle, playerName, powerUpBullet);
+            BulletManager.Shoot(firePoint, powerUp[1], normalBulletAngle, playerName, powerUpBullet);
             var sS = GetComponentInChildren<SpriteSpawner>();
             sS.RemoveSprite();
             hasNormalBullet = false;

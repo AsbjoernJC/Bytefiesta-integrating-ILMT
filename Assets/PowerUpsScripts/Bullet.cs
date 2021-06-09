@@ -3,25 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+[RequireComponent(typeof(Rigidbody2D))]
+
+
+// Todo in the future should create a base class for all bullets
+// and have classes that derive from it with their own methods eg. heatseeking/homing bullets, non homing etc.
 public class Bullet : MonoBehaviour
 {
-    private static Rigidbody2D rB2D;
+    public float bulletSpeed = 21f;
+    private Rigidbody2D rB2D;
     private Vector3 bulletPosition;
     private string playerWhoShot;
     private string collisionTag;
-    private static string bulletTag;
+    private string bulletTag;
     private GameObject player;
     // Start is called before the first frame update
-    private static GameObject potentialPlayerTarget;
-    private static GameObject targetedPlayer;
-    private bool isPowerUpBullet = false;
-
-    public static Bullet instance { get; private set; }
+    private GameObject potentialPlayerTarget;
+    private GameObject targetedPlayer;
 
     private void Awake() 
     {
-        instance = this;    
-        
+    
         rB2D = this.GetComponent<Rigidbody2D>();
 
     }
@@ -30,12 +32,8 @@ public class Bullet : MonoBehaviour
 
         if (OutOfBounds() != new Vector3(0,0))
         {
-            StopAllCoroutines();
+            StopCoroutine("FindPlayerPositions");
             Destroy(gameObject);
-        }
-        if (isPowerUpBullet)
-        {
-            StartCoroutine(FindPlayerPositions());
         }
 
     }
@@ -67,8 +65,8 @@ public class Bullet : MonoBehaviour
             {
                 player.GetComponent<Stats>().TakeDamage(1, playerWhoShot);
             }
-            StopAllCoroutines();
             Destroy(gameObject);
+            StopCoroutine("FindPlayerPositions");
         }
 
     }
@@ -101,20 +99,17 @@ public class Bullet : MonoBehaviour
     }
 
 
-    public static void Shoot(Transform firePoint, GameObject powerUp, Quaternion shootingAngle, string playerName, bool powerUpBullet)
+    public void Shoot(Transform firePoint, GameObject powerUp, Quaternion shootingAngle, string playerName, bool powerUpBullet)
     {
-        float bulletSpeed = 21f;
-        GameObject bullet = Instantiate(powerUp, firePoint.transform.position, shootingAngle);
-        bullet.tag = playerName + " bullet";
-        bulletTag = instance.tag;
+
+        bulletTag = this.tag;
         rB2D.AddForce(firePoint.up * bulletSpeed, ForceMode2D.Impulse);
         if (powerUpBullet)
         {
-            instance.StartCoroutine("FindPlayerPositions");
-            instance.GetComponent<Bullet>().isPowerUpBullet = true;
+            StartCoroutine("FindPlayerPositions");
             return;
         }
-        instance.StartCoroutine("BulletLifeSpan");
+        StartCoroutine("BulletLifeSpan");
     }
 
     private IEnumerator BulletLifeSpan()
@@ -129,28 +124,32 @@ public class Bullet : MonoBehaviour
         float smallestDistanceToPlayer = 100f;
         string playerWhoShot = bulletTag.Split( )[0] + " " + bulletTag.Split( )[1];
 
-        for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
-            {
-            LoopStart:
-                if (playerWhoShot == $"Player {i + 1}")
+        while (smallestDistanceToPlayer > 9f)
+        {
+            for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
                 {
-                    i++;
-                    goto LoopStart;
-                }
+                LoopStart:
+                    if (playerWhoShot == $"Player {i + 1}")
+                    {
+                        i++;
+                        goto LoopStart;
+                    }
 
-                potentialPlayerTarget = GameObject.Find($"Player {i + 1}");
-                if (potentialPlayerTarget == null)
-                {
-                    break;
-                }
+                    potentialPlayerTarget = GameObject.Find($"Player {i + 1}");
+                    if (potentialPlayerTarget == null)
+                    {
+                        break;
+                    }
 
-                distanceToPlayer = Vector3.Distance(transform.position, potentialPlayerTarget.transform.position);
-                if (distanceToPlayer < smallestDistanceToPlayer)
-                {
-                    smallestDistanceToPlayer = distanceToPlayer;
-                    targetedPlayer = potentialPlayerTarget;
+                    distanceToPlayer = Vector3.Distance(transform.position, potentialPlayerTarget.transform.position);
+                    if (distanceToPlayer < smallestDistanceToPlayer)
+                    {
+                        smallestDistanceToPlayer = distanceToPlayer;
+                        targetedPlayer = potentialPlayerTarget;
+                    }
                 }
-            }
+            yield return null;
+        }
 
     // Navigates the bullet to the targeted player by changing the angularVelocity and thereby the z rotation.
     // Bullets should maybe only be allowed to chase down a single player. Will have to look at that in playdemos.
