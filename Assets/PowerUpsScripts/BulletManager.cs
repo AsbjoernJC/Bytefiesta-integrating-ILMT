@@ -10,7 +10,7 @@ public class BulletManager : MonoBehaviour
     {
         GameObject bullet = Instantiate(powerUp, firePoint.transform.position, shootingAngle);
         bullet.tag = playerName + " bullet";
-        var bulletBase = bullet.GetComponent<BulletBase>();
+        var bulletBase = bullet.GetComponent<Bullet>();
         bulletBase.Shoot(firePoint, powerUp, shootingAngle, playerName, powerUpBullet);
     }
 

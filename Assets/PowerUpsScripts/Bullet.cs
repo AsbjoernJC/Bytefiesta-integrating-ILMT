@@ -5,7 +5,10 @@ using System;
 
 [RequireComponent(typeof(Rigidbody2D))]
 
-public class BulletBase : MonoBehaviour
+
+// Todo in the future should create a base class for all bullets
+// and have classes that derive from it with their own methods eg. heatseeking/homing bullets, non homing etc.
+public class Bullet : MonoBehaviour
 {
     public float bulletSpeed = 21f;
     private Rigidbody2D rB2D;
