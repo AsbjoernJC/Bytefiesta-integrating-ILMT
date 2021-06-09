@@ -3,9 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+public class BulletManager : MonoBehaviour
+{
+
+    public static void Shoot(Transform firePoint, GameObject powerUp, Quaternion shootingAngle, string playerName, bool powerUpBullet)
+    {
+        // float bulletSpeed = 21f;
+
+        bullet.tag = playerName + " bullet";
+        string bulletTag = instance.tag;
+        // rB2D.AddForce(firePoint.up * bulletSpeed, ForceMode2D.Impulse);
+        if (powerUpBullet)
+        {
+            SpawnBullet();
+            instance.StartCoroutine("FindPlayerPositions");
+            instance.GetComponent<BulletManager>().isPowerUpBullet = true;
+            return;
+        }
+        // instance.StartCoroutine("BulletLifeSpan");
+    }
+
+
+
+
+}
+
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(CircleCollider2D))]
 public class Bullet : MonoBehaviour
 {
-    private static Rigidbody2D rB2D;
+
+    private Rigidbody2D rB2D;
     private Vector3 bulletPosition;
     private string playerWhoShot;
     private string collisionTag;
@@ -16,12 +44,8 @@ public class Bullet : MonoBehaviour
     private static GameObject targetedPlayer;
     private bool isPowerUpBullet = false;
 
-    public static Bullet instance { get; private set; }
-
     private void Awake() 
     {
-        instance = this;    
-        
         rB2D = this.GetComponent<Rigidbody2D>();
 
     }
@@ -40,81 +64,15 @@ public class Bullet : MonoBehaviour
 
     }
 
-
-// Checks who the bullet is created by, by looking at the GameObject's tag
-// If it is not the player who shot the bullet, or another bullet from the same player
-// the bullet will be destroyed. 
-    private void OnTriggerEnter2D(Collider2D collider) 
-    {
-        string collision = collider.ToString();
-        collisionTag = collider.tag;
-        playerWhoShot = bulletTag.Split( )[0] + " " + bulletTag.Split( )[1];
-
-        if (collision.Contains("KingoftheHill") || playerWhoShot == collisionTag || bulletTag == collisionTag)
-            return;
-
-        if (collision.Contains("HeadDetect"))
-            player = collider.transform.parent.gameObject;
-        else
-            player = collider.gameObject;
-        
-
-
-
-        if (!collision.Contains(playerWhoShot) && bulletTag != collisionTag)
-        {
-            if (collisionTag.Contains("Player"))
-            {
-                player.GetComponent<Stats>().TakeDamage(1, playerWhoShot);
-            }
-            StopAllCoroutines();
-            Destroy(gameObject);
-        }
-
-    }
-
-// Stops bullets from leaving the scene/arena, however, this is quite intensive.
-    private Vector3 OutOfBounds()
-    {
-        if(transform.position.x >= 31.77)
-        {
-            bulletPosition = new Vector3(-transform.position.x + 0.1f, transform.position.y);
-            return bulletPosition;
-        }
-        else if (transform.position.x <= -31.77)
-        {
-            bulletPosition = new Vector3(-transform.position.x - 0.1f, transform.position.y);
-            return bulletPosition;
-        }
-        else if (transform.position.y >= 17.75)
-        {
-            bulletPosition = new Vector3(transform.position.x, -17.65f);
-            return bulletPosition;
-        }
-        else if (transform.position.y <= -17.75)
-        {
-            bulletPosition = new Vector3(transform.position.x, 17.65f);
-            return bulletPosition;
-        }
-        bulletPosition = new Vector3(0f, 0f);
-        return bulletPosition;
-    }
-
-
-    public static void Shoot(Transform firePoint, GameObject powerUp, Quaternion shootingAngle, string playerName, bool powerUpBullet)
+    private void SpawnBullet(Transform firePoint, GameObject powerUp, Quaternion shootingAngle, string playerName, bool powerUpBullet)
     {
         float bulletSpeed = 21f;
         GameObject bullet = Instantiate(powerUp, firePoint.transform.position, shootingAngle);
         bullet.tag = playerName + " bullet";
-        bulletTag = instance.tag;
+        bulletTag = this.tag;
         rB2D.AddForce(firePoint.up * bulletSpeed, ForceMode2D.Impulse);
-        if (powerUpBullet)
-        {
-            instance.StartCoroutine("FindPlayerPositions");
-            instance.GetComponent<Bullet>().isPowerUpBullet = true;
-            return;
-        }
-        instance.StartCoroutine("BulletLifeSpan");
+        
+        StartCoroutine("FindPlayerPositions");
     }
 
     private IEnumerator BulletLifeSpan()
@@ -172,5 +130,64 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    private Vector3 OutOfBounds()
+    {
+        if(transform.position.x >= 31.77)
+        {
+            bulletPosition = new Vector3(-transform.position.x + 0.1f, transform.position.y);
+            return bulletPosition;
+        }
+        else if (transform.position.x <= -31.77)
+        {
+            bulletPosition = new Vector3(-transform.position.x - 0.1f, transform.position.y);
+            return bulletPosition;
+        }
+        else if (transform.position.y >= 17.75)
+        {
+            bulletPosition = new Vector3(transform.position.x, -17.65f);
+            return bulletPosition;
+        }
+        else if (transform.position.y <= -17.75)
+        {
+            bulletPosition = new Vector3(transform.position.x, 17.65f);
+            return bulletPosition;
+        }
+        bulletPosition = new Vector3(0f, 0f);
+        return bulletPosition;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider) 
+    {
+        string collision = collider.ToString();
+        collisionTag = collider.tag;
+        playerWhoShot = bulletTag.Split( )[0] + " " + bulletTag.Split( )[1];
+
+        if (collision.Contains("KingoftheHill") || playerWhoShot == collisionTag || bulletTag == collisionTag)
+            return;
+
+        if (collision.Contains("HeadDetect"))
+            player = collider.transform.parent.gameObject;
+        else
+            player = collider.gameObject;
+        
+
+
+
+        if (!collision.Contains(playerWhoShot) && bulletTag != collisionTag)
+        {
+            if (collisionTag.Contains("Player"))
+            {
+                player.GetComponent<Stats>().TakeDamage(1, playerWhoShot);
+            }
+            StopAllCoroutines();
+            Destroy(gameObject);
+        }
+
+    }
+
+}
+
+public class NormalBullet
+{
 
 }
