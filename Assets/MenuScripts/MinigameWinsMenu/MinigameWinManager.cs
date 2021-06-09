@@ -53,7 +53,7 @@ public class MinigameWinManager : MonoBehaviour
         // For now there is only KingoftheHill and GunnedDown (although not polished)
         else 
         {
-            SceneManager.LoadScene("GunnedDown");
+            SceneManager.LoadScene(Random.Range(4, 6));
         }
             numberOfReadyPlayers = 0;
         }

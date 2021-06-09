@@ -131,11 +131,9 @@ public class PointMinigameTracker : MonoBehaviour
 
     public static int ReturnPlayerPlacement(string playerName)
     {
-
+        // Todo:
         // Have to keep in mind: if there is only 2 players the player who loses should be registered as the last place
         // 4th that is
-        // Todo make it susceptible to change in the number of active players
-        // with PlayerConfigurationManager.numberOfActivePlayers
         for (int i = 0; i < standardizedPlayerStandings.Count; i++)
         {
             if (standardizedPlayerStandings[i].Item1 == playerName)

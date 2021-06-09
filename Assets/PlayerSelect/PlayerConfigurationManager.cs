@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using System;
+using Random = UnityEngine.Random;
 using UnityEngine.InputSystem.Users;
 
 public class PlayerConfigurationManager : MonoBehaviour
@@ -62,7 +63,7 @@ public class PlayerConfigurationManager : MonoBehaviour
                 playerControlSchemes.Add(playerInputComponent.playerIndex, playerInputComponent.currentControlScheme);
             }
             // Todo add more minigames and have it select a scene randomly
-            SceneManager.LoadScene("KingoftheHill");
+            SceneManager.LoadScene(Random.Range(4, 6));
         }
     }
 

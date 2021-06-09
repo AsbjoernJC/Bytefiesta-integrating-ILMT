@@ -47,7 +47,7 @@ public class MysteryDrinkManager : MonoBehaviour
         if (numberOfReadyPlayers == PlayerConfigurationManager.numberOfActivePlayers)
         {
             // Todo add more minigames and select one at random here
-            SceneManager.LoadScene("KingoftheHill");
+            SceneManager.LoadScene(Random.Range(4, 6));
             numberOfReadyPlayers = 0;
         }
     }
