@@ -38,25 +38,30 @@ public class MinigameWinManager : MonoBehaviour
 
     private void Update()
     {
-        // Todo end game after a player has 5 minigame wins
         if (numberOfReadyPlayers == PlayerConfigurationManager.numberOfActivePlayers)
         {
-            // Todo add more minigames and select one at random here
-                // Todo MysteryDrink should be loaded from MinigameWinManger
-        // MysterDrink should only be loaded every 3rd minigame, maybe after the first minigame.
-        if (DifficultyAndScore.finishedMinigames == 1 || DifficultyAndScore.finishedMinigames % 3 == 0)
-        {
-            // Todo playerStandings should be given to SipInitializer
-            SceneManager.LoadScene("MysteryDrink");
-        }
-        // Should load a random minigame if it is not time to load the MysteryDrink scene
-        // For now there is only KingoftheHill and GunnedDown (although not polished)
-        else 
-        {
-            SceneManager.LoadScene("GunnedDown");
-        }
-            numberOfReadyPlayers = 0;
-        }
+            if (DifficultyAndScore.gameWinner != null)
+            {
+                // Todo display the winner here for some time and then go back to the main menu
+                SceneManager.LoadScene("Menu");
+                DifficultyAndScore.gameWinner = null;
+                return;
+            }
+
+            // MysterDrink should only be loaded every 3rd minigame, maybe after the first minigame.
+            if (DifficultyAndScore.finishedMinigames == 1 || DifficultyAndScore.finishedMinigames % 3 == 0)
+            {
+                // Todo playerStandings should be given to SipInitializer
+                SceneManager.LoadScene("MysteryDrink");
+            }
+            // Should load a random minigame if it is not time to load the MysteryDrink scene
+            // For now there is only KingoftheHill and GunnedDown (although not polished)
+            else 
+            {
+                SceneManager.LoadScene(Random.Range(4, 6));
+            }
+                numberOfReadyPlayers = 0;
+            }
     }
 
     private void AllowPlayerControl()

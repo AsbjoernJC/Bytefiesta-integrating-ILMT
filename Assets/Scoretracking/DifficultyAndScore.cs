@@ -26,6 +26,7 @@ public class DifficultyAndScore : MonoBehaviour
     public static Dictionary<int, PlayerInput> playerInputs = new Dictionary<int, PlayerInput>();
     
     public static DifficultyAndScore Instance { get; set; }
+    public static string gameWinner;
     
 
     private void Awake()

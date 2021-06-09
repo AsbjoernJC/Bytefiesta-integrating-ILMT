@@ -15,6 +15,7 @@ public class SipInitializer : MonoBehaviour
 
     private int minigamePlacement;
 
+    // Some possibilities: 
     // [LastManStanding][Hardcore][int placement]
     // [Hardcore][int placement]
 
@@ -52,7 +53,6 @@ public class SipInitializer : MonoBehaviour
 
     };
 
-    // Todo Calculate the amount of sips a player should drink based on their performance in the last minigame.
     // Start is called before the first frame update
     void Start()
     {
@@ -63,10 +63,10 @@ public class SipInitializer : MonoBehaviour
     // Activates a number of canvases according to the number of players in the game
     private void ActivateBeerCanvas()
     {
+        string minigamePlayed = LevelInitializer.sceneName;
+
         for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
         {
-            string minigamePlayed = LevelInitializer.sceneName;
-            Debug.Log($"Last minigame was: {minigamePlayed}");
         
         switch (minigamePlayed)
         {
@@ -82,11 +82,6 @@ public class SipInitializer : MonoBehaviour
                 break;
         }
 
-            // Todo incorporate PointMinigameTracker.playerStandings in a for loop
-            // find the player's index and then playerStandings[player'sIndex] will be the player's
-            // Placement in the last minigame.
-
-            Debug.Log($"Player {i + 1} came in as number : " + minigamePlacement);
             playerBeerCanvas[i].SetActive(true);
 
             CalculateSips(i, minigamePlacement);

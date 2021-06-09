@@ -83,6 +83,21 @@ public class PlayerController : MonoBehaviour
     public void OnHorizontalMove(InputAction.CallbackContext context)
     {
         horizontalMoveInput = context.ReadValue<Vector2>();
+
+        // If horizontalMoveInput.x is > 0 then the character is moving to the right and should
+        // m_FacingRight should therefore be true
+        if (horizontalMoveInput.x > 0 && !m_FacingRight)
+        {
+            // ... flip the player.
+            Flip();
+        }
+        // Otherwise if the horizontalMoveInput is < 0 then the player is moving left
+        else if (horizontalMoveInput.x < 0 && m_FacingRight)
+        {
+            // ... flip the player.
+            Flip();
+        }        
+
         if (horizontalMoveInput != new Vector2(0f, 0f))
         {
             RotateFirePoint();
@@ -299,17 +314,7 @@ public class PlayerController : MonoBehaviour
         {
             rB2D.velocity = new Vector2(horizontalMove * 10f, rB2D.velocity.y);
         }
-        if (horizontalMove > 0 && !m_FacingRight)
-        {
-            // ... flip the player.
-            Flip();
-        }
-        // Otherwise if the input is moving the player left and the player is facing right...
-        else if (horizontalMove < 0 && m_FacingRight)
-        {
-            // ... flip the player.
-            Flip();
-        }        
+
     }
     private void Flip()
     {

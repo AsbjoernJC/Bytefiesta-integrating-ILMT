@@ -43,6 +43,7 @@ public class PointMinigameTracker : MonoBehaviour
             playerScores[$"Player {i}"] = 0;
 
         playerPointStandings = new List<(string, int)>();
+        standardizedPlayerStandings = new List<(string, int)>();
     }
 
 // This function get's called when a player has a score equal to or higer than 5. It will stop the players from moving
@@ -92,7 +93,6 @@ public class PointMinigameTracker : MonoBehaviour
                 }
             }
 
-            Debug.Log(playerPlacement);
         }
 
         // Finding standardized player standings meaning players can only place: 1st, 2nd, 3rd and 4th
@@ -109,13 +109,20 @@ public class PointMinigameTracker : MonoBehaviour
                 if (playerPointStandings[i].Item2 == playerPointStandings[j].Item2)
                 {
                     standardizedAssumedPosition = playerPointStandings.Count - j;
+    
+    // If a player scores zero points then they will be placed as if they came in last
+    // Coming in last is interpreted by SipInitializer as coming in, in 4th place 
+                    if (playerPointStandings[i].Item2 == 0 )
+                    {
+                        standardizedAssumedPosition = 4;
+                    }
                 }
-
             }
             
             // If players tie with 0 points they should still get placed as if they came in last (standardizedAssumedPosition should be
             // equal to 4)
             // If players tie with 1 point they should get placed as if they came in second last (3rd)
+            // Imagine a 3-way tie with 1 point in a 4 person game. 1 point is only deserving of 0 points
 
             standardizedPlayerStandings.Add((playerPointStandings[i].Item1, standardizedAssumedPosition));
 
@@ -124,11 +131,9 @@ public class PointMinigameTracker : MonoBehaviour
 
     public static int ReturnPlayerPlacement(string playerName)
     {
-
+        // Todo:
         // Have to keep in mind: if there is only 2 players the player who loses should be registered as the last place
         // 4th that is
-        // Todo make it susceptible to change in the number of active players
-        // with PlayerConfigurationManager.numberOfActivePlayers
         for (int i = 0; i < standardizedPlayerStandings.Count; i++)
         {
             if (standardizedPlayerStandings[i].Item1 == playerName)
