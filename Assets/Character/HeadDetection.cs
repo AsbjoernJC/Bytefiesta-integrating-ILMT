@@ -23,7 +23,7 @@ public class HeadDetection : MonoBehaviour
         if (collision.Contains("HeadDetect"))
             return;
 
-        if (collision.Contains("Player") && collision.Contains("BoxCollider") && jumper.velocity.y < 0)
+        if (collision.Contains("Player") && collision.Contains("BoxCollider") && jumper.velocity.y <= 0)
         {
             player.GetComponent<Stats>().TakeDamage(1, colliderName);
 
