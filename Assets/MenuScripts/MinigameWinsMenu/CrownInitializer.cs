@@ -71,6 +71,11 @@ public class CrownInitializer : MonoBehaviour
                 }
                 break;
         }
+        if (wonCrowns == 5)
+        {
+            DifficultyAndScore.gameWinner = $"Player {playerIndex + 1}";
+            return;
+        }
     }
 
 }
