@@ -3,34 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class BulletManager : MonoBehaviour
-{
-
-    public static void Shoot(Transform firePoint, GameObject powerUp, Quaternion shootingAngle, string playerName, bool powerUpBullet)
-    {
-        // float bulletSpeed = 21f;
-
-        bullet.tag = playerName + " bullet";
-        string bulletTag = instance.tag;
-        // rB2D.AddForce(firePoint.up * bulletSpeed, ForceMode2D.Impulse);
-        if (powerUpBullet)
-        {
-            SpawnBullet();
-            instance.StartCoroutine("FindPlayerPositions");
-            instance.GetComponent<BulletManager>().isPowerUpBullet = true;
-            return;
-        }
-        // instance.StartCoroutine("BulletLifeSpan");
-    }
-
-
-
-
-}
-
-[RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(CircleCollider2D))]
-public class Bullet : MonoBehaviour
+public class BulletBase : MonoBehaviour
 {
 
     private Rigidbody2D rB2D;
@@ -184,10 +157,5 @@ public class Bullet : MonoBehaviour
         }
 
     }
-
-}
-
-public class NormalBullet
-{
 
 }
