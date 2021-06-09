@@ -314,17 +314,7 @@ public class PlayerController : MonoBehaviour
         {
             rB2D.velocity = new Vector2(horizontalMove * 10f, rB2D.velocity.y);
         }
-        // if (horizontalMove > 0 && !m_FacingRight)
-        // {
-        //     // ... flip the player.
-        //     Flip();
-        // }
-        // // Otherwise if the input is moving the player left and the player is facing right...
-        // else if (horizontalMove < 0 && m_FacingRight)
-        // {
-        //     // ... flip the player.
-        //     Flip();
-        // }        
+
     }
     private void Flip()
     {
