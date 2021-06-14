@@ -58,6 +58,7 @@ public class PlayerController : MonoBehaviour
         bC2D = transform.GetComponent<BoxCollider2D>();
         cC2D = transform.GetComponent<CapsuleCollider2D>();
     }
+
     void Update()
     {
         if (OutOfBounds() != new Vector3(0f, 0f))
@@ -255,7 +256,7 @@ public class PlayerController : MonoBehaviour
             else if (canDoubleJump)
             {
                 rB2D.velocity = Vector2.up * m_JumpForce;
-                // canDoubleJump = false;
+                canDoubleJump = false;
                 return;
             }
         }
