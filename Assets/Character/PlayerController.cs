@@ -255,7 +255,7 @@ public class PlayerController : MonoBehaviour
             else if (canDoubleJump)
             {
                 rB2D.velocity = Vector2.up * m_JumpForce;
-                canDoubleJump = false;
+                // canDoubleJump = false;
                 return;
             }
         }
