@@ -54,5 +54,7 @@ Assets/PlayerSelect/*
 !Assets/InitializeGameObjectsScripts
 !Assets/InitializeGameObjectsScripts/*.cs
 
-
+!Assets/LevelScripts
+!Assets/LevelScripts/GunnedDown
+!Assets/LevelScripts/GunnedDown/*.cs
 
