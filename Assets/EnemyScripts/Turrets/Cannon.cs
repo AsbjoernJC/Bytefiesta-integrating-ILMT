@@ -48,8 +48,6 @@ public class Cannon : MonoBehaviour
         // Using a power function
         float resultSpawnRate = 1.5f * Mathf.Pow(x, -2.3f/6f);
         x += 1;
-        Debug.Log("x is now = " + x);
-        Debug.Log("Would wait " + resultSpawnRate + " seconds before spawning next bullet");
         return resultSpawnRate;
     }
 
