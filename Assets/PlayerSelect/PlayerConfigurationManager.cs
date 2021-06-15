@@ -29,7 +29,14 @@ public class PlayerConfigurationManager : MonoBehaviour
 
     private void Awake() 
     {
-        Instance = this;  
+        if (Instance != null)
+        {
+            Debug.Log("SINGLETON - Trying to create another instance of singleton!!");
+        }
+        else
+        {
+            Instance = this;
+        }        
     }
 
     public void ReadyPlayer(int index)
@@ -47,6 +54,7 @@ public class PlayerConfigurationManager : MonoBehaviour
                 playerControllers.Add(playerIndex, playerInputComponent.devices[0]);
 
                 //Might be useful for debugging the problem where a player sometimes can't control their assigned button
+                // Have not seen it happen in a while
                 Debug.Log("CharacterSelection \n __________________________");
                 Debug.Log($"Player {playerIndex + 1}'s deviceId = {playerInputComponent.devices[0].deviceId}");
                 
@@ -58,7 +66,7 @@ public class PlayerConfigurationManager : MonoBehaviour
         }
     }
 
-    //Player joins when pressing join and when pressing y to ready up. Functions is called when
+    //Player joins when pressing y and doing it once more to ready up. Functions is called when
     // the Player Input Manager invokes the unity event in the 'PlayerSelect' scene.
     public void HandlePlayerJoin(PlayerInput pi)
     {
@@ -69,6 +77,7 @@ public class PlayerConfigurationManager : MonoBehaviour
         {
             if (pi.currentControlScheme != "Controller")
             {
+                // Todo
                 // Could use this place in the future to change the images in the menu for this player
                 Debug.Log("Not a controller");
             }
@@ -87,8 +96,7 @@ public class PlayerConfigurationManager : MonoBehaviour
                     controllerID = actualControllerNumber.ToString();
                     controllerLayout.GetComponent<ControllerImageAndText>().ChangeControllerText(controllerID, pi.playerIndex);
                 }
-                // Debug.Log("playerIndex is = " + pi.playerIndex);
-                // Debug.Log(controllerID);
+
             }
             pi.transform.SetParent(transform);
             playerConfigurations.Add(new PlayerConfiguration(pi));

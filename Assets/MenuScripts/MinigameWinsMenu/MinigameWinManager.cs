@@ -31,10 +31,12 @@ public class MinigameWinManager : MonoBehaviour
         }        
     }
 
+
     private void Start() 
     {
         AllowPlayerControl();   
     }
+
 
     private void Update()
     {
@@ -43,6 +45,8 @@ public class MinigameWinManager : MonoBehaviour
             if (DifficultyAndScore.Instance.gameWinner != "")
             {
                 // Todo display the winner here for some time and then go back to the main menu
+                // might be better to display the winner at the start of the scene and then allow the players to ready up
+                // and start another game
                 SceneManager.LoadScene("Menu");
                 DifficultyAndScore.Instance.gameWinner = null;
                 return;
@@ -51,11 +55,9 @@ public class MinigameWinManager : MonoBehaviour
             // MysterDrink should only be loaded every 3rd minigame, maybe after the first minigame.
             if (DifficultyAndScore.Instance.finishedMinigames == 1 || DifficultyAndScore.Instance.finishedMinigames % 3 == 0)
             {
-                // Todo playerStandings should be given to SipInitializer
                 SceneManager.LoadScene("MysteryDrink");
             }
-            // Should load a random minigame if it is not time to load the MysteryDrink scene
-            // For now there is only KingoftheHill and GunnedDown (although not polished)
+            // Loads a random minigame. For now there is only KingoftheHill and GunnedDown
             else 
             {
                 SceneManager.LoadScene(Random.Range(4, 6));
@@ -63,6 +65,7 @@ public class MinigameWinManager : MonoBehaviour
                 numberOfReadyPlayers = 0;
             }
     }
+
 
     private void AllowPlayerControl()
     {

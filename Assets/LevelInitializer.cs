@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 using UnityEngine.SceneManagement;
-// for bugs see: https://www.youtube.com/watch?v=_5pOiYHJgl0
+
 public class LevelInitializer : MonoBehaviour
 {
     [SerializeField]
@@ -41,6 +41,7 @@ public class LevelInitializer : MonoBehaviour
 
     void Awake() 
     {
+        // Tries to locate a PowerUpInitializer gameobject in the scene/minigame
         powerupInitializer = GameObject.Find("PowerUpInitializer");
 
         sceneName = SceneManager.GetActiveScene().name;
@@ -97,7 +98,8 @@ public class LevelInitializer : MonoBehaviour
         // If Player 3 is killed and hasn't respawned and Player 2 then is killed, it will try to insert Player 3 at index[2] even though 
         // activePlayers = {Player 1} where Player 1 is a GameObject. Therefore it results in an ArgumentOutOfRangeException
         
-        if (levelRules[sceneName]["hasPowerUp"])
+    // if the minigame has a powerUpInitializer we will have to spawn powerups
+        if (powerupInitializer != null)
         {
             try
             {
@@ -112,12 +114,16 @@ public class LevelInitializer : MonoBehaviour
 
     }
 
+
+// Spawns the UI which holds the scores of the players in the minigame
     private void InstantiatePlayerUI(int playerIndex)
     {
         scoreUI = GameObject.FindGameObjectWithTag("ScoreUI");
         scoreUI.GetComponent<ScoreSpawner>().SpawnPlayerScoreUI(playerIndex);
     }
 
+
+// Gets called on death
     public void PlayerDeathInformation(GameObject player)
     {
         playerToRespawnIndex = Int16.Parse(player.name.Split( )[1]) - 1;
@@ -162,6 +168,7 @@ public class LevelInitializer : MonoBehaviour
         }
     }
 
+    // Will respawn the player after a short delay
     public IEnumerator RespawnPlayer(int seconds, int playerIndex) 
     { 
         yield return new WaitForSeconds(seconds); 

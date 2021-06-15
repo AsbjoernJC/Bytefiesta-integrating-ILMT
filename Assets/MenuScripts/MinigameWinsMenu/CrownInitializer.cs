@@ -13,6 +13,8 @@ public class CrownInitializer : MonoBehaviour
     public List<Image> player2CrownSprites;
     public List<Image> player3CrownSprites;
     public List<Image> player4CrownSprites;
+
+    
     // Start is called before the first frame update
     void Start()
     {
