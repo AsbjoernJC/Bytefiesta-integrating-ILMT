@@ -7,10 +7,12 @@ public class PowerUp0 : MonoBehaviour
 {
     private GameObject player;
     private GameObject SpawnedPowerUp;
+    private GameObject powerupInitializer;
     // Start is called before the first frame update
 
     void Start() 
     {
+        powerupInitializer = GameObject.Find("PowerUpInitializer");
         SpawnedPowerUp = this.gameObject;
     }
     void Update() 
@@ -37,13 +39,20 @@ public class PowerUp0 : MonoBehaviour
         if (collision.Contains("Player") && powerUpName.Contains("KingoftheHill0"))
         {
             player.GetComponent<PlayerController>().GotBulletPowerUp();
+            powerupInitializer.GetComponent<PowerUpInitializer>().spawnpointOccupation[SpawnedPowerUp.tag] = false;
+            powerupInitializer.GetComponent<PowerUpInitializer>().occupiedSpawnpoints --;
             Destroy(gameObject);
+            return;
         }
         else if (collision.Contains("Player") && powerUpName.Contains("KingoftheHill1"))
         {
             player.GetComponent<PlayerController>().GotShieldPowerUp();
+            powerupInitializer.GetComponent<PowerUpInitializer>().spawnpointOccupation[SpawnedPowerUp.tag] = false;
+            powerupInitializer.GetComponent<PowerUpInitializer>().occupiedSpawnpoints --;
             Destroy(gameObject);
+            return;
         }
+        // Todo set PowerUpInitializer.spawnpointOccupation to false when this object is picked up
         
     }
 }

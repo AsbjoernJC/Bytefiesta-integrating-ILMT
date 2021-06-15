@@ -18,7 +18,7 @@ public class PlayerConfigurationManager : MonoBehaviour
     [SerializeField]
     private GameObject controllerLayout;
     
-    public static int numberOfActivePlayers { get; private set; } = 0;
+    public static int numberOfActivePlayers { get; set; } = 0;
 
     public static Dictionary<int, string> playerControlSchemes = new Dictionary<int, string>();
     

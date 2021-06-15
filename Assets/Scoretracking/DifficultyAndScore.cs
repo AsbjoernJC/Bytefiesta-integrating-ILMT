@@ -44,6 +44,8 @@ public class DifficultyAndScore : MonoBehaviour
 
     public static void SetDifficulty(string gamemode)
     {
+        // Makes sure that difficulty is not set if players start playing after a player has already won the entire game
+
         difficulty = gamemode;
         difficulties[gamemode] = true;
         Debug.Log($"{gamemode} difficulty is set to {difficulties[gamemode]}");
