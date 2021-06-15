@@ -40,7 +40,7 @@ public class MinigameWinManager : MonoBehaviour
     {
         if (numberOfReadyPlayers == PlayerConfigurationManager.Instance.numberOfActivePlayers)
         {
-            if (DifficultyAndScore.Instance.gameWinner != null)
+            if (DifficultyAndScore.Instance.gameWinner != "")
             {
                 // Todo display the winner here for some time and then go back to the main menu
                 SceneManager.LoadScene("Menu");
