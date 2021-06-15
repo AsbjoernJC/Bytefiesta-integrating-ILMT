@@ -9,7 +9,7 @@ public class GameObjectSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
+        for (int i = 0; i < PlayerConfigurationManager.Instance.numberOfActivePlayers; i++)
         {
             cannons[i].SetActive(true);
         }

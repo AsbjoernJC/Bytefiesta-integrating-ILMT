@@ -53,7 +53,7 @@ public class PointMinigameTracker : MonoBehaviour
         winner = playerWhoWon;
 
         // Adds a point to the player's overall score, amount of wins in each minigame that has been played
-        DifficultyAndScore.acrossGamemodePlayerScore[winner] ++;
+        DifficultyAndScore.Instance.acrossGamemodePlayerScore[winner] ++;
         // Time.timeScale prevents players from moving.
         Time.timeScale = 0f;
         instance.StartCoroutine("DisplayWinner");
@@ -65,7 +65,7 @@ public class PointMinigameTracker : MonoBehaviour
     {
         (string, int) playerPlacement;
 
-        for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
+        for (int i = 0; i < PlayerConfigurationManager.Instance.numberOfActivePlayers; i++)
         {
             playerPlacement = ($"Player {i + 1}", playerScores[$"Player {i + 1}"]);
             if (i == 0)
@@ -160,7 +160,7 @@ public class PointMinigameTracker : MonoBehaviour
         SortPlayerPlacements();
         yield return new WaitForSecondsRealtime(3.5f);
 
-        DifficultyAndScore.finishedMinigames ++;
+        DifficultyAndScore.Instance.finishedMinigames ++;
         Time.timeScale = 1f;
 
 

@@ -65,7 +65,7 @@ public class SipInitializer : MonoBehaviour
     {
         string minigamePlayed = LevelInitializer.sceneName;
 
-        for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
+        for (int i = 0; i < PlayerConfigurationManager.Instance.numberOfActivePlayers; i++)
         {
         
         switch (minigamePlayed)
@@ -93,7 +93,7 @@ public class SipInitializer : MonoBehaviour
     private void CalculateSips(int playerIndex, int minigamePlacement)
     {
         // Todo Calculate the amount of sips a player should drink based on their performance in the last minigame.
-        string chosenDifficulty = DifficultyAndScore.difficulty;
+        string chosenDifficulty = DifficultyAndScore.Instance.difficulty;
 
         int playerSips = sipAmount[chosenDifficulty][minigamePlacement];
 

@@ -14,7 +14,7 @@ public class MysteryDrinkBackground : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        foreach (var element in DifficultyAndScore.difficulties)
+        foreach (var element in DifficultyAndScore.Instance.difficulties)
         {
             if (element.Value == true)
             {

@@ -52,7 +52,7 @@ public class GameInstructionsManager : MonoBehaviour
     }
     private void Update()
     {
-        if (numberOfReadyPlayers == PlayerConfigurationManager.numberOfActivePlayers && startedInitialiazation == false)
+        if (numberOfReadyPlayers == PlayerConfigurationManager.Instance.numberOfActivePlayers && startedInitialiazation == false)
         {
             startedInitialiazation = true;
             StartLevelInitialization();
@@ -65,15 +65,15 @@ public class GameInstructionsManager : MonoBehaviour
 // There is still a bug where a player somehow loses controll of their button.
     private void AllowPlayerControl()
     {
-        for (int playerIndex = 0; playerIndex < PlayerConfigurationManager.numberOfActivePlayers; playerIndex++)
+        for (int playerIndex = 0; playerIndex < PlayerConfigurationManager.Instance.numberOfActivePlayers; playerIndex++)
         {
-            var playerController = PlayerConfigurationManager.playerControllers[playerIndex];
-            var inputUser = DifficultyAndScore.playerInputs[playerIndex].user;
-            var playerControlScheme = PlayerConfigurationManager.playerControlSchemes[playerIndex];
+            var playerController = PlayerConfigurationManager.Instance.playerControllers[playerIndex];
+            var inputUser = DifficultyAndScore.Instance.playerInputs[playerIndex].user;
+            var playerControlScheme = PlayerConfigurationManager.Instance.playerControlSchemes[playerIndex];
 
             //Might be useful for debugging the problem where a player sometimes can't control their assigned button
             Debug.Log("GameInstructions \n __________________________");
-            Debug.Log($"Player {playerIndex + 1}'s deviceId = {PlayerConfigurationManager.playerControllers[playerIndex].deviceId}");
+            Debug.Log($"Player {playerIndex + 1}'s deviceId = {PlayerConfigurationManager.Instance.playerControllers[playerIndex].deviceId}");
 
             // Spawns the playerButtonGroup and assigns the PlayerInput object to a specific controller, controller scheme etc.
             PlayerInput playerInput = PlayerInput.Instantiate(playerButtonGroup, playerIndex, playerControlScheme, -1, playerController);
