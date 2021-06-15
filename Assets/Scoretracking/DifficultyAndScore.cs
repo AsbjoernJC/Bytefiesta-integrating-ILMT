@@ -18,7 +18,7 @@ public class DifficultyAndScore : MonoBehaviour
 
     public static Dictionary<string, int> acrossGamemodePlayerScore = new Dictionary<string, int>()
     {
-        {"Player 1", 4},
+        {"Player 1", 0},
         {"Player 2", 0},
         {"Player 3", 0},
         {"Player 4", 0}

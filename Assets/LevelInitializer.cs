@@ -96,14 +96,19 @@ public class LevelInitializer : MonoBehaviour
         // Example with 3 players:
         // If Player 3 is killed and hasn't respawned and Player 2 then is killed, it will try to insert Player 3 at index[2] even though 
         // activePlayers = {Player 1} where Player 1 is a GameObject. Therefore it results in an ArgumentOutOfRangeException
-        try
+        
+        if (levelRules[sceneName]["hasPowerUp"])
         {
-            powerupInitializer.GetComponent<PowerUpInitializer>().activePlayers.Insert(playerIndex, playerObject);
+            try
+            {
+                powerupInitializer.GetComponent<PowerUpInitializer>().activePlayers.Insert(playerIndex, playerObject);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                powerupInitializer.GetComponent<PowerUpInitializer>().activePlayers.Add(playerObject);
+            }
         }
-        catch (ArgumentOutOfRangeException)
-        {
-            powerupInitializer.GetComponent<PowerUpInitializer>().activePlayers.Add(playerObject);
-        }
+
 
     }
 
