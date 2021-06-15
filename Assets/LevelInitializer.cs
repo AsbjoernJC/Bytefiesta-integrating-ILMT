@@ -13,6 +13,7 @@ public class LevelInitializer : MonoBehaviour
     [SerializeField]
     private GameObject[] playerPrefab;
     private GameObject scoreUI;
+    private GameObject powerupInitializer;
     public static string sceneName;
     int playerToRespawnIndex;
     int numberOfScoreUI;
@@ -40,6 +41,8 @@ public class LevelInitializer : MonoBehaviour
 
     void Awake() 
     {
+        powerupInitializer = GameObject.Find("PowerUpInitializer");
+
         sceneName = SceneManager.GetActiveScene().name;
 
         if(Instance != null)
@@ -95,11 +98,11 @@ public class LevelInitializer : MonoBehaviour
         // activePlayers = {Player 1} where Player 1 is a GameObject. Therefore it results in an ArgumentOutOfRangeException
         try
         {
-            PowerUpInitializer.activePlayers.Insert(playerIndex, playerObject);
+            powerupInitializer.GetComponent<PowerUpInitializer>().activePlayers.Insert(playerIndex, playerObject);
         }
         catch (ArgumentOutOfRangeException)
         {
-            PowerUpInitializer.activePlayers.Add(playerObject);
+            powerupInitializer.GetComponent<PowerUpInitializer>().activePlayers.Add(playerObject);
         }
 
     }
@@ -118,10 +121,10 @@ public class LevelInitializer : MonoBehaviour
         // Checks in levelRules if the players are able to get powerups
         if (levelRules[sceneName]["hasPowerUp"])
         {
-            int playerListIndex = PowerUpInitializer.activePlayers.IndexOf(player);
+            int playerListIndex = powerupInitializer.GetComponent<PowerUpInitializer>().activePlayers.IndexOf(player);
             if (playerListIndex == -1)
                 return;
-            PowerUpInitializer.activePlayers.RemoveAt(playerListIndex);
+            powerupInitializer.GetComponent<PowerUpInitializer>().activePlayers.RemoveAt(playerListIndex);
         }
         
         // Checks in levelRules if this players should respawn in this minigame

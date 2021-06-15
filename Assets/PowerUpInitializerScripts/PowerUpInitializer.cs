@@ -8,12 +8,12 @@ public class PowerUpInitializer : MonoBehaviour
     public float deathTimer = 6f;
     public GameObject[] powerUps; 
     public Transform[] spawnPoints;
-    private bool powerUpInScene = false;
+    public int occupiedSpawnpoints = 0;
     private int initialNumberOfPlayers = 0;
     private int assumedSpawnPoint;
     private int bestSpawnPoint;
     
-    public static List<GameObject> activePlayers = new List<GameObject>();
+    public List<GameObject> activePlayers = new List<GameObject>();
     private List<string> playerNames = new List<string>() 
     {
         "Player 1",
@@ -22,7 +22,7 @@ public class PowerUpInitializer : MonoBehaviour
         "Player 4",
     };
 
-    private Dictionary<string, bool> spawnpointOccupation = new Dictionary<string, bool>
+    public Dictionary<string, bool> spawnpointOccupation = new Dictionary<string, bool>
     {
         {"Spawnpoint 1", false},
         {"Spawnpoint 2", false},
@@ -42,7 +42,8 @@ public class PowerUpInitializer : MonoBehaviour
         if (activePlayers.Count == 0)
             FindPlayers();
 
-        FindPowerUps();
+        if (occupiedSpawnpoints != 9)
+            FindPowerUps();
     }
 
 
@@ -67,35 +68,22 @@ public class PowerUpInitializer : MonoBehaviour
 // The next powerup is spawned after waiting on the deathTimer, which is started from the point when no powerup is found in the scene 
     private void FindPowerUps()
     {
-        int inactivePowerUps = 0;
-        for (int i = 0; i < powerUps.Length; i++)
-        {
-            if (GameObject.Find(powerUps[i].name + "(Clone)") == null)
-            {
-                inactivePowerUps ++;
-            }
-        }
-        if (inactivePowerUps == powerUps.Length)
-        {
-            powerUpInScene = false;
-            InvokeRepeating("FindEligibleSpawnPoint", spawnDelay, deathTimer);
-        }
-        else
-        {
-            powerUpInScene = true;
-        }
+        InvokeRepeating("FindEligibleSpawnPoint", spawnDelay, deathTimer);
     }
 
     private void FindEligibleSpawnPoint()
     {
-        // removes all gameObjects (type) elements from the list that are null
+        // removes all gameObjects (type) elements from the list that are null.
+        // the gameObjects would be null if a player has just died
         activePlayers.RemoveAll(gO => gO == null);
 
         float bestDistanceToPlayers = 0;
         float smallestDistanceToPlayer = 50f;
         for (int i = 0; i < spawnPoints.Length; i++)
         {
-            for (int j = 0; j < activePlayers.Count; j++)
+            if (spawnpointOccupation[$"Spawnpoint {i + 1}"] != true)
+            {
+                for (int j = 0; j < activePlayers.Count; j++)
             {
                 float distanceToPlayer = Vector3.Distance(spawnPoints[i].transform.position, activePlayers[j].transform.position);
                 if (distanceToPlayer < smallestDistanceToPlayer)
@@ -104,11 +92,16 @@ public class PowerUpInitializer : MonoBehaviour
             if (smallestDistanceToPlayer > bestDistanceToPlayers)
             {
                 assumedSpawnPoint = i;
-                // todo if (assumedSpawnPoint already contains a powerup then we should break)
                 bestDistanceToPlayers = smallestDistanceToPlayer;
             }
             smallestDistanceToPlayer = 50f;
+            }
         }
+
+        // There are only 9 spawnpoints. If all are full no powerup should be spawned
+        if (occupiedSpawnpoints == 9)
+            return;
+
         bestSpawnPoint = assumedSpawnPoint;
         SpawnPowerUp();
         CancelInvoke("FindEligibleSpawnPoint");
@@ -119,9 +112,10 @@ public class PowerUpInitializer : MonoBehaviour
 // 9 transformer prefabs
     private void SpawnPowerUp()
     {
-        Instantiate(powerUps[Random.Range(0, powerUps.Length)], spawnPoints[bestSpawnPoint]);
+        GameObject powerUp = Instantiate(powerUps[Random.Range(0, powerUps.Length)], spawnPoints[bestSpawnPoint]);
+        powerUp.tag = $"Spawnpoint {bestSpawnPoint + 1}";
         spawnpointOccupation[$"Spawnpoint {bestSpawnPoint + 1}"] = true;
-        powerUpInScene = true;
+        occupiedSpawnpoints ++;
     }
 
 }

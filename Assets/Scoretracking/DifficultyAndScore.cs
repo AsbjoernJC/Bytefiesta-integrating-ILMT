@@ -18,7 +18,7 @@ public class DifficultyAndScore : MonoBehaviour
 
     public static Dictionary<string, int> acrossGamemodePlayerScore = new Dictionary<string, int>()
     {
-        {"Player 1", 0},
+        {"Player 1", 4},
         {"Player 2", 0},
         {"Player 3", 0},
         {"Player 4", 0}
@@ -44,6 +44,8 @@ public class DifficultyAndScore : MonoBehaviour
 
     public static void SetDifficulty(string gamemode)
     {
+        // Makes sure that difficulty is not set if players start playing after a player has already won the entire game
+
         difficulty = gamemode;
         difficulties[gamemode] = true;
         Debug.Log($"{gamemode} difficulty is set to {difficulties[gamemode]}");
