@@ -57,7 +57,7 @@ public class LevelInitializer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < PlayerConfigurationManager.playerControllers.Count; i++)
+        for (int i = 0; i < PlayerConfigurationManager.Instance.playerControllers.Count; i++)
         {
             SpawnPlayer(i);
             // should respawn players and interact with powerupinitializer
@@ -72,8 +72,8 @@ public class LevelInitializer : MonoBehaviour
     // Instantiates the player in the current scene
     public void SpawnPlayer(int playerIndex)
     {
-        var playerController = PlayerConfigurationManager.playerControllers[playerIndex];
-        var playerControlScheme = PlayerConfigurationManager.playerControlSchemes[playerIndex];
+        var playerController = PlayerConfigurationManager.Instance.playerControllers[playerIndex];
+        var playerControlScheme = PlayerConfigurationManager.Instance.playerControlSchemes[playerIndex];
 
         PlayerInput playerInput = PlayerInput.Instantiate(playerPrefab[playerIndex], playerIndex, playerControlScheme, -1, playerController);
         playerInput.name = "Player " + (playerIndex + 1).ToString();
@@ -142,12 +142,12 @@ public class LevelInitializer : MonoBehaviour
             //The maximum amount of players is 4 therefore 4 - the active players will result in the correct player standing
             // on death eg. 3 player game. Player 2 dies first and therefore gets player standing 3 - 0 = 3.
             // So the player correctly gets a 3rd place placement.
-            LastManStanding.playerStandings[player.name] = PlayerConfigurationManager.numberOfActivePlayers - LastManStanding.deadPlayers;
+            LastManStanding.playerStandings[player.name] = PlayerConfigurationManager.Instance.numberOfActivePlayers - LastManStanding.deadPlayers;
             LastManStanding.deadPlayers ++;
 
-            if (LastManStanding.deadPlayers == PlayerConfigurationManager.numberOfActivePlayers - 1)
+            if (LastManStanding.deadPlayers == PlayerConfigurationManager.Instance.numberOfActivePlayers - 1)
             {
-                for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
+                for (int i = 0; i < PlayerConfigurationManager.Instance.numberOfActivePlayers; i++)
                 {
                     // Keyvalue pair = string (where string is Player 1-4), int.
                     // When the int is unchanged that is = 0 then it is the last player standing

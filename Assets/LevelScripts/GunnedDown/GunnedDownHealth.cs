@@ -20,7 +20,7 @@ public class GunnedDownHealth : MonoBehaviour
 
     private void IncreaseHealth ()
     {
-        for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
+        for (int i = 0; i < PlayerConfigurationManager.Instance.numberOfActivePlayers; i++)
         {
             var player = GameObject.Find($"Player {i + 1}");
             if (player != null)
@@ -29,7 +29,7 @@ public class GunnedDownHealth : MonoBehaviour
                 incrementHealthCount ++;
             }
         }
-        if (incrementHealthCount == PlayerConfigurationManager.numberOfActivePlayers)
+        if (incrementHealthCount == PlayerConfigurationManager.Instance.numberOfActivePlayers)
             haveIncrementedHealth = true;
         
     }

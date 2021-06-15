@@ -126,7 +126,7 @@ public class Bullet : MonoBehaviour
 
         while (smallestDistanceToPlayer > 9f)
         {
-            for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
+            for (int i = 0; i < PlayerConfigurationManager.Instance.numberOfActivePlayers; i++)
                 {
                 LoopStart:
                     if (playerWhoShot == $"Player {i + 1}")

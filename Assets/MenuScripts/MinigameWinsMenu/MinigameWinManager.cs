@@ -14,7 +14,7 @@ public class MinigameWinManager : MonoBehaviour
     [SerializeField]
     private GridLayoutGroup buttonGroup;
 
-    public static int numberOfReadyPlayers = 0;
+    public int numberOfReadyPlayers = 0;
 
 
     public static MinigameWinManager Instance { get; private set; }
@@ -38,18 +38,18 @@ public class MinigameWinManager : MonoBehaviour
 
     private void Update()
     {
-        if (numberOfReadyPlayers == PlayerConfigurationManager.numberOfActivePlayers)
+        if (numberOfReadyPlayers == PlayerConfigurationManager.Instance.numberOfActivePlayers)
         {
-            if (DifficultyAndScore.gameWinner != null)
+            if (DifficultyAndScore.Instance.gameWinner != "")
             {
                 // Todo display the winner here for some time and then go back to the main menu
                 SceneManager.LoadScene("Menu");
-                DifficultyAndScore.gameWinner = null;
+                DifficultyAndScore.Instance.gameWinner = null;
                 return;
             }
 
             // MysterDrink should only be loaded every 3rd minigame, maybe after the first minigame.
-            if (DifficultyAndScore.finishedMinigames == 1 || DifficultyAndScore.finishedMinigames % 3 == 0)
+            if (DifficultyAndScore.Instance.finishedMinigames == 1 || DifficultyAndScore.Instance.finishedMinigames % 3 == 0)
             {
                 // Todo playerStandings should be given to SipInitializer
                 SceneManager.LoadScene("MysteryDrink");
@@ -66,15 +66,15 @@ public class MinigameWinManager : MonoBehaviour
 
     private void AllowPlayerControl()
     {
-        for (int playerIndex = 0; playerIndex < PlayerConfigurationManager.numberOfActivePlayers; playerIndex++)
+        for (int playerIndex = 0; playerIndex < PlayerConfigurationManager.Instance.numberOfActivePlayers; playerIndex++)
         {
-            var playerController = PlayerConfigurationManager.playerControllers[playerIndex];
-            var inputUser = DifficultyAndScore.playerInputs[playerIndex].user;
-            var playerControlScheme = PlayerConfigurationManager.playerControlSchemes[playerIndex];
+            var playerController = PlayerConfigurationManager.Instance.playerControllers[playerIndex];
+            var inputUser = DifficultyAndScore.Instance.playerInputs[playerIndex].user;
+            var playerControlScheme = PlayerConfigurationManager.Instance.playerControlSchemes[playerIndex];
 
             //Might be useful for debugging the problem where a player sometimes can't control their assigned button
             Debug.Log("MinigameWinMenu \n __________________________");
-            Debug.Log($"Player {playerIndex + 1}'s deviceId = {PlayerConfigurationManager.playerControllers[playerIndex].deviceId}");
+            Debug.Log($"Player {playerIndex + 1}'s deviceId = {PlayerConfigurationManager.Instance.playerControllers[playerIndex].deviceId}");
 
             // Spawns the playerButtonGroup and assigns the PlayerInput object to a specific controller, controller scheme etc.
             PlayerInput playerInput = PlayerInput.Instantiate(playerButtonGroup, playerIndex, playerControlScheme, -1, playerController);

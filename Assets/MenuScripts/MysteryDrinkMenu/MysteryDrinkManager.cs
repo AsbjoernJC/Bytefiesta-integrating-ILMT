@@ -37,14 +37,14 @@ public class MysteryDrinkManager : MonoBehaviour
     // Start is called before the first frame update
     private void Start() 
     {
-        mysteryPlayerImage.sprite = playerSprites[Random.Range(0, PlayerConfigurationManager.numberOfActivePlayers)];
+        mysteryPlayerImage.sprite = playerSprites[Random.Range(0, PlayerConfigurationManager.Instance.numberOfActivePlayers)];
         mysteryPlayerImage.color = new Color32(0, 0, 0, 255);
         StartCoroutine("ShufflePlayers");
     }
 
     private void Update()
     {
-        if (numberOfReadyPlayers == PlayerConfigurationManager.numberOfActivePlayers)
+        if (numberOfReadyPlayers == PlayerConfigurationManager.Instance.numberOfActivePlayers)
         {
             // Todo add more minigames and select one at random here
             SceneManager.LoadScene(Random.Range(4, 6));
@@ -60,13 +60,13 @@ public class MysteryDrinkManager : MonoBehaviour
         float rotationSpeed = 0.27f;
         while (timePassed < 3f)
         {
-            mysteryPlayerImage.sprite = playerSprites[Random.Range(0, PlayerConfigurationManager.numberOfActivePlayers)];
+            mysteryPlayerImage.sprite = playerSprites[Random.Range(0, PlayerConfigurationManager.Instance.numberOfActivePlayers)];
             yield return new WaitForSeconds(rotationSpeed);
             timePassed += rotationSpeed + Time.deltaTime;
         }
         while (timePassed >= 3 && timePassed < 8.5)
         {
-            mysteryPlayerImage.sprite = playerSprites[Random.Range(0, PlayerConfigurationManager.numberOfActivePlayers)];
+            mysteryPlayerImage.sprite = playerSprites[Random.Range(0, PlayerConfigurationManager.Instance.numberOfActivePlayers)];
             // rotationSpeed is slowed down in this part
             if (rotationSpeed >= 0)
             // 13f is just an arbitrary amount of time. It fit well
@@ -85,15 +85,15 @@ public class MysteryDrinkManager : MonoBehaviour
 
     private void AllowPlayerControl()
     {
-        for (int playerIndex = 0; playerIndex < PlayerConfigurationManager.numberOfActivePlayers; playerIndex++)
+        for (int playerIndex = 0; playerIndex < PlayerConfigurationManager.Instance.numberOfActivePlayers; playerIndex++)
         {
-            var playerController = PlayerConfigurationManager.playerControllers[playerIndex];
-            var inputUser = DifficultyAndScore.playerInputs[playerIndex].user;
-            var playerControlScheme = PlayerConfigurationManager.playerControlSchemes[playerIndex];
+            var playerController = PlayerConfigurationManager.Instance.playerControllers[playerIndex];
+            var inputUser = DifficultyAndScore.Instance.playerInputs[playerIndex].user;
+            var playerControlScheme = PlayerConfigurationManager.Instance.playerControlSchemes[playerIndex];
 
             //Might be useful for debugging the problem where a player sometimes can't control their assigned button
             Debug.Log("MysteryDrink \n __________________________");
-            Debug.Log($"Player {playerIndex + 1}'s deviceId = {PlayerConfigurationManager.playerControllers[playerIndex].deviceId}");
+            Debug.Log($"Player {playerIndex + 1}'s deviceId = {PlayerConfigurationManager.Instance.playerControllers[playerIndex].deviceId}");
 
             // Spawns the playerButtonGroup and assigns the PlayerInput object to a specific controller, controller scheme etc.
             PlayerInput playerInput = PlayerInput.Instantiate(playerButtonGroup, playerIndex, playerControlScheme, -1, playerController);

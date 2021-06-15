@@ -24,7 +24,7 @@ public class CrownInitializer : MonoBehaviour
     private void ActivateCrownCanvas()
     {
 
-        for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
+        for (int i = 0; i < PlayerConfigurationManager.Instance.numberOfActivePlayers; i++)
         {
             playerCrownCanvas[i].SetActive(true);
             CalculateCrowns(i);
@@ -35,7 +35,7 @@ public class CrownInitializer : MonoBehaviour
     // Calculates the amount of sips a player should drink based on their performance in the last minigame.
     private void CalculateCrowns(int playerIndex)
     {
-        int wonCrowns = DifficultyAndScore.acrossGamemodePlayerScore[$"Player {playerIndex + 1}"];
+        int wonCrowns = DifficultyAndScore.Instance.acrossGamemodePlayerScore[$"Player {playerIndex + 1}"];
         // Todo calculate the amount of sips a player should drink
         InitializeCrownSprites(playerIndex, wonCrowns);
     }
@@ -73,7 +73,7 @@ public class CrownInitializer : MonoBehaviour
         }
         if (wonCrowns == 5)
         {
-            DifficultyAndScore.gameWinner = $"Player {playerIndex + 1}";
+            DifficultyAndScore.Instance.gameWinner = $"Player {playerIndex + 1}";
             return;
         }
     }

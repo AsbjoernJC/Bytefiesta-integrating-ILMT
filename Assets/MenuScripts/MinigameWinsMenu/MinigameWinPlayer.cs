@@ -8,6 +8,6 @@ public class MinigameWinPlayer : GameInstructionsController
     {
         readyButton.gameObject.SetActive(false);
         pressedReadyButton.gameObject.SetActive(true);
-        MinigameWinManager.numberOfReadyPlayers ++;
+        MinigameWinManager.Instance.numberOfReadyPlayers ++;
     }
 }

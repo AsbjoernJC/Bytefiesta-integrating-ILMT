@@ -19,7 +19,7 @@ public class MenuPlayerInitializer : MonoBehaviour
     //have the same sprites as of now as they are the only character models
     private void InitializePlayerSprites()
     {
-        for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
+        for (int i = 0; i < PlayerConfigurationManager.Instance.numberOfActivePlayers; i++)
         {
             playerImages[i].enabled = true;
         }

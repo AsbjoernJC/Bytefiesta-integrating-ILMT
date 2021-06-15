@@ -7,26 +7,25 @@ using UnityEngine.InputSystem.Users;
 
 public class DifficultyAndScore : MonoBehaviour
 {
-    public static string difficulty;
-    public static int finishedMinigames = 0;
-    public static Dictionary<string, bool> difficulties = new Dictionary<string, bool>
+    public string difficulty;
+    public int finishedMinigames = 0;
+    public Dictionary<string, bool> difficulties = new Dictionary<string, bool>
     {
         {"Hardcore", false},
         {"Medium", false},
         {"Light", false}
     };    
 
-    public static Dictionary<string, int> acrossGamemodePlayerScore = new Dictionary<string, int>()
+    public Dictionary<string, int> acrossGamemodePlayerScore = new Dictionary<string, int>()
     {
         {"Player 1", 0},
         {"Player 2", 0},
         {"Player 3", 0},
         {"Player 4", 0}
     };
-    public static Dictionary<int, PlayerInput> playerInputs = new Dictionary<int, PlayerInput>();
-    
+    public Dictionary<int, PlayerInput> playerInputs = new Dictionary<int, PlayerInput>();
+    public string gameWinner;
     public static DifficultyAndScore Instance { get; set; }
-    public static string gameWinner;
     
 
     private void Awake()
@@ -46,8 +45,8 @@ public class DifficultyAndScore : MonoBehaviour
     {
         // Makes sure that difficulty is not set if players start playing after a player has already won the entire game
 
-        difficulty = gamemode;
-        difficulties[gamemode] = true;
-        Debug.Log($"{gamemode} difficulty is set to {difficulties[gamemode]}");
+        DifficultyAndScore.Instance.difficulty = gamemode;
+        DifficultyAndScore.Instance.difficulties[gamemode] = true;
+        Debug.Log($"{gamemode} difficulty is set to {DifficultyAndScore.Instance.difficulties[gamemode]}");
     }
 }

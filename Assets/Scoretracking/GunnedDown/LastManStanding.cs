@@ -34,7 +34,7 @@ public class LastManStanding : MonoBehaviour
         // As the playerStandings are saved to a public static dictionary we need to reset them when the minigame's finished
         // As the players might run into the minigame again.
         // Should reevaluate saving playerStandings to a public static dict. The same is true for deadPlayers.
-        for (int i = 0; i < PlayerConfigurationManager.numberOfActivePlayers; i++)
+        for (int i = 0; i < PlayerConfigurationManager.Instance.numberOfActivePlayers; i++)
             {
                 playerStandings[$"Player {i + 1}"] = 0;   
             }
@@ -51,7 +51,7 @@ public class LastManStanding : MonoBehaviour
         winner = playerWhoWon;
 
         // Adds a point to the player's overall score, amount of wins in each minigame that has been played
-        DifficultyAndScore.acrossGamemodePlayerScore[winner] ++;
+        DifficultyAndScore.Instance.acrossGamemodePlayerScore[winner] ++;
         // Time.timeScale prevents players from moving.
         Time.timeScale = 0f;
         instance.StartCoroutine("DisplayWinner");
@@ -72,7 +72,7 @@ public class LastManStanding : MonoBehaviour
         minigameEndImagery.gameObject.SetActive(true);
 
         yield return new WaitForSecondsRealtime(3.5f);
-        DifficultyAndScore.finishedMinigames ++;
+        DifficultyAndScore.Instance.finishedMinigames ++;
         Time.timeScale = 1f;
 
 
