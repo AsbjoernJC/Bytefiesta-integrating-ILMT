@@ -44,6 +44,7 @@ public class PowerUp0 : MonoBehaviour
             player.GetComponent<PlayerController>().GotShieldPowerUp();
             Destroy(gameObject);
         }
+        // Todo set PowerUpInitializer.spawnpointOccupation to false when this object is picked up
         
     }
 }

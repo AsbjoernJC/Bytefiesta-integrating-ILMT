@@ -10,9 +10,11 @@ public class PowerUpInitializer : MonoBehaviour
     public Transform[] spawnPoints;
     private bool powerUpInScene = false;
     private int initialNumberOfPlayers = 0;
+    private int assumedSpawnPoint;
+    private int bestSpawnPoint;
     
     public static List<GameObject> activePlayers = new List<GameObject>();
-    List<string> playerNames = new List<string>() 
+    private List<string> playerNames = new List<string>() 
     {
         "Player 1",
         "Player 2",
@@ -20,7 +22,19 @@ public class PowerUpInitializer : MonoBehaviour
         "Player 4",
     };
 
-    private int bestSpawnPoint;
+    private Dictionary<string, bool> spawnpointOccupation = new Dictionary<string, bool>
+    {
+        {"Spawnpoint 1", false},
+        {"Spawnpoint 2", false},
+        {"Spawnpoint 3", false},
+        {"Spawnpoint 4", false},
+        {"Spawnpoint 5", false},
+        {"Spawnpoint 6", false},
+        {"Spawnpoint 7", false},
+        {"Spawnpoint 8", false},
+        {"Spawnpoint 9", false}
+    };
+
 
 
     void Update()
@@ -89,11 +103,13 @@ public class PowerUpInitializer : MonoBehaviour
             }
             if (smallestDistanceToPlayer > bestDistanceToPlayers)
             {
-                bestSpawnPoint = i;
+                assumedSpawnPoint = i;
+                // todo if (assumedSpawnPoint already contains a powerup then we should break)
                 bestDistanceToPlayers = smallestDistanceToPlayer;
             }
             smallestDistanceToPlayer = 50f;
         }
+        bestSpawnPoint = assumedSpawnPoint;
         SpawnPowerUp();
         CancelInvoke("FindEligibleSpawnPoint");
     }
@@ -104,6 +120,7 @@ public class PowerUpInitializer : MonoBehaviour
     private void SpawnPowerUp()
     {
         Instantiate(powerUps[Random.Range(0, powerUps.Length)], spawnPoints[bestSpawnPoint]);
+        spawnpointOccupation[$"Spawnpoint {bestSpawnPoint + 1}"] = true;
         powerUpInScene = true;
     }
 
