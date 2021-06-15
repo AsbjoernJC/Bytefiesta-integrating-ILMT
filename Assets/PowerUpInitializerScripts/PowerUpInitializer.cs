@@ -42,6 +42,7 @@ public class PowerUpInitializer : MonoBehaviour
         if (activePlayers.Count == 0)
             FindPlayers();
 
+    // There are only 9 spawnpoints. If all are full no powerup should be spawned
         if (occupiedSpawnpoints != 9)
             FindPowerUps();
     }
@@ -98,9 +99,6 @@ public class PowerUpInitializer : MonoBehaviour
             }
         }
 
-        // There are only 9 spawnpoints. If all are full no powerup should be spawned
-        if (occupiedSpawnpoints == 9)
-            return;
 
         bestSpawnPoint = assumedSpawnPoint;
         SpawnPowerUp();
