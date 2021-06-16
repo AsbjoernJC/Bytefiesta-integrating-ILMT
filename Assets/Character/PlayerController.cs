@@ -179,9 +179,9 @@ public class PlayerController : MonoBehaviour
 // Weird bug with the animator. When holding down the jumpbutton the Player_Jump animation will not be played but rather the Player_Idle or Player_Run
     public void OnJump(InputAction.CallbackContext context)
     {
+        animator.SetBool("IsJumping", true);
         if (context.action.triggered)
         {
-            animator.SetBool("IsJumping", true);
             if (canCoyote)
             {
                 rB2D.velocity = Vector2.up * m_JumpForce;
