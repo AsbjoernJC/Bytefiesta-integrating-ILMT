@@ -23,11 +23,11 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rB2D;
     private BoxCollider2D bC2D;
     private CapsuleCollider2D cC2D;
-    private Vector3 playerPosition;
+    protected Vector3 playerPosition;
     private PlayerControls controls;
     private bool m_FacingRight = true;
     private bool canDoubleJump;
-    private bool hasShieldPowerUp = false;
+    protected bool hasShieldPowerUp = false;
     private bool hasNormalBullet = true;
     private bool canCoyote = false;
     private bool coyoteStarted = false;
@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
     private Quaternion shootingAngle;
     private Quaternion normalBulletAngle; 
 
-    private int bulletCounter = 0;
+    protected int bulletCounter = 0;
     public Sprite shieldSprite;
     public SpriteRenderer shieldPoint;
     public Transform firePoint; 
@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Awake() 
+    protected virtual void Awake() 
     {
         // awake only runs once ie. on initialization.
         rB2D = gameObject.GetComponent<Rigidbody2D>();
@@ -59,13 +59,8 @@ public class PlayerController : MonoBehaviour
         cC2D = transform.GetComponent<CapsuleCollider2D>();
     }
 
-    void Update()
+    protected virtual void Update()
     {
-        if (OutOfBounds() != new Vector3(0f, 0f))
-        {
-            transform.position = OutOfBounds();
-        }
-
         if (IsGrounded())
         {
             animator.SetBool("IsJumping", false);
@@ -264,18 +259,14 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public void GotBulletPowerUp()
+    public virtual void GotBulletPowerUp()
     {
-        bulletCounter = 3;
-        var sS = GetComponentInChildren<SpriteSpawner>();
-        sS.SpawnBulletSprites(bulletCounter);
+
     }
 
-    public void GotShieldPowerUp()
+    public virtual void GotShieldPowerUp()
     {
-        hasShieldPowerUp = true;
-        var sS = GetComponentInChildren<SpriteSpawner>();
-        sS.SpawnShieldSprite();
+
     }
 
     private bool IsGrounded() 
@@ -323,28 +314,8 @@ public class PlayerController : MonoBehaviour
   	    transform.Rotate(0f, 180f, 0);
     }
 
-    private Vector3 OutOfBounds()
+    protected virtual Vector3 OutOfBounds()
     {
-        if(transform.position.x >= 30.86)
-        {
-            playerPosition = new Vector3(-transform.position.x + 0.1f, transform.position.y);
-            return playerPosition;
-        }
-        else if (transform.position.x <= -30.86)
-        {
-            playerPosition = new Vector3(-transform.position.x - 0.1f, transform.position.y);
-            return playerPosition;
-        }
-        else if (transform.position.y >= 16.87)
-        {
-            playerPosition = new Vector3(transform.position.x, -16.77f);
-            return playerPosition;
-        }
-        else if (transform.position.y <= -16.87)
-        {
-            playerPosition = new Vector3(transform.position.x, 16.77f);
-            return playerPosition;
-        }
         playerPosition = new Vector3(0f, 0f);
         return playerPosition;
     }
