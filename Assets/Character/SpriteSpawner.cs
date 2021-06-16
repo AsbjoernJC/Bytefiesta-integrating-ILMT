@@ -17,11 +17,6 @@ public class SpriteSpawner : MonoBehaviour
     private bool hasNormalBullet;
 
 
-// Players start with their normal bullet
-    private void Awake() 
-    {
-        SpawnNormalBullet();
-    }
 
     // should not be assigned to spriteLocations[0] as it could override a useable shield powerup slot.
     public void SpawnBulletSprites(int bulletCounter)

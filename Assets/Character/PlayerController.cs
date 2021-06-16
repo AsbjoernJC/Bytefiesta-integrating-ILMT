@@ -28,13 +28,13 @@ public class PlayerController : MonoBehaviour
     private bool m_FacingRight = true;
     private bool canDoubleJump;
     protected bool hasShieldPowerUp = false;
-    private bool hasNormalBullet = true;
+    protected bool hasNormalBullet = true;
     private bool canCoyote = false;
     private bool coyoteStarted = false;
-    private float reloadSpeed = 0.4f;
+    protected float reloadSpeed = 0.4f;
 
-    private Quaternion shootingAngle;
-    private Quaternion normalBulletAngle; 
+    protected Quaternion shootingAngle;
+    protected Quaternion normalBulletAngle; 
 
     protected int bulletCounter = 0;
     public Sprite shieldSprite;
@@ -175,67 +175,13 @@ public class PlayerController : MonoBehaviour
         firePoint.transform.rotation = Quaternion.Euler(0, 0, rotZ);
     }
 
-// Should probably change the name to UsePowerUp or something else. It is not limited to bullets only.
-    public void UseBulletPowerUp(InputAction.CallbackContext context)
-    {
-        bool powerUpBullet = false;
-        if (context.action.triggered && hasShieldPowerUp)
-        {
-            var sS = GetComponentInChildren<SpriteSpawner>();
-            sS.RemoveSprite();
-            var player = this.gameObject;
-            player.GetComponent<Stats>().GainHealth(1);
-            shieldPoint.sprite = shieldSprite;
-            hasShieldPowerUp = false;
-            return;
-        }
-
-        if (context.action.triggered && bulletCounter > 0)
-        {
-            powerUpBullet = true;
-            var playerName = this.name;
-            
-            BulletManager.Shoot(firePoint, powerUp[0], shootingAngle, playerName, powerUpBullet);
-            bulletCounter --;
-            var sS = GetComponentInChildren<SpriteSpawner>();
-            sS.RemoveBulletSprite(bulletCounter);
-            return;
-        }
-        // Shoots the normal bullet.
-        // Todo: The player should only be able to shoot a normal bullet once every x seconds thinking (0.5-1)
-        // This can be done by calling a coroutine (RefillBullet or the likes) after having shot the normal bullet
-        // The players should probably spawn with the normal bullet sprite and have it be ready for use.
-        // Should also have a sprite for SpriteSpawner,
-        // Can remove sprite here and in the coroutine that rese ts the bullet could draw the sprite and
-        // allow the player to shoot again, however, only when bulletCounter < 0. Should maybe allow the player to shoot
-        // if hasShieldPowerUp = true;
-        if (context.action.triggered && hasNormalBullet)
-        {
-            powerUpBullet = false;
-            var playerName = this.name;
-            BulletManager.Shoot(firePoint, powerUp[1], normalBulletAngle, playerName, powerUpBullet);
-            var sS = GetComponentInChildren<SpriteSpawner>();
-            sS.RemoveSprite();
-            hasNormalBullet = false;
-            StartCoroutine(ReloadBullet(sS));
-        }
-    }
-
-    private IEnumerator ReloadBullet(SpriteSpawner sS)
-    {
-        yield return new WaitForSeconds(reloadSpeed);
-        if (bulletCounter != 0 || hasShieldPowerUp)
-            yield return null;
-        hasNormalBullet = true;
-        sS.SpawnNormalBullet();
-    }
 
 // Weird bug with the animator. When holding down the jumpbutton the Player_Jump animation will not be played but rather the Player_Idle or Player_Run
     public void OnJump(InputAction.CallbackContext context)
     {
-        animator.SetBool("IsJumping", true);
         if (context.action.triggered)
         {
+            animator.SetBool("IsJumping", true);
             if (canCoyote)
             {
                 rB2D.velocity = Vector2.up * m_JumpForce;
