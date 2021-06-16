@@ -205,6 +205,11 @@ public class PlayerController : MonoBehaviour
 
     }
 
+// GotBulletPowerUp() and GotShieldPowerUp() are still in PlayerControlle
+// to avoid having to find the minigames specific
+// playercontroller dynamically
+// This is the reference in PowerUp0
+// player.GetComponent<PlayerController>().GotBulletPowerUp();
     public virtual void GotBulletPowerUp()
     {
 
@@ -253,18 +258,16 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+
+
     private void Flip()
     {
         // Switch the way the player is labelled as facing.
 	    m_FacingRight = !m_FacingRight;
+        // Turns the player 180 degrees when turning horizontally
   	    transform.Rotate(0f, 180f, 0);
     }
 
-    protected virtual Vector3 OutOfBounds()
-    {
-        playerPosition = new Vector3(0f, 0f);
-        return playerPosition;
-    }
 
 }
 

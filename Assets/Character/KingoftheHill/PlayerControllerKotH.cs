@@ -96,7 +96,7 @@ public class PlayerControllerKotH : PlayerController
         sS.SpawnShieldSprite();
     }
 
-    protected override Vector3 OutOfBounds()
+    private Vector3 OutOfBounds()
     {
         if(transform.position.x >= 30.86)
         {
