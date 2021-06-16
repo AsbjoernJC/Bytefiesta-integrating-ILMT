@@ -8,6 +8,10 @@ Assets/*
 Assets/Character/*
 !Assets/Character/*.cs
 
+!Assets/Character/KingoftheHill
+!Assets/Character/KingoftheHill/*.cs
+
+
 !Assets/PlayerSelect
 Assets/PlayerSelect/*
 !Assets/PlayerSelect/*.cs

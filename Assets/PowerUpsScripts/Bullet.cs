@@ -124,6 +124,7 @@ public class Bullet : MonoBehaviour
         float smallestDistanceToPlayer = 100f;
         string playerWhoShot = bulletTag.Split( )[0] + " " + bulletTag.Split( )[1];
 
+        FindPlayerLoopStart:
         while (smallestDistanceToPlayer > 9f)
         {
             for (int i = 0; i < PlayerConfigurationManager.Instance.numberOfActivePlayers; i++)
@@ -156,6 +157,11 @@ public class Bullet : MonoBehaviour
         while (smallestDistanceToPlayer < 9f && smallestDistanceToPlayer > 3.5f)
         {
             // transform.rotation = new Quaternion.Euler
+            if (targetedPlayer == null)
+            {
+                yield return null;
+                goto FindPlayerLoopStart;
+            }
             Vector2 direction = (Vector2)targetedPlayer.transform.position - (Vector2)transform.position;
             direction.Normalize();
             float rotateAmount = Vector3.Cross(direction, transform.up).z;

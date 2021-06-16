@@ -23,20 +23,20 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rB2D;
     private BoxCollider2D bC2D;
     private CapsuleCollider2D cC2D;
-    private Vector3 playerPosition;
+    protected Vector3 playerPosition;
     private PlayerControls controls;
     private bool m_FacingRight = true;
     private bool canDoubleJump;
-    private bool hasShieldPowerUp = false;
-    private bool hasNormalBullet = true;
+    protected bool hasShieldPowerUp = false;
+    protected bool hasNormalBullet = true;
     private bool canCoyote = false;
     private bool coyoteStarted = false;
-    private float reloadSpeed = 0.4f;
+    protected float reloadSpeed = 0.4f;
 
-    private Quaternion shootingAngle;
-    private Quaternion normalBulletAngle; 
+    protected Quaternion shootingAngle;
+    protected Quaternion normalBulletAngle; 
 
-    private int bulletCounter = 0;
+    protected int bulletCounter = 0;
     public Sprite shieldSprite;
     public SpriteRenderer shieldPoint;
     public Transform firePoint; 
@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Awake() 
+    protected virtual void Awake() 
     {
         // awake only runs once ie. on initialization.
         rB2D = gameObject.GetComponent<Rigidbody2D>();
@@ -59,13 +59,8 @@ public class PlayerController : MonoBehaviour
         cC2D = transform.GetComponent<CapsuleCollider2D>();
     }
 
-    void Update()
+    protected virtual void Update()
     {
-        if (OutOfBounds() != new Vector3(0f, 0f))
-        {
-            transform.position = OutOfBounds();
-        }
-
         if (IsGrounded())
         {
             animator.SetBool("IsJumping", false);
@@ -180,60 +175,6 @@ public class PlayerController : MonoBehaviour
         firePoint.transform.rotation = Quaternion.Euler(0, 0, rotZ);
     }
 
-// Should probably change the name to UsePowerUp or something else. It is not limited to bullets only.
-    public void UseBulletPowerUp(InputAction.CallbackContext context)
-    {
-        bool powerUpBullet = false;
-        if (context.action.triggered && hasShieldPowerUp)
-        {
-            var sS = GetComponentInChildren<SpriteSpawner>();
-            sS.RemoveSprite();
-            var player = this.gameObject;
-            player.GetComponent<Stats>().GainHealth(1);
-            shieldPoint.sprite = shieldSprite;
-            hasShieldPowerUp = false;
-            return;
-        }
-
-        if (context.action.triggered && bulletCounter > 0)
-        {
-            powerUpBullet = true;
-            var playerName = this.name;
-            
-            BulletManager.Shoot(firePoint, powerUp[0], shootingAngle, playerName, powerUpBullet);
-            bulletCounter --;
-            var sS = GetComponentInChildren<SpriteSpawner>();
-            sS.RemoveBulletSprite(bulletCounter);
-            return;
-        }
-        // Shoots the normal bullet.
-        // Todo: The player should only be able to shoot a normal bullet once every x seconds thinking (0.5-1)
-        // This can be done by calling a coroutine (RefillBullet or the likes) after having shot the normal bullet
-        // The players should probably spawn with the normal bullet sprite and have it be ready for use.
-        // Should also have a sprite for SpriteSpawner,
-        // Can remove sprite here and in the coroutine that rese ts the bullet could draw the sprite and
-        // allow the player to shoot again, however, only when bulletCounter < 0. Should maybe allow the player to shoot
-        // if hasShieldPowerUp = true;
-        if (context.action.triggered && hasNormalBullet)
-        {
-            powerUpBullet = false;
-            var playerName = this.name;
-            BulletManager.Shoot(firePoint, powerUp[1], normalBulletAngle, playerName, powerUpBullet);
-            var sS = GetComponentInChildren<SpriteSpawner>();
-            sS.RemoveSprite();
-            hasNormalBullet = false;
-            StartCoroutine(ReloadBullet(sS));
-        }
-    }
-
-    private IEnumerator ReloadBullet(SpriteSpawner sS)
-    {
-        yield return new WaitForSeconds(reloadSpeed);
-        if (bulletCounter != 0 || hasShieldPowerUp)
-            yield return null;
-        hasNormalBullet = true;
-        sS.SpawnNormalBullet();
-    }
 
 // Weird bug with the animator. When holding down the jumpbutton the Player_Jump animation will not be played but rather the Player_Idle or Player_Run
     public void OnJump(InputAction.CallbackContext context)
@@ -264,18 +205,19 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public void GotBulletPowerUp()
+// GotBulletPowerUp() and GotShieldPowerUp() are still in PlayerControlle
+// to avoid having to find the minigames specific
+// playercontroller dynamically
+// This is the reference in PowerUp0
+// player.GetComponent<PlayerController>().GotBulletPowerUp();
+    public virtual void GotBulletPowerUp()
     {
-        bulletCounter = 3;
-        var sS = GetComponentInChildren<SpriteSpawner>();
-        sS.SpawnBulletSprites(bulletCounter);
+
     }
 
-    public void GotShieldPowerUp()
+    public virtual void GotShieldPowerUp()
     {
-        hasShieldPowerUp = true;
-        var sS = GetComponentInChildren<SpriteSpawner>();
-        sS.SpawnShieldSprite();
+
     }
 
     private bool IsGrounded() 
@@ -316,38 +258,16 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+
+
     private void Flip()
     {
         // Switch the way the player is labelled as facing.
 	    m_FacingRight = !m_FacingRight;
+        // Turns the player 180 degrees when turning horizontally
   	    transform.Rotate(0f, 180f, 0);
     }
 
-    private Vector3 OutOfBounds()
-    {
-        if(transform.position.x >= 30.86)
-        {
-            playerPosition = new Vector3(-transform.position.x + 0.1f, transform.position.y);
-            return playerPosition;
-        }
-        else if (transform.position.x <= -30.86)
-        {
-            playerPosition = new Vector3(-transform.position.x - 0.1f, transform.position.y);
-            return playerPosition;
-        }
-        else if (transform.position.y >= 16.87)
-        {
-            playerPosition = new Vector3(transform.position.x, -16.77f);
-            return playerPosition;
-        }
-        else if (transform.position.y <= -16.87)
-        {
-            playerPosition = new Vector3(transform.position.x, 16.77f);
-            return playerPosition;
-        }
-        playerPosition = new Vector3(0f, 0f);
-        return playerPosition;
-    }
 
 }
 
