@@ -22,6 +22,10 @@ public class GameInstructionsController : MonoBehaviour
         pressedReadyButton.gameObject.SetActive(false);
     }
 
+// Bugs where SetPlayerReady was not registering could have been due
+// to having "Deselect on background click" enabled:
+// https://forum.unity.com/threads/feature-request-option-to-disable-deselect-in-ui-input-module.761531/
+// Will see if that was the cause of rare and random loss of controls
     public virtual void SetPlayerReady()
     {
         readyButton.gameObject.SetActive(false);
