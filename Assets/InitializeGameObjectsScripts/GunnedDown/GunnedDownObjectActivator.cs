@@ -12,8 +12,6 @@ public class GunnedDownObjectActivator : GameObjectActivator
     private void Awake()
     {
         ActivateObjects(cannons);
-        ActivateObjects(playerHearts);
-        ActivateObjects(playerTexts);
     }
 
 }

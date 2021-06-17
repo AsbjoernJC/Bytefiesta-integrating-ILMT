@@ -33,7 +33,7 @@ public class Cannon : MonoBehaviour
             // if (timePassed % 1 == 0)
             // {
             chosenCannon = Random.Range(0, 2);
-            EnemyBullet.Shoot(cannonFirepoints[chosenCannon], bulletPrefab, shootingAngle, bulletSpeed);
+            CannonBullets.Shoot(cannonFirepoints[chosenCannon], bulletPrefab, shootingAngle, bulletSpeed);
             yield return new WaitForSeconds(CannonballSpawnRate());
             timePassed += 1f;
             // } 
