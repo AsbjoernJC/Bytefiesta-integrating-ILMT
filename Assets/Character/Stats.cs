@@ -18,6 +18,9 @@ public class Stats : MonoBehaviour
     // If a player's health goes below 0, the player is dead and should therefore be respawned on a timer.
     public void TakeDamage(int damage, string playerWhoDealtDamage)
     {
+        // If the player's health is zero when this function is called
+        // it must have already taken account for the player's death
+        // as it is handled here
         if (health == 0)
             return;
 

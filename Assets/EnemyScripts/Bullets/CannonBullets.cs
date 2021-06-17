@@ -3,31 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-[RequireComponent(typeof(Rigidbody2D))]
-public class EnemyBullet : MonoBehaviour
+public class CannonBullets : EnemyBullet
 {
-    protected static Rigidbody2D rB2D;
-    protected string collisionTag;
-    protected GameObject player;
-    protected bool hasCollided = false;
 
-    // Start is called before the first frame update
-
-
-    protected virtual void Awake() 
-    {
-        rB2D = this.GetComponent<Rigidbody2D>();
-    }
-
-
-// Checks the object the enemy's bullet is colliding with
-    protected virtual void OnTriggerEnter2D(Collider2D collider) 
+    protected override void OnTriggerEnter2D(Collider2D collider) 
     {
         string collision = collider.ToString();
         collisionTag = collider.tag;
 
         // Anything that isn't a player
-        if (collision.Contains(this.name))
+        if (collision.Contains("KingoftheHill") || collision.Contains(this.name) ||collision.Contains("Cannon"))
             return;
 
         // A player's head detection is a child of the player prefab therefore we need to get the gameobject of the parent
@@ -43,12 +28,18 @@ public class EnemyBullet : MonoBehaviour
         if (collisionTag.Contains("Player") && hasCollided == false)
         {
             player.GetComponent<Stats>().TakeDamageAnonomously(1);
+            string playerIndex = player.name.Split( )[1];
+            int playerHealth = player.GetComponent<Stats>().health;
+            HealthUIUpdater.instance.ChangePlayerText(Int32.Parse(playerIndex), playerHealth);
             hasCollided = true;
         }
         Destroy(gameObject);
     }
 
-// Creates the bullet in scene and gives it a direction and velocity.
-
+    public static void Shoot(Transform firePoint, GameObject bullet, Quaternion shootingAngle, float bulletSpeed)
+    {
+        GameObject bulletInstance = Instantiate(bullet, firePoint.transform.position, shootingAngle);
+        rB2D.AddForce(firePoint.up * bulletSpeed, ForceMode2D.Impulse);
+    }
 
 }
