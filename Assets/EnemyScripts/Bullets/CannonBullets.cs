@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class CannonBullets : EnemyBullet
 {
@@ -27,6 +28,9 @@ public class CannonBullets : EnemyBullet
         if (collisionTag.Contains("Player") && hasCollided == false)
         {
             player.GetComponent<Stats>().TakeDamageAnonomously(1);
+            string playerIndex = player.name.Split( )[1];
+            int playerHealth = player.GetComponent<Stats>().health;
+            HealthUIUpdater.instance.ChangePlayerText(Int32.Parse(playerIndex), playerHealth);
             hasCollided = true;
         }
         Destroy(gameObject);

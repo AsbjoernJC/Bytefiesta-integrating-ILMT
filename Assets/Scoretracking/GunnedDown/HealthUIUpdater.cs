@@ -1,18 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class HealthUIUpdater : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] public TMP_Text[] playerTexts;
+
+    public static HealthUIUpdater instance {get; private set; }
+    void Awake()
     {
-        
+        instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ChangePlayerText(int playerIndex, int playerHealth)
     {
-        
+        playerTexts[playerIndex - 1].text = playerHealth.ToString();
     }
 }
