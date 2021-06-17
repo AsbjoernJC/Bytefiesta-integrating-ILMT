@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
+
 public class GameInstructionsController : MonoBehaviour
 {
     [SerializeField]
@@ -34,7 +34,7 @@ public class GameInstructionsController : MonoBehaviour
         readyButton.gameObject.SetActive(false);
         pressedReadyButton.gameObject.SetActive(true);
         GameInstructionsManager.numberOfReadyPlayers ++;
-        
+
         hasPressedReady = true;
     }
 

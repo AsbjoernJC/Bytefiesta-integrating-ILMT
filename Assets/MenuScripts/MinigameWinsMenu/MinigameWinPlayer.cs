@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.InputSystem;
+
 
 public class MinigameWinPlayer : GameInstructionsController
 {
@@ -13,7 +10,7 @@ public class MinigameWinPlayer : GameInstructionsController
         readyButton.gameObject.SetActive(false);
         pressedReadyButton.gameObject.SetActive(true);
         MinigameWinManager.Instance.numberOfReadyPlayers ++;
-        
+
         hasPressedReady = true;
     }
 }
