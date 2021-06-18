@@ -6,7 +6,6 @@ using System.Linq;
 using UnityEngine.SceneManagement;
 using System;
 using Random = UnityEngine.Random;
-using UnityEngine.InputSystem.Users;
 
 public class PlayerConfigurationManager : MonoBehaviour
 {
