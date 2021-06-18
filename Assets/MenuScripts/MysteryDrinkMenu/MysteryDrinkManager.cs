@@ -46,15 +46,24 @@ public class MysteryDrinkManager : MonoBehaviour
         if (numberOfReadyPlayers == PlayerConfigurationManager.Instance.numberOfActivePlayers)
         {
                 var unchosenMinigames = DifficultyAndScore.Instance.unchosenMinigames;
+                var minigames = DifficultyAndScore.Instance.minigames;
 
                 // picks a random scene index by choosing the value at a random index in unchosenMinigames
                 int chosenScene = unchosenMinigames[Random.Range(0, unchosenMinigames.Count)];
                 unchosenMinigames.RemoveAll(scene => scene == chosenScene);
 
-                // With 2 minigames we have to cycle them back in: Adds back the minigame that was not picked
-                // Todo: make this scalable. This is not scalable: with more minigames (if not sufficient for a player winnning)
-                // it would end up shuffling between two minigames the entire time
-                unchosenMinigames.Add(DifficultyAndScore.Instance.lastMinigameIndex);
+                // Loops through all the possible minigames and adds every minigame/scene to
+                // unchosenMinigames except chosenScene as this is the minigame they are about to play
+                if (unchosenMinigames.Count == 0)
+                {
+                    for (int i = 0; i < minigames.Count; i++)
+                    {
+                        if (minigames[i] != chosenScene)
+                        {
+                            unchosenMinigames.Add(DifficultyAndScore.Instance.lastMinigameIndex);
+                        }
+                    }
+                }
                 SceneManager.LoadScene(chosenScene);
         }
     }
