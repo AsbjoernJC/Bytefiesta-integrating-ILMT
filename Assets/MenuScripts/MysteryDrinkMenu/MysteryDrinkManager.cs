@@ -53,6 +53,8 @@ public class MysteryDrinkManager : MonoBehaviour
                 unchosenMinigames.RemoveAll(scene => scene == chosenScene);
 
                 // With 2 minigames we have to cycle them back in: Adds back the minigame that was not picked
+                // Todo: make this scalable. This is not scalable: with more minigames (if not sufficient for a player winnning)
+                // it would end up shuffling between two minigames the entire time
                 unchosenMinigames.Add(DifficultyAndScore.Instance.lastMinigameIndex);
                 SceneManager.LoadScene(chosenScene);
         }
