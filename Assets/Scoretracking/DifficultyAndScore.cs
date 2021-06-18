@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.UI;
-using UnityEngine.InputSystem.Users;
 
 public class DifficultyAndScore : MonoBehaviour
 {
@@ -23,8 +21,20 @@ public class DifficultyAndScore : MonoBehaviour
         {"Player 3", 0},
         {"Player 4", 0}
     };
+
+    public List<int> minigames = new List<int>()
+    {
+        // the build indexes of the minigames start at 4, number 4 included.
+        4,
+        5
+    };
+
+    // When there is enough minigames unchosenMinigames might just be a list 
+    // containing the only games to pick from. For now we will cycle minigames in and out of this list
+    public List<int> unchosenMinigames = new List<int>();
     public Dictionary<int, PlayerInput> playerInputs = new Dictionary<int, PlayerInput>();
     public string gameWinner;
+    public int lastMinigameIndex;
     public static DifficultyAndScore Instance { get; set; }
     
 
@@ -38,6 +48,7 @@ public class DifficultyAndScore : MonoBehaviour
         else
         {
             Instance = this;
+            unchosenMinigames.AddRange(minigames);
         }        
     }
 

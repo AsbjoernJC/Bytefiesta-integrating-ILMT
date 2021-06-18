@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Users;
 using UnityEngine.SceneManagement;
 
 public class MysteryDrinkManager : MonoBehaviour
@@ -18,7 +17,7 @@ public class MysteryDrinkManager : MonoBehaviour
     [SerializeField]
     private GridLayoutGroup buttonGroup;
 
-    public static int numberOfReadyPlayers = 0;
+    public int numberOfReadyPlayers = 0;
 
 
     public static MysteryDrinkManager Instance { get; private set; }
@@ -46,9 +45,17 @@ public class MysteryDrinkManager : MonoBehaviour
     {
         if (numberOfReadyPlayers == PlayerConfigurationManager.Instance.numberOfActivePlayers)
         {
-            // Todo add more minigames and select one at random here
-            SceneManager.LoadScene(Random.Range(4, 6));
-            numberOfReadyPlayers = 0;
+                var unchosenMinigames = DifficultyAndScore.Instance.unchosenMinigames;
+
+                // picks a random scene index by choosing the value at a random index in unchosenMinigames
+                int chosenScene = unchosenMinigames[Random.Range(0, unchosenMinigames.Count)];
+                unchosenMinigames.RemoveAll(scene => scene == chosenScene);
+
+                // With 2 minigames we have to cycle them back in: Adds back the minigame that was not picked
+                // Todo: make this scalable. This is not scalable: with more minigames (if not sufficient for a player winnning)
+                // it would end up shuffling between two minigames the entire time
+                unchosenMinigames.Add(DifficultyAndScore.Instance.lastMinigameIndex);
+                SceneManager.LoadScene(chosenScene);
         }
     }
 
