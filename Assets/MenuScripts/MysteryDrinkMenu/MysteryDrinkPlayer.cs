@@ -8,7 +8,7 @@ public class MysteryDrinkPlayer : GameInstructionsController
 
         readyButton.gameObject.SetActive(false);
         pressedReadyButton.gameObject.SetActive(true);
-        MysteryDrinkManager.numberOfReadyPlayers ++;
+        MysteryDrinkManager.Instance.numberOfReadyPlayers ++;
 
         hasPressedReady = true;
     }

@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 using UnityEngine.SceneManagement;
+using System.Linq;
+
 
 public class MinigameWinManager : MonoBehaviour
 {
@@ -60,11 +62,23 @@ public class MinigameWinManager : MonoBehaviour
             // Loads a random minigame. For now there is only KingoftheHill and GunnedDown
             else 
             {
-                SceneManager.LoadScene(Random.Range(4, 6));
+                var unchosenMinigames = DifficultyAndScore.Instance.unchosenMinigames;
+
+                // picks a random scene index by choosing the value at a random index in unchosenMinigames
+                int chosenScene = unchosenMinigames[Random.Range(0, unchosenMinigames.Count)];
+                unchosenMinigames.RemoveAll(scene => scene == chosenScene);
+
+                // With 2 minigames we have to cycle them back in: Adds back the minigame that was not picked
+                unchosenMinigames.Add(DifficultyAndScore.Instance.lastMinigameIndex);
+                DifficultyAndScore.Instance.lastMinigameIndex = chosenScene;
+                SceneManager.LoadScene(chosenScene);
             }
                 numberOfReadyPlayers = 0;
             }
     }
+
+
+
 
 
     private void AllowPlayerControl()
