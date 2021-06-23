@@ -11,4 +11,9 @@ public class PlayerControllerTrapRun : PlayerController
         Physics.IgnoreLayerCollision(6, 6);
     }
 
+    protected override void Update()
+    {
+        base.Update();
+    }
+
 }
