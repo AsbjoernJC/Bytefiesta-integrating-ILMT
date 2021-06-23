@@ -20,7 +20,7 @@ public class LevelInitializer : MonoBehaviour
     public static string sceneName;
     int playerToRespawnIndex;
     int numberOfScoreUI;
-    public float respawnTimer = 4f;
+    public int respawnTimer = 4;
     public static Dictionary<string, Dictionary<string, bool>> levelRules = new Dictionary<string, Dictionary<string, bool>>()
     {
         {"KingoftheHill", new Dictionary<string, bool>{
@@ -151,7 +151,7 @@ public class LevelInitializer : MonoBehaviour
         
         // Checks in levelRules if this players should respawn in this minigame
         if (levelRules[sceneName]["playersRespawn"])
-            StartCoroutine(RespawnPlayer(4, playerToRespawnIndex));
+            StartCoroutine(RespawnPlayer(respawnTimer, playerToRespawnIndex));
 
         // Checks in the levelRules if is a lastmanstanding type of game meaning the last player alive wins
         if (levelRules[sceneName]["lastManStanding"])

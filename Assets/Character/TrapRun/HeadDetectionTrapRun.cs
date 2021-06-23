@@ -22,7 +22,7 @@ public class HeadDetectionTrapRun : HeadDetection
             // For a player to take from a person jumping on their head the jumper will have to be in a falling motion or still in the air
             if (jumper.velocity.y <= 0)
             {
-                player.GetComponent<Stats>().TakeDamage(1, colliderName);
+                player.GetComponent<Stats>().TakeDamageAnonomously(1);
             }
 
             return;
@@ -33,7 +33,7 @@ public class HeadDetectionTrapRun : HeadDetection
 
         if (collision.Contains("Player") && collision.Contains("BoxCollider") && jumper.velocity.y <= 0)
         {
-            player.GetComponent<Stats>().TakeDamage(1, colliderName);
+            player.GetComponent<Stats>().TakeDamageAnonomously(1);
         }
     }
 }
