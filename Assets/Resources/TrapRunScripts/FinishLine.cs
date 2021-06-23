@@ -36,6 +36,5 @@ public class FinishLine : MonoBehaviour
             // Todo log winner and playerstandings. Maybe based on how many times the players died
             SceneManager.LoadScene("MinigameWinsMenu");
         }
-        Destroy(gameObject);
     }
 }
