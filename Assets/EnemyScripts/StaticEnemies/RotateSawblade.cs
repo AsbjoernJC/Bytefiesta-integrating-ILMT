@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RotateSawblade : MonoBehaviour
 {
+    // Todo: Should make a base class that collides with players and deals damage. This should derive from that class
     // rotationSpeed is in units of angle (degrees) / second meaning the sawblade will have rotated 720degrees after 1 second
     [SerializeField] public float rotationSpeed = 720f;
     private Transform sawBlade;

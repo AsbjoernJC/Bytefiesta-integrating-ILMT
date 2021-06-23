@@ -2,32 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RotateAxe : MonoBehaviour
+public class Spikes : MonoBehaviour
 {
     // Todo: Should make a base class that collides with players and deals damage. This should derive from that class
-    [SerializeField] public Transform rotationPoint;
-
-    // rotationSpeed is in units of angle (degrees) / second
-    [SerializeField] public float rotationSpeed = 60f;
-    private Transform axeTransform;
-
     private string collisionTag;
     private GameObject player;
     private bool hasCollided = false;
-
-
-    private void Awake()
-    {
-        axeTransform = this.gameObject.transform;
-    }
-
-
-    // Update is called once per frame
-    private void Update()
-    {
-        axeTransform.RotateAround(rotationPoint.position, new Vector3(0f, 0f, 1f), rotationSpeed * Time.deltaTime);
-    }
-
 
     private void OnTriggerEnter2D(Collider2D collider) 
     {
