@@ -11,6 +11,9 @@ Assets/Character/*
 !Assets/Character/KingoftheHill
 !Assets/Character/KingoftheHill/*.cs
 
+!Assets/Character/TrapRun
+!Assets/Character/TrapRun/*.cs
+
 
 !Assets/PlayerSelect
 Assets/PlayerSelect/*
