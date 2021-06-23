@@ -7,7 +7,7 @@ public class RotateAxe : MonoBehaviour
     [SerializeField] public Transform rotationPoint;
 
     // rotationSpeed is in units of angle (degrees) / second
-    [SerializeField] public float rotationSpeed = 40f;
+    [SerializeField] public float rotationSpeed = 60f;
     private Transform axeTransform;
     private void Awake()
     {

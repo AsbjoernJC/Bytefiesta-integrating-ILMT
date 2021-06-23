@@ -5,16 +5,16 @@ using UnityEngine;
 public class HeadDetection : MonoBehaviour
 {
 
-    private GameObject player;
+    protected GameObject player;
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         player = this.transform.parent.gameObject;
     }
 
 // When something collides with the player's head collider we check if it is another player who is falling: has a velocity.y value < 0
 // if it is then the player should take damage and the player who jumped on this player, should be pushed upwards. 
-    private void OnTriggerEnter2D(Collider2D collider) 
+    protected virtual void OnTriggerEnter2D(Collider2D collider) 
     {
         string collision = collider.ToString();
         string colliderName = collision.Split( )[0] + " " + collision.Split( )[1];
