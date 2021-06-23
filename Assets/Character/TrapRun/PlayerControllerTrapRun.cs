@@ -8,12 +8,8 @@ public class PlayerControllerTrapRun : PlayerController
     protected override void Awake() 
     {
         base.Awake();
-        Physics.IgnoreLayerCollision(6, 6);
+        Physics2D.IgnoreLayerCollision(6, 6, true);
     }
 
-    protected override void Update()
-    {
-        base.Update();
-    }
 
 }
