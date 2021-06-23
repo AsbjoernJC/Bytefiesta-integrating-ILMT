@@ -8,6 +8,8 @@ public class PlayerControllerTrapRun : PlayerController
     protected override void Awake() 
     {
         base.Awake();
+
+        // Player ignore eachother's colissions
         Physics2D.IgnoreLayerCollision(6, 6, true);
     }
 
