@@ -75,7 +75,7 @@ public class MinigameWinManager : MonoBehaviour
                     {
                         if (minigames[i] != chosenScene)
                         {
-                            unchosenMinigames.Add(DifficultyAndScore.Instance.lastMinigameIndex);
+                            unchosenMinigames.Add(minigames[i]);
                         }
                     }
                 }
