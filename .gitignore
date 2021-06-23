@@ -50,6 +50,12 @@ Assets/PlayerSelect/*
 !Assets/MenuScripts/CharacterSelectionMenu/*.cs
 !Assets/MenuScripts/MysteryDrinkMenu/*.cs
 
+!Assets/Resources
+!Assets/Resources/TrapRunScripts
+!Assets/Resources/TrapRunScripts/*.cs
+
+
+
 
 
 !Assets/EnemyScripts
