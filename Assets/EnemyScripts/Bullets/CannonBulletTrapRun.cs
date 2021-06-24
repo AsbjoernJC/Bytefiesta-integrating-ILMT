@@ -13,7 +13,7 @@ public class CannonBulletTrapRun : EnemyBullet
 
         // Anything that isn't a player but not walls and
         if (collision.Contains("KingoftheHill") || collision.Contains(this.name) ||collision.Contains("Cannon") ||
-        collision.Contains("SpinningAxe"))
+        collision.Contains("SpinningAxe") || collision.Contains("Checkpoint"))
             return;
 
         // A player's head detection is a child of the player prefab therefore we need to get the gameobject of the parent

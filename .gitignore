@@ -32,6 +32,8 @@ Assets/PlayerSelect/*
 !Assets/ScoreTracking/KingoftheHill
 !Assets/ScoreTracking/*.cs
 !Assets/ScoreTracking/KingoftheHill/*.cs
+!Assets/ScoreTracking/TrapRun
+!Assets/ScoreTracking/TrapRun/*.cs
 
 !Assets/ScoreTracking/GunnedDown
 !Assets/ScoreTracking/GunnedDown/*.cs
@@ -75,4 +77,6 @@ Assets/PlayerSelect/*
 !Assets/LevelScripts
 !Assets/LevelScripts/GunnedDown
 !Assets/LevelScripts/GunnedDown/*.cs
+!Assets/LevelScripts/TrapRun
+!Assets/LevelScripts/TrapRun/*.cs
 
