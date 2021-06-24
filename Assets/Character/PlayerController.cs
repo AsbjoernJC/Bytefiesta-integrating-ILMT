@@ -25,7 +25,6 @@ public class PlayerController : MonoBehaviour
     private BoxCollider2D bC2D;
     private CapsuleCollider2D cC2D;
     protected Vector3 playerPosition;
-    private PlayerControls controls;
     private bool m_FacingRight = true;
     private bool canDoubleJump;
     protected bool hasShieldPowerUp = false;
@@ -44,13 +43,6 @@ public class PlayerController : MonoBehaviour
     public GameObject[] powerUp;
     public Animator animator;
 
-    private void Input_onActionTriggered(InputAction.CallbackContext obj)
-    {
-        if (obj.action.name == controls.Player.Movement.name)
-        {
-            OnHorizontalMove(obj);
-        }
-    }
 
     protected virtual void Awake() 
     {
@@ -72,7 +64,7 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(CoyoteTimer(0.1f));
         }
-
+        
         HandleMovement();
     }
 
