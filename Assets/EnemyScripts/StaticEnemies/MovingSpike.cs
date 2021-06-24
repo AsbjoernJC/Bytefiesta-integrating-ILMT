@@ -5,14 +5,44 @@ using UnityEngine;
 public class MovingSpike : MonoBehaviour
 {
     // Todo: Should make a base class that collides with players and deals damage. This should derive from that class
+    [SerializeField] public Transform target1;
+    [SerializeField] public Transform target2;
+
+    [SerializeField] public float smoothing = 1f;
+
     private string collisionTag;
     private GameObject player;
     private bool hasCollided = false;
+    private bool startedMoving = false;
+
 
     // Update is called once per frame
     void Update()
     {
+        if (Time.timeScale != 0 && !startedMoving)
+            StartCoroutine("MoveSpikeBetweenTargets");
+    }
+
+
+    private IEnumerator MoveSpikeBetweenTargets()
+    {
+        startedMoving = true;
+
+        while (Vector2.Distance(transform.position, target1.position) > 0.05f ||
+        Vector2.Distance(transform.position, target1.position) < -0.05f)
+        {
+            float distance = Vector2.Distance(transform.position, target1.position);
+            transform.position = Vector2.MoveTowards(transform.position, target1.position, smoothing * Time.deltaTime);
+            yield return null;
+        }
         
+        while (Vector2.Distance(transform.position, target2.position) > 0.05f)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, target2.position, smoothing * Time.deltaTime);
+            yield return null;
+        }
+
+        StartCoroutine("MoveSpikeBetweenTargets");
     }
 
 

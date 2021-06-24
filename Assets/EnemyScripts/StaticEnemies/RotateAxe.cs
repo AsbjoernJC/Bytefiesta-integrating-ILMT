@@ -41,6 +41,13 @@ public class RotateAxe : MonoBehaviour
             axeTransform.RotateAround(rotationPoint.position, new Vector3(0f, 0f, 1f), rotationSpeed * Time.deltaTime);
     }
 
+    private IEnumerator SpinAxeOnDelay()
+    {
+        calledCoroutine = true;
+        yield return new WaitForSeconds(waitTimer);
+        axeShouldSpin = true;
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collider) 
     {
@@ -66,13 +73,5 @@ public class RotateAxe : MonoBehaviour
         {
             player.GetComponent<Stats>().TakeDamageAnonomously(1);
         }
-    }
-
-
-    private IEnumerator SpinAxeOnDelay()
-    {
-        calledCoroutine = true;
-        yield return new WaitForSeconds(waitTimer);
-        axeShouldSpin = true;
     }
 }
