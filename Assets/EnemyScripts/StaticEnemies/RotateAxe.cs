@@ -8,12 +8,17 @@ public class RotateAxe : MonoBehaviour
     [SerializeField] public Transform rotationPoint;
 
     // rotationSpeed is in units of angle (degrees) / second
-    [SerializeField] public float rotationSpeed = 60f;
+    [SerializeField] public float rotationSpeed = 100f;
+    [SerializeField] public float waitTimer = 0.5f;
+
+
     private Transform axeTransform;
 
     private string collisionTag;
     private GameObject player;
     private bool hasCollided = false;
+    private bool axeShouldSpin = false;
+    private bool calledCoroutine = false;
 
 
     private void Awake()
@@ -25,7 +30,15 @@ public class RotateAxe : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        axeTransform.RotateAround(rotationPoint.position, new Vector3(0f, 0f, 1f), rotationSpeed * Time.deltaTime);
+
+        // If time does not stand still we will start spinning the axes on a delay accordingly to the waitTimer float
+        if (Time.timeScale != 0 && !calledCoroutine)
+        {
+            StartCoroutine("SpinAxeOnDelay");
+        }
+
+        if (axeShouldSpin)
+            axeTransform.RotateAround(rotationPoint.position, new Vector3(0f, 0f, 1f), rotationSpeed * Time.deltaTime);
     }
 
 
@@ -53,5 +66,13 @@ public class RotateAxe : MonoBehaviour
         {
             player.GetComponent<Stats>().TakeDamageAnonomously(1);
         }
+    }
+
+
+    private IEnumerator SpinAxeOnDelay()
+    {
+        calledCoroutine = true;
+        yield return new WaitForSeconds(waitTimer);
+        axeShouldSpin = true;
     }
 }
