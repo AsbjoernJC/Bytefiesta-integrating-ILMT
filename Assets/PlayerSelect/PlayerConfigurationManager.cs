@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 using System;
 using Random = UnityEngine.Random;
 
+
+// Configuration services
 public class PlayerConfigurationManager : MonoBehaviour
 {
     private List<PlayerConfiguration> playerConfigurations = new List<PlayerConfiguration>();

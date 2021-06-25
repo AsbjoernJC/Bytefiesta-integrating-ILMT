@@ -20,10 +20,10 @@ public class Stats : MonoBehaviour
     {
         // If the player's health is zero when this function is called
         // it must have already taken account for the player's death
-        // as it is handled here
         if (health == 0)
             return;
 
+        // as the player's health is decremented here
         health -= damage;
 
         // If a player's health is equal to 0 or less then the player should die

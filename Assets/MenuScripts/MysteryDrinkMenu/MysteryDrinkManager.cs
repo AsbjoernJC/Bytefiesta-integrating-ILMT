@@ -60,7 +60,7 @@ public class MysteryDrinkManager : MonoBehaviour
                     {
                         if (minigames[i] != chosenScene)
                         {
-                            unchosenMinigames.Add(DifficultyAndScore.Instance.lastMinigameIndex);
+                            unchosenMinigames.Add(minigames[i]);
                         }
                     }
                 }
