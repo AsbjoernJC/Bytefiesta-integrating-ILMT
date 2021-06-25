@@ -71,14 +71,14 @@ public class SipInitializer : MonoBehaviour
         switch (minigamePlayed)
         {
             case "KingoftheHill":
-                for (int j = 0; j < PointMinigameTracker.playerPointStandings.Count; j ++ )
+                for (int j = 0; j < PointMinigameTracker.instance.playerPointStandings.Count; j ++ )
                 {
-                    minigamePlacement = PointMinigameTracker.ReturnPlayerPlacement($"Player {i + 1}");
+                    minigamePlacement = PointMinigameTracker.instance.ReturnPlayerPlacement($"Player {i + 1}");
                 }
                 // Todo add a placement system to PointMinigameTracker
                 break;
             case "GunnedDown":
-                minigamePlacement = LastManStanding.playerStandings[$"Player {i + 1}"];
+                minigamePlacement = LastManStanding.instance.playerStandings[$"Player {i + 1}"];
                 break;
             case "TrapRun":
                 minigamePlacement = RaceTracker.instance.playerScores[$"Player {i + 1}"];

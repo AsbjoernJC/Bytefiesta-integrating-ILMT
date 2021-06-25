@@ -6,7 +6,6 @@ using UnityEngine.UI;
 using System;
 public class PointMinigameTracker : MonoBehaviour
 {
-    // Todo change name of KingoftheHillTracker as it may be used for other minigames with same score scheme
     [SerializeField]
     private Canvas minigameEndImagery;
     [SerializeField]
@@ -15,9 +14,9 @@ public class PointMinigameTracker : MonoBehaviour
     public Sprite[] playerSprites;
     private int assumedPosition; 
     private int standardizedAssumedPosition;
-    private static int placement;
-    private static string winner;
-    public static Dictionary<string, int> playerScores = new Dictionary<string, int>()
+    private int placement;
+    private string winner;
+    public Dictionary<string, int> playerScores = new Dictionary<string, int>()
     {
         {"Player 1", 0},
         {"Player 2", 0},
@@ -25,9 +24,11 @@ public class PointMinigameTracker : MonoBehaviour
         {"Player 4", 0}
     };
 
-    public static List<(string, int)> playerPointStandings = new List<(string, int)>();
-    public static List<(string, int)> standardizedPlayerStandings = new List<(string, int)>();
+    public List<(string, int)> playerPointStandings = new List<(string, int)>();
+    public List<(string, int)> standardizedPlayerStandings = new List<(string, int)>();
     public static PointMinigameTracker instance { get; private set; }
+    
+    
     // Start is called before the first frame update
     void Awake()
     {
@@ -36,19 +37,11 @@ public class PointMinigameTracker : MonoBehaviour
         else
             instance = this;
 
-        // As the playerScores are saved to a public static dictionary we need to reset them when the minigame's finished
-        // As the players might run into the minigame again.
-        // Should reevaluate saving playerScores to a public static dict
-        for (int i = 0; i < playerScores.Count; i++)
-            playerScores[$"Player {i}"] = 0;
-
-        playerPointStandings = new List<(string, int)>();
-        standardizedPlayerStandings = new List<(string, int)>();
     }
 
+
 // This function get's called when a player has a score equal to or higer than 5. It will stop the players from moving
-// And will display an image of the winner for 3.5 seconds.
-    public static void MiniGameEnd(string playerWhoWon)
+    public void MiniGameEnd(string playerWhoWon)
     {
         winner = playerWhoWon;
 
@@ -56,10 +49,11 @@ public class PointMinigameTracker : MonoBehaviour
         DifficultyAndScore.Instance.acrossGamemodePlayerScore[winner] ++;
         // Time.timeScale prevents players from moving.
         Time.timeScale = 0f;
-        instance.StartCoroutine("DisplayWinner");
+        StartCoroutine("DisplayWinner");
 
 
     }
+
 
     private void SortPlayerPlacements()
     {
@@ -129,7 +123,7 @@ public class PointMinigameTracker : MonoBehaviour
         }
     }
 
-    public static int ReturnPlayerPlacement(string playerName)
+    public int ReturnPlayerPlacement(string playerName)
     {
         // Todo:
         // Have to keep in mind: if there is only 2 players the player who loses should be registered as the last place

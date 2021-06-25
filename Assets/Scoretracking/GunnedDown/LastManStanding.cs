@@ -12,15 +12,15 @@ public class LastManStanding : MonoBehaviour
     private Image playerWhoWonSprite;
     [SerializeField]
     public Sprite[] playerSprites;
-    private static string winner;
-    public static Dictionary<string, int> playerStandings = new Dictionary<string, int>
+    private string winner;
+    public Dictionary<string, int> playerStandings = new Dictionary<string, int>
     {
         {"Player 1", 0},
         {"Player 2", 0},
         {"Player 3", 0},
         {"Player 4", 0}
     };
-    public static int deadPlayers = 0;
+    public int deadPlayers = 0;
 
     public static LastManStanding instance { get; private set; }
     void Awake()
@@ -30,15 +30,6 @@ public class LastManStanding : MonoBehaviour
         else
             instance = this;
         
-        
-        // As the playerStandings are saved to a public static dictionary we need to reset them when the minigame's finished
-        // As the players might run into the minigame again.
-        // Should reevaluate saving playerStandings to a public static dict. The same is true for deadPlayers.
-        for (int i = 0; i < PlayerConfigurationManager.Instance.numberOfActivePlayers; i++)
-            {
-                playerStandings[$"Player {i + 1}"] = 0;   
-            }
-            deadPlayers = 0;
     }
 
 
@@ -46,7 +37,7 @@ public class LastManStanding : MonoBehaviour
 // And will display an image of the winner for 3.5 seconds.
 
 // Todo: this should definitely be called from within an update function in lastmanstanding
-    public static void MiniGameEnd(string playerWhoWon)
+    public void MiniGameEnd(string playerWhoWon)
     {
         winner = playerWhoWon;
 
