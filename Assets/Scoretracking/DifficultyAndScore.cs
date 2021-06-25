@@ -52,7 +52,7 @@ public class DifficultyAndScore : MonoBehaviour
         }        
     }
 
-    public static void SetDifficulty(string gamemode)
+    public void SetDifficulty(string gamemode)
     {
         // Makes sure that difficulty is not set if players start playing after a player has already won the entire game
 

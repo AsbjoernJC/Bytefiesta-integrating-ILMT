@@ -9,21 +9,21 @@ public class MainMenu : MonoBehaviour
     public void HardcorePlayGame ()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        DifficultyAndScore.SetDifficulty("Hardcore");
+        DifficultyAndScore.Instance.SetDifficulty("Hardcore");
     }
 
 
     public void MediumPlayGame ()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        DifficultyAndScore.SetDifficulty("Medium");
+        DifficultyAndScore.Instance.SetDifficulty("Medium");
     }
 
 
     public void LightPlayGame ()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        DifficultyAndScore.SetDifficulty("Light");
+        DifficultyAndScore.Instance.SetDifficulty("Light");
     }
 
 
