@@ -65,6 +65,6 @@ public class ScoreUpdater : MonoBehaviour
 
         int playerIndex = Int16.Parse(player.Split( )[1]);
         // playerIndex - 1 as playerIndex can be 1, 2, 3 or 4
-        playerScoreTexts[playerIndex - 1].text = PointMinigameTracker.playerScores[player].ToString();
+        playerScoreTexts[playerIndex - 1].text = PointMinigameTracker.instance.playerScores[player].ToString();
     }
 }

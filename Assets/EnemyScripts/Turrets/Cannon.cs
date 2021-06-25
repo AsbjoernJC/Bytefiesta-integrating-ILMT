@@ -28,7 +28,7 @@ public class Cannon : MonoBehaviour
 
     // Todo spawn bullets more often over time
     // Will now operate in a big while loop that is running whilst there are more than 1 player left
-        while (PlayerConfigurationManager.Instance.numberOfActivePlayers != LastManStanding.deadPlayers - 1)
+        while (PlayerConfigurationManager.Instance.numberOfActivePlayers != LastManStanding.instance.deadPlayers - 1)
         {
             // if (timePassed % 1 == 0)
             // {

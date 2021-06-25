@@ -30,7 +30,7 @@ public class Stats : MonoBehaviour
         if (health <= 0)
         {
             // Should be dynamic ie. dependant on the current minigame. KingofTheHillTracker is used for the KingoftheHill scene/minigame
-            PointMinigameTracker.playerScores[playerWhoDealtDamage] ++;
+            PointMinigameTracker.instance.playerScores[playerWhoDealtDamage] ++;
 
             //Should be dynamic aswell. Not every scene has a scoreboard.
             ScoreUpdater.UpdatePlayerScoreUI(playerWhoDealtDamage);
@@ -38,9 +38,9 @@ public class Stats : MonoBehaviour
             // PlayerDeathInformation also interacts with PowerUpInitializer which is not used in every minigame
             // Furthermore it will try to respawn the player
             LevelInitializer.Instance.PlayerDeathInformation(player);
-            if (PointMinigameTracker.playerScores[playerWhoDealtDamage] >= 1)
+            if (PointMinigameTracker.instance.playerScores[playerWhoDealtDamage] >= 1)
             {
-                PointMinigameTracker.MiniGameEnd(playerWhoDealtDamage);
+                PointMinigameTracker.instance.MiniGameEnd(playerWhoDealtDamage);
             }
             return;
         }

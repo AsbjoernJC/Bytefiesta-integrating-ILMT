@@ -159,20 +159,20 @@ public class LevelInitializer : MonoBehaviour
             //The maximum amount of players is 4 therefore 4 - the active players will result in the correct player standing
             // on death eg. 3 player game. Player 2 dies first and therefore gets player standing 3 - 0 = 3.
             // So the player correctly gets a 3rd place placement.
-            LastManStanding.playerStandings[player.name] = PlayerConfigurationManager.Instance.numberOfActivePlayers - LastManStanding.deadPlayers;
-            LastManStanding.deadPlayers ++;
+            LastManStanding.instance.playerStandings[player.name] = PlayerConfigurationManager.Instance.numberOfActivePlayers - LastManStanding.instance.deadPlayers;
+            LastManStanding.instance.deadPlayers ++;
 
-            if (LastManStanding.deadPlayers == PlayerConfigurationManager.Instance.numberOfActivePlayers - 1)
+            if (LastManStanding.instance.deadPlayers == PlayerConfigurationManager.Instance.numberOfActivePlayers - 1)
             {
                 for (int i = 0; i < PlayerConfigurationManager.Instance.numberOfActivePlayers; i++)
                 {
                     // Keyvalue pair = string (where string is Player 1-4), int.
                     // When the int is unchanged that is = 0 then it is the last player standing
                     // Game does not always end when all players except one are dead
-                    if (LastManStanding.playerStandings[$"Player {i + 1}"] == 0)
+                    if (LastManStanding.instance.playerStandings[$"Player {i + 1}"] == 0)
                     {
-                        LastManStanding.playerStandings[$"Player {i + 1}"] = 1;
-                        LastManStanding.MiniGameEnd($"Player {i + 1}");
+                        LastManStanding.instance.playerStandings[$"Player {i + 1}"] = 1;
+                        LastManStanding.instance.MiniGameEnd($"Player {i + 1}");
                     }
                 }
             }
