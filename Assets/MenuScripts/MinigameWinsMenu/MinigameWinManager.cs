@@ -61,7 +61,7 @@ public class MinigameWinManager : MonoBehaviour
             else 
             {
                 var unchosenMinigames = DifficultyAndScore.Instance.unchosenMinigames;
-                var minigames = DifficultyAndScore.Instance.minigames;
+                var minigames = DifficultyAndScore.minigames;
 
                 // picks a random scene index by choosing the value at a random index in unchosenMinigames
                 int chosenScene = unchosenMinigames[Random.Range(0, unchosenMinigames.Count)];
