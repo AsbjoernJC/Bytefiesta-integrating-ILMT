@@ -50,6 +50,8 @@ public class PlayerController : MonoBehaviour
         rB2D = gameObject.GetComponent<Rigidbody2D>();
         bC2D = transform.GetComponent<BoxCollider2D>();
         cC2D = transform.GetComponent<CapsuleCollider2D>();
+        // Player allows player to collide with one another by default
+        Physics2D.IgnoreLayerCollision (6, 6, false);
     }
 
     protected virtual void Update()

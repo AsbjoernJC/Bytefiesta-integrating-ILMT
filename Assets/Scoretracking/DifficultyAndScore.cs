@@ -22,11 +22,14 @@ public class DifficultyAndScore : MonoBehaviour
         {"Player 4", 0}
     };
 
-    public List<int> minigames = new List<int>()
+
+    // the build indexes of the minigames start at 4, number 4 included.
+    // Made these static as the playable minigames will never be changed dynamically
+    public static List<int> minigames = new List<int>()
     {
-        // the build indexes of the minigames start at 4, number 4 included.
         4,
-        5
+        5,
+        6
     };
 
     // When there is enough minigames unchosenMinigames might just be a list 
@@ -48,8 +51,10 @@ public class DifficultyAndScore : MonoBehaviour
         else
         {
             Instance = this;
-            unchosenMinigames.AddRange(minigames);
-        }        
+        }
+
+        unchosenMinigames.AddRange(minigames);
+
     }
 
     public void SetDifficulty(string gamemode)
