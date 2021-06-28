@@ -29,7 +29,8 @@ public class DifficultyAndScore : MonoBehaviour
     {
         4,
         5,
-        6
+        6,
+        7
     };
 
     // When there is enough minigames unchosenMinigames might just be a list 
@@ -63,6 +64,5 @@ public class DifficultyAndScore : MonoBehaviour
 
         DifficultyAndScore.Instance.difficulty = gamemode;
         DifficultyAndScore.Instance.difficulties[gamemode] = true;
-        Debug.Log($"{gamemode} difficulty is set to {DifficultyAndScore.Instance.difficulties[gamemode]}");
     }
 }
