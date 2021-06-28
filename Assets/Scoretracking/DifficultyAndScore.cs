@@ -64,6 +64,5 @@ public class DifficultyAndScore : MonoBehaviour
 
         DifficultyAndScore.Instance.difficulty = gamemode;
         DifficultyAndScore.Instance.difficulties[gamemode] = true;
-        Debug.Log($"{gamemode} difficulty is set to {DifficultyAndScore.Instance.difficulties[gamemode]}");
     }
 }
