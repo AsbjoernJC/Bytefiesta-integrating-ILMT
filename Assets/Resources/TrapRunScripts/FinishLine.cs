@@ -11,6 +11,11 @@ public class FinishLine : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider) 
     {
+        // hasCollided is only set to true when a player has touched the finishline and the end of the minigame has been called
+        // therefore we don't need to check for other collisions at this point in time.
+        if (hasCollided)
+            return;
+
         string collision = collider.ToString();
         collisionTag = collider.tag;
 
@@ -29,7 +34,7 @@ public class FinishLine : MonoBehaviour
 
 
 
-        if (collisionTag.Contains("Player") && hasCollided == false)
+        if (collisionTag.Contains("Player"))
         {
             RaceTracker.instance.playerScores[player.name] = 1;
             RaceTracker.instance.MiniGameEnd(player.name);
