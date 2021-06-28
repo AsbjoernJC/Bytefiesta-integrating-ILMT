@@ -56,6 +56,9 @@ public class FallingPlatformManager : MonoBehaviour
 
         while (LastManStanding.instance.deadPlayers < PlayerConfigurationManager.Instance.numberOfActivePlayers -1)
         {
+
+            // Todo: waitforseconds will have to be dynamic
+            // fallspeed should be based on the spawnCounter. They should fall faster and faster.
             switch (lastChosenSpawnpoint)
             {
         // The largest possible horizontal reach of a player is eg. from platformSpawnpoints[0] to platformSpawnpoints[3]
