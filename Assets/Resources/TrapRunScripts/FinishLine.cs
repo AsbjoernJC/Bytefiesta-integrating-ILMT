@@ -33,6 +33,7 @@ public class FinishLine : MonoBehaviour
         {
             RaceTracker.instance.playerScores[player.name] = 1;
             RaceTracker.instance.MiniGameEnd(player.name);
+            hasCollided = true;
         }
     }
 }

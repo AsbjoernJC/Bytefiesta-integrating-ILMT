@@ -29,7 +29,8 @@ public class DifficultyAndScore : MonoBehaviour
     {
         4,
         5,
-        6
+        6,
+        7
     };
 
     // When there is enough minigames unchosenMinigames might just be a list 

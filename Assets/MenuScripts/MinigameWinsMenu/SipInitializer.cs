@@ -83,6 +83,9 @@ public class SipInitializer : MonoBehaviour
             case "TrapRun":
                 minigamePlacement = RaceTracker.instance.playerScores[$"Player {i + 1}"];
                 break;
+            case "TrapRunVariant":
+                minigamePlacement = RaceTracker.instance.playerScores[$"Player {i + 1}"];
+                break;
         }
 
             playerBeerCanvas[i].SetActive(true);
