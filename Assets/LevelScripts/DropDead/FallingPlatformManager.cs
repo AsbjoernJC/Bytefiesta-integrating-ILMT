@@ -17,11 +17,7 @@ public class FallingPlatformManager : MonoBehaviour
 
     private int lastChosenSpawnpoint;
     private int spawnCounter;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+
 
     // Update is called once per frame
     void Update()
@@ -54,7 +50,7 @@ public class FallingPlatformManager : MonoBehaviour
             SpawnPlatform(chosenSpawnpoint, 3);
             yield return new WaitForSeconds(2);
         }
-        
+
         while (LastManStanding.instance.deadPlayers < PlayerConfigurationManager.Instance.numberOfActivePlayers -1)
         {
             float fallSpeed = 0;
@@ -65,7 +61,6 @@ public class FallingPlatformManager : MonoBehaviour
             switch (lastChosenSpawnpoint)
             {
                 case 0:
-                // might have to change if players will be allowed to through the sides of the screen
                     chosenSpawnpoint = Random.Range(0, 4);
                     lastChosenSpawnpoint = chosenSpawnpoint;
                     fallSpeed = baseFallSpeed += spawnCounter * fallSpeedMultiplier;
