@@ -79,4 +79,6 @@ Assets/PlayerSelect/*
 !Assets/LevelScripts/GunnedDown/*.cs
 !Assets/LevelScripts/TrapRun
 !Assets/LevelScripts/TrapRun/*.cs
+!Assets/LevelScripts/DropDead
+!Assets/LevelScripts/DropDead/*.cs
 
