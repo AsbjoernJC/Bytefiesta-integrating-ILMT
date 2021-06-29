@@ -14,7 +14,7 @@ public class FallingPlatform : MonoBehaviour
     }
 
 
-    public void StartFalling(int fallSpeed)
+    public void StartFalling(float fallSpeed)
     {
         rB2D.velocity = new Vector2(0, -fallSpeed);
     }
