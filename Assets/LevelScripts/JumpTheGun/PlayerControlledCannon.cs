@@ -43,13 +43,18 @@ public class PlayerControlledCannon : MonoBehaviour
     {
 
         // Does not work at the moment
-        while(Vector3.Distance(bulletInstance.transform.position, target.targetCenter.position) > 0.05f)
+        while(Vector2.Distance(bulletInstance.transform.position, target.targetCenter.position) > 0.05f || Vector2.Distance(bulletInstance.transform.position, target.targetCenter.position) < -0.05f)
         {
             // Moves the cannonbullet towards the target
-            bulletInstance.transform.position = Vector3.Lerp(this.transform.position, target.targetCenter.position, smoothing * Time.deltaTime); 
+            // Whils the bullet moves towards the target its x and y scale should be smaller and smaller and upon reaching its target
+            // the scale should be x = 0.6, y = 0.6 ~ as this matches the targetplatform sizes ca.
+            bulletInstance.transform.position = Vector2.MoveTowards(bulletInstance.transform.position, target.targetCenter.position, smoothing * Time.deltaTime); 
             yield return null;
         }
-        
+
+
+        Destroy(bulletInstance);
+
         target.targetPlatform.SetActive(true);
     }
 
