@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class PlayerControlledCannon : MonoBehaviour
 {
+
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private GameObject bulletPrefab;
+    private Quaternion shootingAngle;
+
+    [SerializeField] private float smoothing = 1f;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,4 +23,32 @@ public class PlayerControlledCannon : MonoBehaviour
     {
         
     }
+
+
+
+    public void Shoot(Target target)
+    {
+        shootingAngle.eulerAngles = new Vector3(0f, 0f, 0f);
+
+    // Todo spawn bullets more often over time
+    // Will now operate in a big while loop that is running whilst there are more than 1 player left
+
+        GameObject bulletInstance = Instantiate(bulletPrefab, firePoint.transform.position, shootingAngle);
+
+        StartCoroutine(FlyTowardsTarget(target, bulletInstance));
+        
+    }
+
+    private IEnumerator FlyTowardsTarget(Target target, GameObject bulletInstance)
+    {
+        while(true)
+        {
+            // Moves the cannonbullet towards the target
+            bulletInstance.transform.position = Vector3.Lerp(this.transform.position, target.targetCenter.position, smoothing * Time.deltaTime); 
+            yield return null;
+            
+        }
+    }
+
+
 }
