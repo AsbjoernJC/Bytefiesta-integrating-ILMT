@@ -9,6 +9,7 @@ public class TargettingInformation : MonoBehaviour
     public GameObject targetPlatform;
     public SpriteRenderer cursorSprite;
     public TargetManager targetManager;
+    public Transform targetCenter;
 
     public string targetName;
     public int targetIndex;
@@ -17,6 +18,7 @@ public class TargettingInformation : MonoBehaviour
     private void Awake()
     {
         targetName = this.name;
+        targetCenter = this.transform;
     }
 
     private void Start()
@@ -68,4 +70,5 @@ public class TargettingInformation : MonoBehaviour
     {
         targetPlatform.SetActive(true);
     }
+
 }
