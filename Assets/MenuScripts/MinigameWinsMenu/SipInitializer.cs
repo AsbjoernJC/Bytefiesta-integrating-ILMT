@@ -89,6 +89,9 @@ public class SipInitializer : MonoBehaviour
             case "DropDead":
                 minigamePlacement = LastManStanding.instance.playerStandings[$"Player {i + 1}"];
                 break;
+            case "JumpTheGun":
+                minigamePlacement = RaceTracker.instance.playerScores[$"Player {i + 1}"];
+                break;
         }
 
             playerBeerCanvas[i].SetActive(true);

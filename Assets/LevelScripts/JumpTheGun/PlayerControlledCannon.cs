@@ -46,7 +46,6 @@ public class PlayerControlledCannon : MonoBehaviour
             // Moves the cannonbullet towards the target
             bulletInstance.transform.position = Vector3.Lerp(this.transform.position, target.targetCenter.position, smoothing * Time.deltaTime); 
             yield return null;
-            
         }
     }
 

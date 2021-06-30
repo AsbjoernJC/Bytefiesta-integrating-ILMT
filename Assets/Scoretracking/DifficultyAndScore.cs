@@ -27,11 +27,12 @@ public class DifficultyAndScore : MonoBehaviour
     // Made these static as the playable minigames will never be changed dynamically
     public static List<int> minigames = new List<int>()
     {
-        4,
-        5,
-        6,
-        7,
-        8
+        // 4,
+        // 5,
+        // 6,
+        // 7,
+        // 8,
+        9
     };
 
     // When there is enough minigames unchosenMinigames might just be a list 

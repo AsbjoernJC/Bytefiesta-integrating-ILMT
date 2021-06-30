@@ -5,11 +5,15 @@ using UnityEngine.InputSystem;
 
 public class PlayerCannonController : MonoBehaviour
 {
+    // [SerializeField] float ignoreInputTimer = 0.01f;
     private Target currentTarget;
 
     private Vector2 horizontalVector;
 
     private bool isShooting = false;
+
+    private bool gotFirstTarget = false;
+    private bool canMoveCursor = true;
 
     // Start is called before the first frame update
     void Start()
@@ -20,17 +24,36 @@ public class PlayerCannonController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        
+    { 
+        if (TargetManager.instance.targets != null && !gotFirstTarget)
+        {
+            currentTarget = TargetManager.instance.targets[0];
+            currentTarget.cursorSprite.enabled = true;
+            gotFirstTarget = true;
+        }
     }
 
     public void HorizontalInput(InputAction.CallbackContext context)
     {
-        horizontalVector = context.ReadValue<Vector2>();
+        if (!canMoveCursor)
+            return;
+        // StartCoroutine("DisableInputTimer");
 
+        canMoveCursor = false;
+
+        horizontalVector = context.ReadValue<Vector2>();
         if (horizontalVector.x != 0)
             ChooseTarget(horizontalVector.x);
+
     }
+
+
+    // private IEnumerator DisableInputTimer()
+    // {
+    //     yield return new WaitForSeconds(ignoreInputTimer);
+    //     canMoveCursor = true;
+
+    // }
 
     private void ChooseTarget(float horizontalValue)
     {
@@ -40,7 +63,6 @@ public class PlayerCannonController : MonoBehaviour
             return;
 
         // Removes the cursor from what is about to be the former target
-        currentTarget.cursorSprite.enabled = false;
 
         if (horizontalValue > 0)
         {
@@ -48,7 +70,11 @@ public class PlayerCannonController : MonoBehaviour
             // it would cause an indexoutofrangeexception
             if (currentTarget.targetIndex == 22)
                 return;
-            // go up by one index in TargetManager.instance.targets
+            
+            currentTarget.cursorSprite.enabled = false;
+
+            currentTarget = TargetManager.instance.targets[currentTarget.targetIndex + 1];
+            currentTarget.cursorSprite.enabled = true;
         }
         else if (horizontalValue < 0)
         {
@@ -56,19 +82,26 @@ public class PlayerCannonController : MonoBehaviour
             // it would cause an indexoutofrangeexception
             if (currentTarget.targetIndex == 0)
                 return;
-            // go down by one index in TargetManager.instance.targets
+
+            currentTarget.cursorSprite.enabled = false;
+
+            currentTarget = TargetManager.instance.targets[currentTarget.targetIndex - 1];
+            currentTarget.cursorSprite.enabled = true;
         }
     }
 
     public void FirePlatform(InputAction.CallbackContext context)
     {
+        if (isShooting)
+            return;
+
         if (context.action.triggered)
         {
             // as targetplatforms should be active forever after a player has fired a platform previously; we should return
             // if the targetplatform is already active
 
             // Todo: use some function to shoot a bullet from the Cannon towards the currentTarget.targetCenter.position
-
+            Debug.Log("Shot");
             isShooting = true;
         }
 
