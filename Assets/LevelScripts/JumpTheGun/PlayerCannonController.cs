@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerCannonController : MonoBehaviour
 {
-    private Target formerTarget;
+    private Target currentTarget;
 
     private Vector2 horizontalVector;
 
@@ -14,7 +14,8 @@ public class PlayerCannonController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        // Todo:
+        // The player controlling the cannon should start off by having gameObject TargetNPlatform (0), which will be TargetManager.Instance.targets[0]
     }
 
     // Update is called once per frame
@@ -38,8 +39,8 @@ public class PlayerCannonController : MonoBehaviour
         if (isShooting)
             return;
 
-        // Removes the cursor from the 
-        formerTarget.cursorSprite.enabled = false;
+        // Removes the cursor from what is about to be the former target
+        currentTarget.cursorSprite.enabled = false;
 
         if (horizontalValue > 0)
         {
@@ -55,6 +56,11 @@ public class PlayerCannonController : MonoBehaviour
     {
         if (context.action.triggered)
         {
+            // as targetplatforms should be active forever after a player has fired a platform previously; we should return
+            // if the targetplatform is already active
+
+            // Todo: use some function to shoot a bullet from the Cannon towards the currentTarget.targetCenter.position
+
             isShooting = true;
         }
 
