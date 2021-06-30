@@ -11,7 +11,7 @@ public class TargettingInformation : MonoBehaviour
     public TargetManager targetManager;
     public Transform targetCenter;
 
-    public string targetName;
+    private string targetName;
     public int targetIndex;
 
     // Start is called before the first frame update
