@@ -61,7 +61,15 @@ public class LevelInitializer : MonoBehaviour
             {"hasScoreUI", false},
             {"lastManStanding", true}
         }
+        },
+
+            {"JumpTheGun", new Dictionary<string, bool>{
+            {"hasPowerUp", false},
+            {"playersRespawn", true},
+            {"hasScoreUI", false},
+            {"lastManStanding", false}
         }
+        },
     };
     public static LevelInitializer Instance { get; private set; }
 
