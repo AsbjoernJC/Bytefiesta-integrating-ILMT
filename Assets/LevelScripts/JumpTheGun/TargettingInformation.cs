@@ -52,23 +52,5 @@ public class TargettingInformation : MonoBehaviour
     }
 
 
-    public void EnableCursorSprite()
-    {
-        cursorSprite.enabled = true;
-    }
-
-
-    public void DisableCursorSprite()
-    {
-        cursorSprite.enabled = false;
-    }
-
-
-// Once a targetplatform object has been enabled it should not be
-// disabled ever
-    public void EnableTargetPlatform()
-    {
-        targetPlatform.SetActive(true);
-    }
 
 }

@@ -9,6 +9,8 @@ public class PlayerCannonController : MonoBehaviour
 
     private Vector2 horizontalVector;
 
+    private bool isShooting = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,18 +26,28 @@ public class PlayerCannonController : MonoBehaviour
     public void HorizontalInput(InputAction.CallbackContext context)
     {
         horizontalVector = context.ReadValue<Vector2>();
+        ChooseTarget(horizontalVector.x);
     }
 
-    private void ChooseTarget()
+    private void ChooseTarget(float horizontalValue)
     {
-
+        currentTarget;
+        if (horizontalValue > 0)
+        {
+            // go up by one index in TargetManager.instance.targets
+        }
+        else if (horizontalValue < 0)
+        {
+            // go down by one index in TargetManager.instance.targets
+        }
     }
 
     public void FirePlatform(InputAction.CallbackContext context)
     {
         if (context.action.triggered)
         {
-            
+
+            isShooting = true;
         }
     }
 
