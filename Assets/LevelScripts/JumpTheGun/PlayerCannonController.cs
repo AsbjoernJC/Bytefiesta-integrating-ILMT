@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerCannonController : MonoBehaviour
 {
-    private Target currentTarget;
+    private Target formerTarget;
 
     private Vector2 horizontalVector;
 
@@ -26,12 +26,21 @@ public class PlayerCannonController : MonoBehaviour
     public void HorizontalInput(InputAction.CallbackContext context)
     {
         horizontalVector = context.ReadValue<Vector2>();
-        ChooseTarget(horizontalVector.x);
+
+        if (horizontalVector.x != 0)
+            ChooseTarget(horizontalVector.x);
     }
 
     private void ChooseTarget(float horizontalValue)
     {
-        currentTarget;
+        // whilst isShooting = true players won't be allowed to move their cursor/choose targets
+
+        if (isShooting)
+            return;
+
+        // Removes the cursor from the 
+        formerTarget.cursorSprite.enabled = false;
+
         if (horizontalValue > 0)
         {
             // go up by one index in TargetManager.instance.targets
@@ -46,9 +55,10 @@ public class PlayerCannonController : MonoBehaviour
     {
         if (context.action.triggered)
         {
-
             isShooting = true;
         }
+
+        isShooting = false;
     }
 
 }
