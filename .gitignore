@@ -81,4 +81,6 @@ Assets/PlayerSelect/*
 !Assets/LevelScripts/TrapRun/*.cs
 !Assets/LevelScripts/DropDead
 !Assets/LevelScripts/DropDead/*.cs
+!Assets/LevelScripts/JumpTheGun
+!Assets/LevelScripts/JumpTheGun/*.cs
 
