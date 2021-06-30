@@ -5,55 +5,55 @@ using UnityEngine.InputSystem;
 
 public class PlayerCannonController : MonoBehaviour
 {
-    // [SerializeField] float ignoreInputTimer = 0.01f;
     private Target currentTarget;
+
+    private PlayerControlledCannon playerControlledCannon;
 
     private Vector2 horizontalVector;
 
     private bool isShooting = false;
 
-    private bool gotFirstTarget = false;
-    private bool canMoveCursor = true;
+    private bool nonZeroValue = false;
+
+    private Vector2 nonZeroVector;
 
     // Start is called before the first frame update
     void Start()
     {
-        // Todo:
-        // The player controlling the cannon should start off by having gameObject TargetNPlatform (0), which will be TargetManager.Instance.targets[0]
-    }
 
-    // Update is called once per frame
-    void Update()
-    { 
-        if (TargetManager.instance.targets != null && !gotFirstTarget)
+        if (TargetManager.instance.targets[0] != null)
         {
             currentTarget = TargetManager.instance.targets[0];
             currentTarget.cursorSprite.enabled = true;
-            gotFirstTarget = true;
         }
+
+        // Todo player's should be assigned a team
+        // Their playerControlledCannon should assigned each team
+
+        playerControlledCannon = GameObject.Find("Cannon Team 1").GetComponent<PlayerControlledCannon>();
     }
+
 
     public void HorizontalInput(InputAction.CallbackContext context)
     {
-        if (!canMoveCursor)
-            return;
-        // StartCoroutine("DisableInputTimer");
-
-        canMoveCursor = false;
 
         horizontalVector = context.ReadValue<Vector2>();
+
+        // Were essentially only moving when the controlstick is put to a side and then released, reset back to the middle
         if (horizontalVector.x != 0)
+        {
+            nonZeroValue = true;
+            nonZeroVector = horizontalVector;
+        }
+
+        if (horizontalVector.x == 0 && nonZeroValue)
+        {
             ChooseTarget(horizontalVector.x);
+            nonZeroValue = false;
+        }
 
     }
 
-
-    // private IEnumerator DisableInputTimer()
-    // {
-    //     yield return new WaitForSeconds(ignoreInputTimer);
-    //     canMoveCursor = true;
-
-    // }
 
     private void ChooseTarget(float horizontalValue)
     {
@@ -62,21 +62,22 @@ public class PlayerCannonController : MonoBehaviour
         if (isShooting)
             return;
 
-        // Removes the cursor from what is about to be the former target
 
-        if (horizontalValue > 0)
+        if (nonZeroVector.x > 0)
         {
             // As the target with targetIndex 0 will be the last element in the array and the right target
             // it would cause an indexoutofrangeexception
             if (currentTarget.targetIndex == 22)
                 return;
             
+            // Removes the cursor from what is about to be the former target
+
             currentTarget.cursorSprite.enabled = false;
 
             currentTarget = TargetManager.instance.targets[currentTarget.targetIndex + 1];
             currentTarget.cursorSprite.enabled = true;
         }
-        else if (horizontalValue < 0)
+        else if (nonZeroVector.x < 0)
         {
             // As the target with targetIndex 0 will be the first element in the array and the leftmost target
             // it would cause an indexoutofrangeexception
@@ -100,8 +101,13 @@ public class PlayerCannonController : MonoBehaviour
             // as targetplatforms should be active forever after a player has fired a platform previously; we should return
             // if the targetplatform is already active
 
-            // Todo: use some function to shoot a bullet from the Cannon towards the currentTarget.targetCenter.position
-            Debug.Log("Shot");
+            if (currentTarget.targetPlatform.activeSelf == true)
+                return;
+
+
+            // Bugged atm
+            playerControlledCannon.Shoot(currentTarget);
+
             isShooting = true;
         }
 

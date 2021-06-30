@@ -41,12 +41,16 @@ public class PlayerControlledCannon : MonoBehaviour
 
     private IEnumerator FlyTowardsTarget(Target target, GameObject bulletInstance)
     {
-        while(true)
+
+        // Does not work at the moment
+        while(Vector3.Distance(bulletInstance.transform.position, target.targetCenter.position) > 0.05f)
         {
             // Moves the cannonbullet towards the target
             bulletInstance.transform.position = Vector3.Lerp(this.transform.position, target.targetCenter.position, smoothing * Time.deltaTime); 
             yield return null;
         }
+        
+        target.targetPlatform.SetActive(true);
     }
 
 
