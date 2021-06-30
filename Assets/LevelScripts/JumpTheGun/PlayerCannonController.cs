@@ -44,10 +44,18 @@ public class PlayerCannonController : MonoBehaviour
 
         if (horizontalValue > 0)
         {
+            // As the target with targetIndex 0 will be the last element in the array and the right target
+            // it would cause an indexoutofrangeexception
+            if (currentTarget.targetIndex == 22)
+                return;
             // go up by one index in TargetManager.instance.targets
         }
         else if (horizontalValue < 0)
         {
+            // As the target with targetIndex 0 will be the first element in the array and the leftmost target
+            // it would cause an indexoutofrangeexception
+            if (currentTarget.targetIndex == 0)
+                return;
             // go down by one index in TargetManager.instance.targets
         }
     }
