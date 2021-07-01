@@ -14,6 +14,9 @@ Assets/Character/*
 !Assets/Character/TrapRun
 !Assets/Character/TrapRun/*.cs
 
+!Assets/Character/JumpTheGun
+!Assets/Character/JumpTheGun/*.cs
+
 
 !Assets/PlayerSelect
 Assets/PlayerSelect/*
