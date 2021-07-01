@@ -105,7 +105,6 @@ public class PlayerCannonController : MonoBehaviour
                 return;
 
 
-            // Bugged atm
             playerControlledCannon.Shoot(currentTarget);
 
             isShooting = true;
