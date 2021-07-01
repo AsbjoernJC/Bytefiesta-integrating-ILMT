@@ -9,20 +9,8 @@ public class PlayerControlledCannon : MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
     private Quaternion shootingAngle;
 
-    [SerializeField] private float smoothing = 2f;
+    [SerializeField] private float smoothing = 4f;
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
 
 
