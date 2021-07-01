@@ -36,6 +36,8 @@ public class PlayerControlledCannon : MonoBehaviour
             // Moves the cannonbullet towards the target
             // Whils the bullet moves towards the target its x and y scale should be smaller and smaller and upon reaching its target
             // the scale should be x = 0.6, y = 0.6 ~ as this matches the targetplatform sizes ca.
+
+            // Todo smoothing should be based on distance. Bullets should always arrive in the same amount of time.
             bulletInstance.transform.position = Vector2.MoveTowards(bulletInstance.transform.position, target.targetCenter.position, smoothing * Time.deltaTime); 
             yield return null;
         }
