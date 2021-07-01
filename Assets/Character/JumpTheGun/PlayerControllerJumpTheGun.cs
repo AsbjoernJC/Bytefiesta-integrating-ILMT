@@ -19,13 +19,6 @@ public class PlayerControllerJumpTheGun : PlayerController
         animator.SetBool("IsJumping", true);
         if (context.action.triggered)
         {
-            if (canCoyote)
-            {
-                rB2D.velocity = Vector2.up * m_JumpForce;
-                canCoyote = false;
-                return;
-            }
-
             if (IsGrounded())
             {
                 rB2D.velocity = Vector2.up * m_JumpForce;
@@ -35,4 +28,14 @@ public class PlayerControllerJumpTheGun : PlayerController
         
 
     }
+
+
+// As the playerprefabs for JumpTheGun has their foot (a box collider disabled) we have changed from using the boxcollider2d
+// to raycast and instead use the circlecollider
+    protected override bool IsGrounded() 
+    {
+        RaycastHit2D raycastHit2D = Physics2D.BoxCast(cC2D.bounds.center, cC2D.bounds.size, 0f, Vector2.down, .1f, platformLayerMask);
+        return raycastHit2D.collider != null;
+    }
+
 }

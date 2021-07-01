@@ -4,7 +4,6 @@ using System.Collections;
 using System;
 
 
-[RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
 
@@ -17,13 +16,13 @@ public class PlayerController : MonoBehaviour
     // These scripts would inherit from PlayerController 
     [SerializeField] private float runSpeed = 1.5f;
     [SerializeField] protected float m_JumpForce = 20.0f;
-    [SerializeField] private LayerMask platformLayerMask;
+    [SerializeField] protected LayerMask platformLayerMask;
     private float horizontalMove = 0f;
     private float terminalVelocity = 25.1f;
     private Vector2 horizontalMoveInput;
     protected Rigidbody2D rB2D;
     private BoxCollider2D bC2D;
-    private CapsuleCollider2D cC2D;
+    protected CapsuleCollider2D cC2D;
     protected Vector3 playerPosition;
     private bool m_FacingRight = true;
     private bool canDoubleJump;
@@ -215,7 +214,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    protected bool IsGrounded() 
+    protected virtual bool IsGrounded() 
     {
         RaycastHit2D raycastHit2D = Physics2D.BoxCast(bC2D.bounds.center, bC2D.bounds.size, 0f, Vector2.down, .1f, platformLayerMask);
         return raycastHit2D.collider != null;
