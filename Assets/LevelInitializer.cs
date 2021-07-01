@@ -20,7 +20,7 @@ public class LevelInitializer : MonoBehaviour
     public static string sceneName;
     int playerToRespawnIndex;
     int numberOfScoreUI;
-    public int respawnTimer = 4;
+    public float respawnTimer = 1.5f;
     public static Dictionary<string, Dictionary<string, bool>> levelRules = new Dictionary<string, Dictionary<string, bool>>()
     {
         {"KingoftheHill", new Dictionary<string, bool>{
@@ -204,7 +204,7 @@ public class LevelInitializer : MonoBehaviour
     }
 
     // Will respawn the player after a short delay
-    public IEnumerator RespawnPlayer(int seconds, int playerIndex) 
+    public IEnumerator RespawnPlayer(float seconds, int playerIndex) 
     { 
         yield return new WaitForSeconds(seconds); 
         SpawnPlayer(playerIndex);
