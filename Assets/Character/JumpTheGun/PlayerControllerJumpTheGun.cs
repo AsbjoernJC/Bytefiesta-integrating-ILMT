@@ -34,7 +34,7 @@ public class PlayerControllerJumpTheGun : PlayerController
 // to raycast and instead use the circlecollider
     protected override bool IsGrounded() 
     {
-        RaycastHit2D raycastHit2D = Physics2D.BoxCast(cC2D.bounds.center, cC2D.bounds.size, 0f, Vector2.down, .1f, platformLayerMask);
+        RaycastHit2D raycastHit2D = Physics2D.BoxCast(bC2D.bounds.center, bC2D.bounds.size, 0f, Vector2.down, .1f, platformLayerMask);
         return raycastHit2D.collider != null;
     }
 

@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     private float terminalVelocity = 25.1f;
     private Vector2 horizontalMoveInput;
     protected Rigidbody2D rB2D;
-    private BoxCollider2D bC2D;
+    protected BoxCollider2D bC2D;
     protected CapsuleCollider2D cC2D;
     protected Vector3 playerPosition;
     private bool m_FacingRight = true;
