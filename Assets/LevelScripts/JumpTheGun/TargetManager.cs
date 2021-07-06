@@ -8,15 +8,7 @@ public class TargetManager : MonoBehaviour
     // Players will loop through the possible targets by holding left or right in the minigame
     public Target[] targets = new Target[23];
  
-    // Might remove and use gameObject.find in PlayerCannonController instead
-    public static TargetManager instance { get; private set; }
 
-
-    private void Awake()
-    {
-        // Unsure if we should use Singleton
-        instance = this;
-    }
 
 
     public void AddNewTarget(TargettingInformation ti)

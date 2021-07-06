@@ -11,24 +11,28 @@ public class PlayerCannonController : MonoBehaviour
 
     private Vector2 horizontalVector;
 
-    private bool isShooting = false;
+    public bool isShooting = false;
 
     private bool nonZeroValue = false;
 
     private Vector2 nonZeroVector;
 
+    private TargetManager assignedTargetManager;
+
     // Start is called before the first frame update
     void Start()
     {
 
-        if (TargetManager.instance.targets[0] != null)
-        {
-            currentTarget = TargetManager.instance.targets[0];
-            currentTarget.cursorSprite.enabled = true;
-        }
-
         // Todo player's should be assigned a team
-        // Their playerControlledCannon should assigned each team
+        // Their playerControlledCannon should be assigned given if they are on the 1st team or the 2nd
+
+        assignedTargetManager = GameObject.Find("TargetManager 1").GetComponent<TargetManager>();
+
+        currentTarget = assignedTargetManager.targets[0];
+        currentTarget.cursorSprite.enabled = true;
+
+
+
 
         playerControlledCannon = GameObject.Find("Cannon Team 1").GetComponent<PlayerControlledCannon>();
     }
@@ -74,7 +78,7 @@ public class PlayerCannonController : MonoBehaviour
 
             currentTarget.cursorSprite.enabled = false;
 
-            currentTarget = TargetManager.instance.targets[currentTarget.targetIndex + 1];
+            currentTarget = assignedTargetManager.targets[currentTarget.targetIndex + 1];
             currentTarget.cursorSprite.enabled = true;
         }
         else if (nonZeroVector.x < 0)
@@ -86,7 +90,7 @@ public class PlayerCannonController : MonoBehaviour
 
             currentTarget.cursorSprite.enabled = false;
 
-            currentTarget = TargetManager.instance.targets[currentTarget.targetIndex - 1];
+            currentTarget = assignedTargetManager.targets[currentTarget.targetIndex - 1];
             currentTarget.cursorSprite.enabled = true;
         }
     }
