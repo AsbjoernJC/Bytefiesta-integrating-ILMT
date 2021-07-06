@@ -66,11 +66,20 @@ public class JumpTheGunLevelInitializer : LevelInitializer
         // Todo vary where a player spawns based on playerTeam and hasCannonControl
         // aswell as vary the player prefab
         // PlayerInput.Instantiate will done within the switch cases.
-        switch (playerTeam)
+
+        // Did not know switch cases could take > 1 arguments
+        switch (playerTeam, hasCannonControl)
         {
-            case 1:
+            case (1, true):
                 break;
-            case 2:
+
+            case (1, false):
+                break;
+
+            case (2, true):
+                break;
+                
+            case (2, false):
                 break;
         }
 
