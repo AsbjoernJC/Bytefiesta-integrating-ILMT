@@ -17,7 +17,6 @@ public class JumpTheGunLevelInitializer : LevelInitializer
     private Dictionary<int, JumpTheGunPlayer> teamPlayerData = new Dictionary<int, JumpTheGunPlayer>();
     private int team1Counter = 0;
     private int team2Counter = 0;
-    private bool elemAdded = false;
 
 
     // where int is playerIndex and the bool is whether or not the player's role is as a player or cannon controlling player
