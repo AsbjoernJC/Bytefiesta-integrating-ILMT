@@ -21,7 +21,7 @@ public class LevelInitializer : MonoBehaviour
     int playerToRespawnIndex;
     int numberOfScoreUI;
     public float respawnTimer = 1.5f;
-    public static Dictionary<string, Dictionary<string, bool>> levelRules = new Dictionary<string, Dictionary<string, bool>>()
+    protected static Dictionary<string, Dictionary<string, bool>> levelRules = new Dictionary<string, Dictionary<string, bool>>()
     {
         {"KingoftheHill", new Dictionary<string, bool>{
             {"hasPowerUp", true},
@@ -106,7 +106,7 @@ public class LevelInitializer : MonoBehaviour
     
 
     // Instantiates the player in the current scene
-    public void SpawnPlayer(int playerIndex)
+    public virtual void SpawnPlayer(int playerIndex)
     {
         var playerController = PlayerConfigurationManager.Instance.playerControllers[playerIndex];
         var playerControlScheme = PlayerConfigurationManager.Instance.playerControlSchemes[playerIndex];
@@ -159,7 +159,7 @@ public class LevelInitializer : MonoBehaviour
 
 
 // Gets called on death
-    public void PlayerDeathInformation(GameObject player)
+    public virtual void PlayerDeathInformation(GameObject player)
     {
         playerToRespawnIndex = Int16.Parse(player.name.Split( )[1]) - 1;
         Destroy(player);
@@ -204,7 +204,7 @@ public class LevelInitializer : MonoBehaviour
     }
 
     // Will respawn the player after a short delay
-    public IEnumerator RespawnPlayer(float seconds, int playerIndex) 
+    public virtual IEnumerator RespawnPlayer(float seconds, int playerIndex) 
     { 
         yield return new WaitForSeconds(seconds); 
         SpawnPlayer(playerIndex);
