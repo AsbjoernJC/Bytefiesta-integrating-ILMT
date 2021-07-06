@@ -17,6 +17,7 @@ public class JumpTheGunLevelInitializer : LevelInitializer
     private Dictionary<int, JumpTheGunPlayer> teamPlayerData = new Dictionary<int, JumpTheGunPlayer>();
     private int team1Counter = 0;
     private int team2Counter = 0;
+    private bool elemAdded = false;
 
 
     // where int is playerIndex and the bool is whether or not the player's role is as a player or cannon controlling player
@@ -67,58 +68,94 @@ public class JumpTheGunLevelInitializer : LevelInitializer
         // aswell as vary the player prefab
         // PlayerInput.Instantiate will done within the switch cases.
 
-        // Did not know switch cases could take > 1 arguments
-        switch (playerTeam, hasCannonControl)
+
+        if (playerTeam == 1 && hasCannonControl == true)
         {
-            case (1, true):
-                break;
+            PlayerInput playerInput = PlayerInput.Instantiate(playerCannonPrefab[playerIndex], playerIndex, 
+            playerControlScheme, -1, playerController);
+            playerInput.name = "Player " + (playerIndex + 1).ToString();
+            playerInput.tag = "Team " + (playerTeam).ToString();
 
-            case (1, false):
-                break;
+            playerInput.transform.position = new Vector3 (playerCannonSpawns[0].transform.position.x, 
+            playerCannonSpawns[0].transform.position.y, 0);
+            // Activates the player input component on the prefab we just instantiated
+            // We have the component disabled by default, otherwise it could not be a "selectable object" independent of the PlayerInput component on the cursor
+            // in the selection screen
+            playerInput.enabled = true;
 
-            case (2, true):
-                break;
-                
-            case (2, false):
-                break;
+            //  *** It seems...that the above Instantiation doesn't exactly work... I'm assuming, because the PlayerInput component on the prefab is starting off
+            // disabled, that it...doesn't work.  This code here will force it to keep the device/scheme/etc... that we tried to assign the wretch above!
+            
+            playerInput.SwitchCurrentControlScheme(playerControlScheme);
+            var inputUser = playerInput.user;
+            InputUser.PerformPairingWithDevice(playerController, inputUser, InputUserPairingOptions.UnpairCurrentDevicesFromUser);
         }
-
-        PlayerInput playerInput = PlayerInput.Instantiate(playerPrefab[playerIndex], playerIndex, playerControlScheme, -1, playerController);
-        playerInput.name = "Player " + (playerIndex + 1).ToString();
-        playerInput.tag = "Player " + (playerIndex + 1).ToString();
-
-        playerInput.transform.position = new Vector3 (playerSpawns[playerIndex].transform.position.x, playerSpawns[playerIndex].transform.position.y, 0);
-        // Activates the player input component on the prefab we just instantiated
-        // We have the component disabled by default, otherwise it could not be a "selectable object" independent of the PlayerInput component on the cursor
-        // in the selection screen
-        playerInput.enabled = true;
-
-        //  *** It seems...that the above Instantiation doesn't exactly work... I'm assuming, because the PlayerInput component on the prefab is starting off
-        // disabled, that it...doesn't work.  This code here will force it to keep the device/scheme/etc... that we tried to assign the wretch above!
         
-        playerInput.SwitchCurrentControlScheme(playerControlScheme);
-        var inputUser = playerInput.user;
-        InputUser.PerformPairingWithDevice(playerController, inputUser, InputUserPairingOptions.UnpairCurrentDevicesFromUser);
-
-        var playerObject = GameObject.Find(playerInput.name); 
-
-        // Example with 3 players:
-        // If Player 3 is killed and hasn't respawned and Player 2 then is killed, it will try to insert Player 3 at index[2] even though 
-        // activePlayers = {Player 1} where Player 1 is a GameObject. Therefore it results in an ArgumentOutOfRangeException
-        
-    // if the minigame has a powerUpInitializer we will have to spawn powerups
-        if (powerupInitializer != null)
+        else if (playerTeam == 1 && !hasCannonControl)
         {
-            try
-            {
-                powerupInitializer.GetComponent<PowerUpInitializer>().activePlayers.Insert(playerIndex, playerObject);
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                powerupInitializer.GetComponent<PowerUpInitializer>().activePlayers.Add(playerObject);
-            }
-        }
+            PlayerInput playerInput = PlayerInput.Instantiate(playerPrefab[playerIndex], playerIndex, 
+            playerControlScheme, -1, playerController);
+            playerInput.name = "Player " + (playerIndex + 1).ToString();
+            playerInput.tag = "Team " + (playerTeam).ToString();
 
+            playerInput.transform.position = new Vector3 (playerSpawns[0].transform.position.x, 
+            playerSpawns[0].transform.position.y, 0);
+            // Activates the player input component on the prefab we just instantiated
+            // We have the component disabled by default, otherwise it could not be a "selectable object" independent of the PlayerInput component on the cursor
+            // in the selection screen
+            playerInput.enabled = true;
+
+            //  *** It seems...that the above Instantiation doesn't exactly work... I'm assuming, because the PlayerInput component on the prefab is starting off
+            // disabled, that it...doesn't work.  This code here will force it to keep the device/scheme/etc... that we tried to assign the wretch above!
+            
+            playerInput.SwitchCurrentControlScheme(playerControlScheme);
+            var inputUser = playerInput.user;
+            InputUser.PerformPairingWithDevice(playerController, inputUser, InputUserPairingOptions.UnpairCurrentDevicesFromUser);
+        }
+        
+        else if (playerTeam == 2 && hasCannonControl == true)
+        {
+            PlayerInput playerInput = PlayerInput.Instantiate(playerCannonPrefab[playerIndex], playerIndex, 
+            playerControlScheme, -1, playerController);
+            playerInput.name = "Player " + (playerIndex + 1).ToString();
+            playerInput.tag = "Team " + (playerTeam).ToString();
+
+            playerInput.transform.position = new Vector3 (playerCannonSpawns[1].transform.position.x, 
+            playerCannonSpawns[1].transform.position.y, 0);
+            // Activates the player input component on the prefab we just instantiated
+            // We have the component disabled by default, otherwise it could not be a "selectable object" independent of the PlayerInput component on the cursor
+            // in the selection screen
+            playerInput.enabled = true;
+
+            //  *** It seems...that the above Instantiation doesn't exactly work... I'm assuming, because the PlayerInput component on the prefab is starting off
+            // disabled, that it...doesn't work.  This code here will force it to keep the device/scheme/etc... that we tried to assign the wretch above!
+            
+            playerInput.SwitchCurrentControlScheme(playerControlScheme);
+            var inputUser = playerInput.user;
+            InputUser.PerformPairingWithDevice(playerController, inputUser, InputUserPairingOptions.UnpairCurrentDevicesFromUser);
+        }
+        
+        else if (playerTeam == 2 && !hasCannonControl)
+        {
+            PlayerInput playerInput = PlayerInput.Instantiate(playerPrefab[playerIndex], playerIndex, 
+            playerControlScheme, -1, playerController);
+            playerInput.name = "Player " + (playerIndex + 1).ToString();
+            playerInput.tag = "Team " + (playerTeam).ToString();
+
+            playerInput.transform.position = new Vector3 (playerSpawns[1].transform.position.x, 
+            playerSpawns[1].transform.position.y, 0);
+            // Activates the player input component on the prefab we just instantiated
+            // We have the component disabled by default, otherwise it could not be a "selectable object" independent of the PlayerInput component on the cursor
+            // in the selection screen
+            playerInput.enabled = true;
+
+            //  *** It seems...that the above Instantiation doesn't exactly work... I'm assuming, because the PlayerInput component on the prefab is starting off
+            // disabled, that it...doesn't work.  This code here will force it to keep the device/scheme/etc... that we tried to assign the wretch above!
+            
+            playerInput.SwitchCurrentControlScheme(playerControlScheme);
+            var inputUser = playerInput.user;
+            InputUser.PerformPairingWithDevice(playerController, inputUser, InputUserPairingOptions.UnpairCurrentDevicesFromUser);
+        }
 
     }
 
@@ -172,10 +209,10 @@ public class JumpTheGunLevelInitializer : LevelInitializer
                 if (team1PlayerData[i].controlsCannon == true)
                 {
                     controlsCannon = false;
-                    team1PlayerData.Add(new JumpTheGunPlayer(playerIndex, controlsCannon, teamNumber));
-                    teamPlayerData.Add(playerIndex, team1PlayerData[1]);
                 }
             }
+            team1PlayerData.Add(new JumpTheGunPlayer(playerIndex, controlsCannon, teamNumber));
+            teamPlayerData.Add(playerIndex, team1PlayerData[1]);
         }
 
         else if (teamNumber == 2 && team2PlayerData.Count != 0)
@@ -185,10 +222,10 @@ public class JumpTheGunLevelInitializer : LevelInitializer
                 if (team2PlayerData[i].controlsCannon == true)
                 {
                     controlsCannon = false;
-                    team2PlayerData.Add(new JumpTheGunPlayer(playerIndex, controlsCannon, teamNumber));
-                    teamPlayerData.Add(playerIndex, team2PlayerData[1]);
                 }
             }
+            team2PlayerData.Add(new JumpTheGunPlayer(playerIndex, controlsCannon, teamNumber));
+            teamPlayerData.Add(playerIndex, team2PlayerData[1]);
         }
     }
 
