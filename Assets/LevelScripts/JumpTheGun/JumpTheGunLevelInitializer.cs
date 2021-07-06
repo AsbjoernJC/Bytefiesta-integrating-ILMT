@@ -8,12 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class JumpTheGunLevelInitializer : LevelInitializer
 {
-    [SerializeField]
-    private Transform[] playerSpawns;
-    [SerializeField]
-    private GameObject[] playerPrefab;
-    private GameObject scoreUI;
-    private GameObject powerupInitializer;
+    [SerializeField] Transform[] playerCannonSpawns;
     int playerToRespawnIndex;
     int numberOfScoreUI;
 

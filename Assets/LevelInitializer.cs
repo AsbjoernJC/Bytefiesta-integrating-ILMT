@@ -12,11 +12,11 @@ using UnityEngine.SceneManagement;
 public class LevelInitializer : MonoBehaviour
 {
     [SerializeField]
-    private Transform[] playerSpawns;
+    protected Transform[] playerSpawns;
     [SerializeField]
-    private GameObject[] playerPrefab;
-    private GameObject scoreUI;
-    private GameObject powerupInitializer;
+    protected GameObject[] playerPrefab;
+    protected GameObject scoreUI;
+    protected GameObject powerupInitializer;
     public static string sceneName;
     int playerToRespawnIndex;
     int numberOfScoreUI;
@@ -71,7 +71,6 @@ public class LevelInitializer : MonoBehaviour
         }
         }
     };
-    public static LevelInitializer Instance { get; private set; }
 
 
     void Awake() 
@@ -81,14 +80,6 @@ public class LevelInitializer : MonoBehaviour
 
         sceneName = SceneManager.GetActiveScene().name;
 
-        if(Instance != null)
-        {
-            Debug.Log("SINGLETON - Trying to create another instance of singleton!!");
-        }
-        else
-        {
-            Instance = this;
-        }        
     }
     // Start is called before the first frame update
     void Start()
