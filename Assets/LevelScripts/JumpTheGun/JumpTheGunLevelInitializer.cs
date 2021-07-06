@@ -9,8 +9,6 @@ using UnityEngine.SceneManagement;
 public class JumpTheGunLevelInitializer : LevelInitializer
 {
     [SerializeField] Transform[] playerCannonSpawns;
-    int playerToRespawnIndex;
-    int numberOfScoreUI;
 
 
     void Awake() 
@@ -37,7 +35,7 @@ public class JumpTheGunLevelInitializer : LevelInitializer
     
 
     // Instantiates the player in the current scene
-    public override void SpawnPlayer(int playerIndex)
+    public override void SpawnPlayer(int playerIndex, string playerTag)
     {
         var playerController = PlayerConfigurationManager.Instance.playerControllers[playerIndex];
         var playerControlScheme = PlayerConfigurationManager.Instance.playerControlSchemes[playerIndex];
@@ -93,18 +91,19 @@ public class JumpTheGunLevelInitializer : LevelInitializer
     public override void PlayerDeathInformation(GameObject player)
     {
         playerToRespawnIndex = Int16.Parse(player.name.Split( )[1]) - 1;
+        string playerTag = player.tag;
         Destroy(player);
 
         // Checks in levelRules if this players should respawn in this minigame
         if (LevelInitializer.levelRules[sceneName]["playersRespawn"])
-            StartCoroutine(RespawnPlayer(respawnTimer, playerToRespawnIndex));
+            StartCoroutine(RespawnPlayer(respawnTimer, playerToRespawnIndex, playerTag));
     }
 
     // Will respawn the player after a short delay
-    public override IEnumerator RespawnPlayer(float seconds, int playerIndex) 
+    public override IEnumerator RespawnPlayer(float seconds, int playerIndex, string playerTag) 
     { 
         yield return new WaitForSeconds(seconds); 
-        SpawnPlayer(playerIndex);
+        SpawnPlayer(playerIndex, playerTag);
     } 
 
 
