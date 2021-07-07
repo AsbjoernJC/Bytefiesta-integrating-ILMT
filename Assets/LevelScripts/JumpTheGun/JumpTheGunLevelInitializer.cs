@@ -14,7 +14,7 @@ public class JumpTheGunLevelInitializer : LevelInitializer
 
     private List<JumpTheGunPlayer> team1PlayerData = new List<JumpTheGunPlayer>();
     private List<JumpTheGunPlayer> team2PlayerData = new List<JumpTheGunPlayer>();
-    private Dictionary<int, JumpTheGunPlayer> teamPlayerData = new Dictionary<int, JumpTheGunPlayer>();
+    public Dictionary<int, JumpTheGunPlayer> teamPlayerData = new Dictionary<int, JumpTheGunPlayer>();
     private int team1Counter = 0;
     private int team2Counter = 0;
 
