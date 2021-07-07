@@ -34,6 +34,8 @@ public class RaceTracker : MonoBehaviour
         else
             instance = this;
 
+        // Todo: try passing this to a function in a racetrackermanager and let racetrackermanager use singleton instead
+        // This should allow us to reference racetracker without problems even when handling a derived class from racetracker
     }
 
 
