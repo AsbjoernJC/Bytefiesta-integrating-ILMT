@@ -27,7 +27,7 @@ public class DestroyGameObjectCollider : MonoBehaviour
 
         }
 
-        if (collisionTag.Contains("Player"))
+        if (collisionTag.Contains("Player") || collision.Contains("Player"))
         {
             player.GetComponent<Stats>().TakeDamageAnonomously(1);
             // We return here as the player object will be destroyed if the player's health goes below 0
