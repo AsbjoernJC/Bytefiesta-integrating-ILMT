@@ -209,6 +209,10 @@ public class JumpTheGunLevelInitializer : LevelInitializer
                 {
                     controlsCannon = false;
                 }
+                else
+                {
+                    controlsCannon = true;
+                }
             }
             team1PlayerData.Add(new JumpTheGunPlayer(playerIndex, controlsCannon, teamNumber));
             teamPlayerData.Add(playerIndex, team1PlayerData[1]);
@@ -221,6 +225,10 @@ public class JumpTheGunLevelInitializer : LevelInitializer
                 if (team2PlayerData[i].controlsCannon == true)
                 {
                     controlsCannon = false;
+                }
+                else
+                {
+                    controlsCannon = true;
                 }
             }
             team2PlayerData.Add(new JumpTheGunPlayer(playerIndex, controlsCannon, teamNumber));

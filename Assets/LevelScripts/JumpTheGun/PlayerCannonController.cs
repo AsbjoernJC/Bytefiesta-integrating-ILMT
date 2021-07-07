@@ -26,15 +26,19 @@ public class PlayerCannonController : MonoBehaviour
         // Todo player's should be assigned a team
         // Their playerControlledCannon should be assigned given if they are on the 1st team or the 2nd
 
-        assignedTargetManager = GameObject.Find("TargetManager 1").GetComponent<TargetManager>();
+        if (this.tag == "Team 1")
+        {
+            playerControlledCannon = GameObject.Find("Cannon Team 1").GetComponent<PlayerControlledCannon>();
+            assignedTargetManager = GameObject.Find("TargetManager 1").GetComponent<TargetManager>();
+        }
+        else
+        {
+            playerControlledCannon = GameObject.Find("Cannon Team 2").GetComponent<PlayerControlledCannon>();
+            assignedTargetManager = GameObject.Find("TargetManager 2").GetComponent<TargetManager>();
+        }
 
         currentTarget = assignedTargetManager.targets[0];
         currentTarget.cursorSprite.enabled = true;
-
-
-
-
-        playerControlledCannon = GameObject.Find("Cannon Team 1").GetComponent<PlayerControlledCannon>();
     }
 
 
