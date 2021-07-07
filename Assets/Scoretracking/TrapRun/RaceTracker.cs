@@ -5,19 +5,17 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
 
+
 public class RaceTracker : MonoBehaviour
 {
     // Todo change name of KingoftheHillTracker as it may be used for other minigames with same score scheme
     [SerializeField]
-    private Canvas minigameEndImagery;
+    protected Canvas minigameEndImagery;
     [SerializeField]
-    private Image playerWhoWonSprite;
+    protected Image playerWhoWonSprite;
     [SerializeField]
-    public Sprite[] playerSprites;
-    private int assumedPosition; 
-    private int standardizedAssumedPosition;
-    private int placement;
-    private string winner;
+    protected Sprite[] playerSprites;
+    protected string winner;
     public Dictionary<string, int> playerScores = new Dictionary<string, int>()
     {
         {"Player 1", 4},
@@ -42,7 +40,7 @@ public class RaceTracker : MonoBehaviour
 
 // This function get's called when a player has a score equal to or higer than 5. It will stop the players from moving
 // And will display an image of the winner for 3.5 seconds.
-    public void MiniGameEnd(string playerWhoWon)
+    public virtual void MiniGameEnd(string playerWhoWon)
     {
         winner = playerWhoWon;
 
@@ -52,11 +50,17 @@ public class RaceTracker : MonoBehaviour
         Time.timeScale = 0f;
         instance.StartCoroutine("DisplayWinner");
 
+    }
+
+
+    // Method overload used in team minigames
+    public virtual void MiniGameEnd(List<int> playersWhoWon)
+    {
 
     }
 
     // Displays the winner's character sprite for 3.5 seconds and should then load a new scene.
-    private IEnumerator DisplayWinner()
+    protected virtual IEnumerator DisplayWinner()
     {
         // Instead of doing this everywhere i should just find pi.playerIndex. Look in PlayerConfigurationManager.
         // winner can either be = "Player 1", "Player 2", "Player 3" or "Player 4". 
@@ -81,5 +85,3 @@ public class RaceTracker : MonoBehaviour
     }
 
 }
-
-

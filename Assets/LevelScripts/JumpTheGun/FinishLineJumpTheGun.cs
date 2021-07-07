@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FinishLineJumpTheGun : FinishLine
 {
+    private List<int> winnerIndexes = new List<int>();
     private JumpTheGunLevelInitializer jumpTheGunLevelInitializer;
 
     private void Start()
@@ -34,29 +35,30 @@ public class FinishLineJumpTheGun : FinishLine
 
         if (collisionTag.Contains("Team 1"))
         {
-
+            hasCollided = true;
             foreach (var elem in jumpTheGunLevelInitializer.teamPlayerData)
             {
                 if (elem.Value.team == 1)
                 {
                     RaceTracker.instance.playerScores[elem.Value.ToString()] = 1;
-                    hasCollided = true;
+                    winnerIndexes.Add(elem.Value.playerIndex);
                 }
             }
         }
-        
+
         else if (collisionTag.Contains("Team 2"))
         {
+            hasCollided = true;
             foreach (var elem in jumpTheGunLevelInitializer.teamPlayerData)
             {
                 if (elem.Value.team == 2)
                 {
                     RaceTracker.instance.playerScores[elem.Value.ToString()] = 1;
-                    hasCollided = true;
+                    winnerIndexes.Add(elem.Value.playerIndex);
                 }
             }
         }
-        RaceTracker.instance.MiniGameEnd(player.name);
+        RaceTracker.instance.MiniGameEnd(winnerIndexes);
         return;
     }
 }
