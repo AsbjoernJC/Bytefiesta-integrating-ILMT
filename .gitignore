@@ -14,6 +14,9 @@ Assets/Character/*
 !Assets/Character/TrapRun
 !Assets/Character/TrapRun/*.cs
 
+!Assets/Character/JumpTheGun
+!Assets/Character/JumpTheGun/*.cs
+
 
 !Assets/PlayerSelect
 Assets/PlayerSelect/*
@@ -34,6 +37,8 @@ Assets/PlayerSelect/*
 !Assets/ScoreTracking/KingoftheHill/*.cs
 !Assets/ScoreTracking/TrapRun
 !Assets/ScoreTracking/TrapRun/*.cs
+!Assets/ScoreTracking/JumpTheGun
+!Assets/ScoreTracking/JumpTheGun/*.cs
 
 !Assets/ScoreTracking/GunnedDown
 !Assets/ScoreTracking/GunnedDown/*.cs
@@ -81,4 +86,6 @@ Assets/PlayerSelect/*
 !Assets/LevelScripts/TrapRun/*.cs
 !Assets/LevelScripts/DropDead
 !Assets/LevelScripts/DropDead/*.cs
+!Assets/LevelScripts/JumpTheGun
+!Assets/LevelScripts/JumpTheGun/*.cs
 

@@ -12,16 +12,16 @@ using UnityEngine.SceneManagement;
 public class LevelInitializer : MonoBehaviour
 {
     [SerializeField]
-    private Transform[] playerSpawns;
+    protected Transform[] playerSpawns;
     [SerializeField]
-    private GameObject[] playerPrefab;
-    private GameObject scoreUI;
-    private GameObject powerupInitializer;
+    protected GameObject[] playerPrefab;
+    protected GameObject scoreUI;
+    protected GameObject powerupInitializer;
     public static string sceneName;
-    int playerToRespawnIndex;
-    int numberOfScoreUI;
-    public int respawnTimer = 4;
-    public static Dictionary<string, Dictionary<string, bool>> levelRules = new Dictionary<string, Dictionary<string, bool>>()
+    protected int playerToRespawnIndex;
+    protected int numberOfScoreUI;
+    public float respawnTimer = 1.5f;
+    protected static Dictionary<string, Dictionary<string, bool>> levelRules = new Dictionary<string, Dictionary<string, bool>>()
     {
         {"KingoftheHill", new Dictionary<string, bool>{
             {"hasPowerUp", true},
@@ -61,9 +61,16 @@ public class LevelInitializer : MonoBehaviour
             {"hasScoreUI", false},
             {"lastManStanding", true}
         }
+        },
+
+        {"JumpTheGun", new Dictionary<string, bool>{
+        {"hasPowerUp", false},
+        {"playersRespawn", true},
+        {"hasScoreUI", false},
+        {"lastManStanding", false}
+        }
         }
     };
-    public static LevelInitializer Instance { get; private set; }
 
 
     void Awake() 
@@ -73,14 +80,6 @@ public class LevelInitializer : MonoBehaviour
 
         sceneName = SceneManager.GetActiveScene().name;
 
-        if(Instance != null)
-        {
-            Debug.Log("SINGLETON - Trying to create another instance of singleton!!");
-        }
-        else
-        {
-            Instance = this;
-        }        
     }
     // Start is called before the first frame update
     void Start()
@@ -98,7 +97,7 @@ public class LevelInitializer : MonoBehaviour
     
 
     // Instantiates the player in the current scene
-    public void SpawnPlayer(int playerIndex)
+    public virtual void SpawnPlayer(int playerIndex)
     {
         var playerController = PlayerConfigurationManager.Instance.playerControllers[playerIndex];
         var playerControlScheme = PlayerConfigurationManager.Instance.playerControlSchemes[playerIndex];
@@ -151,7 +150,7 @@ public class LevelInitializer : MonoBehaviour
 
 
 // Gets called on death
-    public void PlayerDeathInformation(GameObject player)
+    public virtual void PlayerDeathInformation(GameObject player)
     {
         playerToRespawnIndex = Int16.Parse(player.name.Split( )[1]) - 1;
         Destroy(player);
@@ -196,11 +195,20 @@ public class LevelInitializer : MonoBehaviour
     }
 
     // Will respawn the player after a short delay
-    public IEnumerator RespawnPlayer(int seconds, int playerIndex) 
+    public virtual IEnumerator RespawnPlayer(float seconds, int playerIndex) 
     { 
         yield return new WaitForSeconds(seconds); 
         SpawnPlayer(playerIndex);
-    } 
+    }
 
 
+
+    // Unused but letting it be because it was the first time i heard of overloading methods
+    // Overloading method that will be used for team minigames
+    // https://stackoverflow.com/questions/27547122/c-sharp-override-with-different-parameters
+    public virtual IEnumerator RespawnPlayer(float seconds, int playerIndex, string playerTag) 
+    { 
+        yield return new WaitForSeconds(seconds); 
+        SpawnPlayer(playerIndex);
+    }
 }

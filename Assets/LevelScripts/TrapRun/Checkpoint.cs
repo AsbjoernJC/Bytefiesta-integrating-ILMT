@@ -26,7 +26,7 @@ public class Checkpoint : MonoBehaviour
 
         if (collisionTag.Contains("Player"))
         {
-            RaceTracker.instance.playerScores[player.name] = playerStanding;
+            RaceTrackerManager.Instance.raceTracker.playerScores[player.name] = playerStanding;
         }
     }
 }

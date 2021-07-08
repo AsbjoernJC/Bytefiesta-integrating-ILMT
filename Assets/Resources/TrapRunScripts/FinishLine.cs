@@ -5,11 +5,11 @@ using UnityEngine;
 public class FinishLine : MonoBehaviour
 {
     // Start is called before the first frame update
-    private string collisionTag;
-    private GameObject player;
-    private bool hasCollided = false;
+    protected string collisionTag;
+    protected GameObject player;
+    protected bool hasCollided = false;
 
-    private void OnTriggerEnter2D(Collider2D collider) 
+    protected virtual void OnTriggerEnter2D(Collider2D collider) 
     {
         // hasCollided is only set to true when a player has touched the finishline and the end of the minigame has been called
         // therefore we don't need to check for other collisions at this point in time.
@@ -36,8 +36,8 @@ public class FinishLine : MonoBehaviour
 
         if (collisionTag.Contains("Player"))
         {
-            RaceTracker.instance.playerScores[player.name] = 1;
-            RaceTracker.instance.MiniGameEnd(player.name);
+            RaceTrackerManager.Instance.raceTracker.playerScores[player.name] = 1;
+            RaceTrackerManager.Instance.raceTracker.MiniGameEnd(player.name);
             hasCollided = true;
         }
     }

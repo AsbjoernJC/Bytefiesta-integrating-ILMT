@@ -6,7 +6,6 @@ public class DestroyGameObjectCollider : MonoBehaviour
 {
     private string collisionTag;
     private GameObject player;
-    private bool hasCollided = false;
 
     private void OnTriggerEnter2D(Collider2D collider) 
     {
@@ -28,10 +27,9 @@ public class DestroyGameObjectCollider : MonoBehaviour
 
         }
 
-        if (collisionTag.Contains("Player") && hasCollided == false)
+        if (collisionTag.Contains("Player") || collision.Contains("Player"))
         {
             player.GetComponent<Stats>().TakeDamageAnonomously(1);
-            hasCollided = true;
             // We return here as the player object will be destroyed if the player's health goes below 0
             return;
         }

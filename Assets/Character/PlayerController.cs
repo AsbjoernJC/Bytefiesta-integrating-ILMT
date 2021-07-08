@@ -4,7 +4,6 @@ using System.Collections;
 using System;
 
 
-[RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
 
@@ -16,20 +15,20 @@ public class PlayerController : MonoBehaviour
     // or should i create a playerprefab for each minigame with playercontroller variance.
     // These scripts would inherit from PlayerController 
     [SerializeField] private float runSpeed = 1.5f;
-    [SerializeField] private float m_JumpForce = 20.0f;
-    [SerializeField] private LayerMask platformLayerMask;
+    [SerializeField] protected float m_JumpForce = 20.0f;
+    [SerializeField] protected LayerMask platformLayerMask;
     private float horizontalMove = 0f;
     private float terminalVelocity = 25.1f;
     private Vector2 horizontalMoveInput;
-    private Rigidbody2D rB2D;
-    private BoxCollider2D bC2D;
-    private CapsuleCollider2D cC2D;
+    protected Rigidbody2D rB2D;
+    protected BoxCollider2D bC2D;
+    protected CapsuleCollider2D cC2D;
     protected Vector3 playerPosition;
     private bool m_FacingRight = true;
     private bool canDoubleJump;
     protected bool hasShieldPowerUp = false;
     protected bool hasNormalBullet = true;
-    private bool canCoyote = false;
+    protected bool canCoyote = false;
     private bool coyoteStarted = false;
     protected float reloadSpeed = 0.4f;
 
@@ -172,7 +171,7 @@ public class PlayerController : MonoBehaviour
 
 
 // Weird bug with the animator. When holding down the jumpbutton the Player_Jump animation will not be played but rather the Player_Idle or Player_Run
-    public void OnJump(InputAction.CallbackContext context)
+    public virtual void OnJump(InputAction.CallbackContext context)
     {
         animator.SetBool("IsJumping", true);
         if (context.action.triggered)
@@ -215,7 +214,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private bool IsGrounded() 
+    protected virtual bool IsGrounded() 
     {
         RaycastHit2D raycastHit2D = Physics2D.BoxCast(bC2D.bounds.center, bC2D.bounds.size, 0f, Vector2.down, .1f, platformLayerMask);
         return raycastHit2D.collider != null;

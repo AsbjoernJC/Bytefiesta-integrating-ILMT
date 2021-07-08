@@ -6,11 +6,13 @@ public class Stats : MonoBehaviour
 {
     public int health = 1;
     private GameObject player;
+    private LevelInitializer levelInitializer;
 
 
     // Update is called once per frame
     void Start()
     {
+        levelInitializer = GameObject.Find("LevelInitializer").GetComponent<LevelInitializer>();
         player = this.gameObject;
     }
 
@@ -37,7 +39,7 @@ public class Stats : MonoBehaviour
 
             // PlayerDeathInformation also interacts with PowerUpInitializer which is not used in every minigame
             // Furthermore it will try to respawn the player
-            LevelInitializer.Instance.PlayerDeathInformation(player);
+            levelInitializer.PlayerDeathInformation(player);
             if (PointMinigameTracker.instance.playerScores[playerWhoDealtDamage] >= 1)
             {
                 PointMinigameTracker.instance.MiniGameEnd(playerWhoDealtDamage);
@@ -61,7 +63,7 @@ public class Stats : MonoBehaviour
         // If a player's health is equal to 0 or less then the player should die
         if (health <= 0)
         {
-            LevelInitializer.Instance.PlayerDeathInformation(player);
+            levelInitializer.PlayerDeathInformation(player);
         }
     }
 
