@@ -81,16 +81,16 @@ public class SipInitializer : MonoBehaviour
                 minigamePlacement = LastManStanding.instance.playerStandings[$"Player {i + 1}"];
                 break;
             case "TrapRun":
-                minigamePlacement = RaceTracker.instance.playerScores[$"Player {i + 1}"];
+                minigamePlacement = RaceTrackerManager.Instance.raceTracker.playerScores[$"Player {i + 1}"];
                 break;
             case "TrapRunVariant":
-                minigamePlacement = RaceTracker.instance.playerScores[$"Player {i + 1}"];
+                minigamePlacement = RaceTrackerManager.Instance.raceTracker.playerScores[$"Player {i + 1}"];
                 break;
             case "DropDead":
                 minigamePlacement = LastManStanding.instance.playerStandings[$"Player {i + 1}"];
                 break;
             case "JumpTheGun":
-                minigamePlacement = RaceTracker.instance.playerScores[$"Player {i + 1}"];
+                minigamePlacement = RaceTrackerManager.Instance.raceTracker.playerScores[$"Player {i + 1}"];
                 break;
         }
 

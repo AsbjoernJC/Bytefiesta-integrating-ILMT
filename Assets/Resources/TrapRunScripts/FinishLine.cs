@@ -36,8 +36,8 @@ public class FinishLine : MonoBehaviour
 
         if (collisionTag.Contains("Player"))
         {
-            RaceTracker.instance.playerScores[player.name] = 1;
-            RaceTracker.instance.MiniGameEnd(player.name);
+            RaceTrackerManager.Instance.raceTracker.playerScores[player.name] = 1;
+            RaceTrackerManager.Instance.raceTracker.MiniGameEnd(player.name);
             hasCollided = true;
         }
     }

@@ -10,6 +10,7 @@ public class RaceTrackerJumpTheGun : RaceTracker
     [SerializeField] private Image player2WhoWonSprite;
     private List<int> winners = new List<int>();
 
+
     public override void MiniGameEnd(List<int> playersWhoWon)
     {
         winners = playersWhoWon;

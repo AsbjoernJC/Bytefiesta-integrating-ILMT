@@ -40,7 +40,7 @@ public class FinishLineJumpTheGun : FinishLine
             {
                 if (elem.Value.team == 1)
                 {
-                    RaceTracker.instance.playerScores[elem.Value.ToString()] = 1;
+                    RaceTrackerManager.Instance.raceTracker.playerScores[elem.Value.ToString()] = 1;
                     winnerIndexes.Add(elem.Value.playerIndex);
                 }
             }
@@ -53,12 +53,12 @@ public class FinishLineJumpTheGun : FinishLine
             {
                 if (elem.Value.team == 2)
                 {
-                    RaceTracker.instance.playerScores[elem.Value.ToString()] = 1;
+                    RaceTrackerManager.Instance.raceTracker.playerScores[elem.Value.ToString()] = 1;
                     winnerIndexes.Add(elem.Value.playerIndex);
                 }
             }
         }
-        RaceTracker.instance.MiniGameEnd(winnerIndexes);
+        RaceTrackerManager.Instance.raceTracker.MiniGameEnd(winnerIndexes);
         return;
     }
 }

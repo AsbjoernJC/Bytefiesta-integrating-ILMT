@@ -23,11 +23,10 @@ public class RaceTracker : MonoBehaviour
         {"Player 3", 4},
         {"Player 4", 4}
     };
-    public static RaceTracker instance { get; private set; }
 
 
     // Start is called before the first frame update
-    void Awake()
+    protected virtual void Awake()
     {
         // if (instance != null)
         //     Debug.Log("Singleton, tried to create another object");
@@ -51,7 +50,7 @@ public class RaceTracker : MonoBehaviour
         DifficultyAndScore.Instance.acrossGamemodePlayerScore[winner] ++;
         // Time.timeScale prevents players from moving.
         Time.timeScale = 0f;
-        instance.StartCoroutine("DisplayWinner");
+        StartCoroutine("DisplayWinner");
 
     }
 
@@ -59,7 +58,7 @@ public class RaceTracker : MonoBehaviour
     // Method overload used in team minigames
     public virtual void MiniGameEnd(List<int> playersWhoWon)
     {
-
+        Debug.Log(playersWhoWon);
     }
 
     // Displays the winner's character sprite for 3.5 seconds and should then load a new scene.
@@ -101,6 +100,5 @@ public class RaceTrackerManager
     public void PassRaceTracker(RaceTracker rt)
     {
         raceTracker = rt;
-        Debug.Log(raceTracker.playerScores);
     }
 }
