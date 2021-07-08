@@ -10,12 +10,14 @@ public class PlayerControlledCannon : MonoBehaviour
     private Quaternion shootingAngle;
 
     [SerializeField] private float smoothing = 4f;
+    public PlayerCannonController assignedPlayer;
 
 
 
 
     public void Shoot(Target target)
     {
+        assignedPlayer.isShooting = true;
         shootingAngle.eulerAngles = new Vector3(0f, 0f, 0f);
 
     // Todo spawn bullets more often over time
@@ -42,7 +44,7 @@ public class PlayerControlledCannon : MonoBehaviour
             yield return null;
         }
 
-
+        assignedPlayer.isShooting = false;
         Destroy(bulletInstance);
 
         target.targetPlatform.SetActive(true);

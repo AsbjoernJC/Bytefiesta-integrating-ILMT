@@ -29,11 +29,13 @@ public class PlayerCannonController : MonoBehaviour
         if (this.tag == "Team 1")
         {
             playerControlledCannon = GameObject.Find("Cannon Team 1").GetComponent<PlayerControlledCannon>();
+            playerControlledCannon.assignedPlayer = this;
             assignedTargetManager = GameObject.Find("TargetManager 1").GetComponent<TargetManager>();
         }
         else
         {
             playerControlledCannon = GameObject.Find("Cannon Team 2").GetComponent<PlayerControlledCannon>();
+            playerControlledCannon.assignedPlayer = this;
             assignedTargetManager = GameObject.Find("TargetManager 2").GetComponent<TargetManager>();
         }
 
@@ -65,10 +67,6 @@ public class PlayerCannonController : MonoBehaviour
 
     private void ChooseTarget(float horizontalValue)
     {
-        // whilst isShooting = true players won't be allowed to move their cursor/choose targets
-
-        if (isShooting)
-            return;
 
 
         if (nonZeroVector.x > 0)
@@ -114,11 +112,8 @@ public class PlayerCannonController : MonoBehaviour
 
 
             playerControlledCannon.Shoot(currentTarget);
-
-            isShooting = true;
         }
 
-        isShooting = false;
     }
 
 }
