@@ -29,13 +29,14 @@ public class RaceTracker : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        if (instance != null)
-            Debug.Log("Singleton, tried to create another object");
-        else
-            instance = this;
+        // if (instance != null)
+        //     Debug.Log("Singleton, tried to create another object");
+        // else
+        //     instance = this;
 
         // Todo: try passing this to a function in a racetrackermanager and let racetrackermanager use singleton instead
         // This should allow us to reference racetracker without problems even when handling a derived class from racetracker
+        RaceTrackerManager.Instance.PassRaceTracker(this);
     }
 
 
@@ -86,4 +87,20 @@ public class RaceTracker : MonoBehaviour
 
     }
 
+}
+
+public class RaceTrackerManager
+{
+    public RaceTracker raceTracker;
+    private static RaceTrackerManager _instance = new RaceTrackerManager();
+
+
+    public static RaceTrackerManager Instance { get { return _instance; }}
+
+
+    public void PassRaceTracker(RaceTracker rt)
+    {
+        raceTracker = rt;
+        Debug.Log(raceTracker.playerScores);
+    }
 }
