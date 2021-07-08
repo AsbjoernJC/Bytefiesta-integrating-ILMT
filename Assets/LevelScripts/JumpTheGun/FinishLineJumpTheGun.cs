@@ -6,11 +6,14 @@ public class FinishLineJumpTheGun : FinishLine
 {
     private List<int> winnerIndexes = new List<int>();
     private JumpTheGunLevelInitializer jumpTheGunLevelInitializer;
+    public GameObject levelinitializer;
 
-    private void Start()
+
+    private void Start() 
     {
-        jumpTheGunLevelInitializer = GameObject.Find("LevelInitializer").GetComponent<JumpTheGunLevelInitializer>();
+        jumpTheGunLevelInitializer = levelinitializer.GetComponent<JumpTheGunLevelInitializer>();
     }
+
 
     protected override void OnTriggerEnter2D(Collider2D collider) 
     {
