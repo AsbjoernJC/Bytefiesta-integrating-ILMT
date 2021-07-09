@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine.SceneManagement;
 using System;
 using Random = UnityEngine.Random;
+using TMPro;
 
 
 // Configuration services
@@ -15,6 +16,9 @@ public class PlayerConfigurationManager : MonoBehaviour
 
     [SerializeField]
     private GameObject controllerLayout;
+
+    [SerializeField] GameObject countdown;
+    [SerializeField] TMP_Text countdownText;
     
     public int numberOfActivePlayers { get; set; } = 0;
 
@@ -52,6 +56,7 @@ public class PlayerConfigurationManager : MonoBehaviour
     private IEnumerator StartCountdown(int numberOfReadyPlayers)
     {
         float timePassed = 0f;
+        countdown.SetActive(true);
 
         while (timePassed < 5f)
         {
@@ -63,16 +68,19 @@ public class PlayerConfigurationManager : MonoBehaviour
                 switch (Math.Round(timePassed, 2))
                 {
                     case 1:
-                    // 4
+                        countdownText.text = "4";
                         break;
                     case 2:
-                    // Set text element to 3 etc. 
+                        countdownText.text = "3"; 
                         break;
                     case 3:
+                        countdownText.text = "2";
                         break;
                     case 4: 
+                        countdownText.text = "1";
                         break;
-                    case 5:
+                    case 5: 
+                        countdownText.text = "0";
                         break;
                 }
             }
@@ -80,6 +88,8 @@ public class PlayerConfigurationManager : MonoBehaviour
             if (numberOfActivePlayers != numberOfReadyPlayers)
             {
                 // Deactivate the countdown canvas group and set the text to 5
+                countdown.SetActive(false);
+                countdownText.text = "5";
                 yield break;
             }
             
