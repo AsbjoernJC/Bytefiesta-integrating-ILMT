@@ -63,10 +63,10 @@ public class PlayerConfigurationManager : MonoBehaviour
                 switch (Math.Round(timePassed, 2))
                 {
                     case 1:
-                    // Set text element to 5
+                    // 4
                         break;
                     case 2:
-                    // Set text element to 4 etc. 
+                    // Set text element to 3 etc. 
                         break;
                     case 3:
                         break;
