@@ -119,10 +119,15 @@ public class PlayerConfigurationManager : MonoBehaviour
 
         // Loads a random minigame
         var unchosenMinigames = DifficultyAndScore.Instance.unchosenMinigames;
+        var tailoredMinigames = DifficultyAndScore.Instance.tailoredMinigames;
 
         // If the amount of players is equal to 4 then we should add 4 player minigames to the unchosen minigames
         if (playerConfigurations.Count == 4)
+        {
             unchosenMinigames.AddRange(DifficultyAndScore.fourPlayerMinigames);
+            tailoredMinigames.AddRange(DifficultyAndScore.minigames);
+            tailoredMinigames.AddRange(DifficultyAndScore.fourPlayerMinigames);
+        }
 
         int chosenScene = unchosenMinigames[Random.Range(0, unchosenMinigames.Count)];
         unchosenMinigames.RemoveAll(scene => scene == chosenScene);
