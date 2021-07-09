@@ -57,9 +57,29 @@ public class PlayerConfigurationManager : MonoBehaviour
         {
             // Todo: have it change a text element in the scene to display the 5 second countdown to start
             // unless another player joins
+            if (Math.Round(timePassed, 2) % 1 == 0 && Math.Round(timePassed, 2) != 0)
+            {
+                // Change text element to Math.Round(timePassed, 2).toString()
+                switch (Math.Round(timePassed, 2))
+                {
+                    case 1:
+                    // Set text element to 5
+                        break;
+                    case 2:
+                    // Set text element to 4 etc. 
+                        break;
+                    case 3:
+                        break;
+                    case 4: 
+                        break;
+                    case 5:
+                        break;
+                }
+            }
 
             if (numberOfActivePlayers != numberOfReadyPlayers)
             {
+                // Deactivate the countdown canvas group and set the text to 5
                 yield break;
             }
             
