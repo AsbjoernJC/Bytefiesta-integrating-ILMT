@@ -14,9 +14,6 @@ public class PlayerConfigurationManager : MonoBehaviour
     private List<PlayerConfiguration> playerConfigurations = new List<PlayerConfiguration>();
 
     [SerializeField]
-    public int MaxPlayers = 1;
-
-    [SerializeField]
     private GameObject controllerLayout;
     
     public int numberOfActivePlayers { get; set; } = 0;
@@ -44,36 +41,65 @@ public class PlayerConfigurationManager : MonoBehaviour
     {
         playerConfigurations[index].isReady = true;
 
-        //Lambda expression in C#
-        if (playerConfigurations.Count == MaxPlayers && playerConfigurations.All(p => p.isReady == true))
+
+        if (playerConfigurations.Count >= 2 && playerConfigurations.All(p => p.isReady == true))
         {
-            GameObject[] configurationManagerClones = GameObject.FindGameObjectsWithTag("PlayerConfiguration(Clone)");
-            for (int i = 0; i < configurationManagerClones.Length; i++)
-            {
-                var playerInputComponent = configurationManagerClones[i].GetComponent<PlayerInput>();
-                var playerIndex = playerInputComponent.playerIndex;
-                playerControllers.Add(playerIndex, playerInputComponent.devices[0]);
-
-                
-                DifficultyAndScore.Instance.playerInputs.Add(playerIndex, playerInputComponent);
-                playerControlSchemes.Add(playerInputComponent.playerIndex, playerInputComponent.currentControlScheme);
-            }
-
-
-
-            // Loads a random minigame
-            var unchosenMinigames = DifficultyAndScore.Instance.unchosenMinigames;
-
-            // If the amount of players is equal to 4 then we should add 4 player minigames to the unchosen minigames
-            if (playerConfigurations.Count == 4)
-                unchosenMinigames.AddRange(DifficultyAndScore.fourPlayerMinigames);
-
-            int chosenScene = unchosenMinigames[Random.Range(0, unchosenMinigames.Count)];
-            unchosenMinigames.RemoveAll(scene => scene == chosenScene);
-            DifficultyAndScore.Instance.lastMinigameIndex = chosenScene;
-            SceneManager.LoadScene(chosenScene);
+            StartCoroutine(StartCountdown(playerConfigurations.Count));
         }
     }
+
+
+    private IEnumerator StartCountdown(int numberOfReadyPlayers)
+    {
+        float timePassed = 0f;
+
+        while (timePassed < 5f)
+        {
+            // Todo: have it change a text element in the scene to display the 5 second countdown to start
+            // unless another player joins
+
+            if (numberOfActivePlayers != numberOfReadyPlayers)
+            {
+                yield break;
+            }
+            
+            timePassed += Time.deltaTime;
+            yield return null;
+        }
+
+        StartGame();
+    }
+
+
+    private void StartGame()
+    {
+        //Lambda expression in C#
+        GameObject[] configurationManagerClones = GameObject.FindGameObjectsWithTag("PlayerConfiguration(Clone)");
+        for (int i = 0; i < configurationManagerClones.Length; i++)
+        {
+            var playerInputComponent = configurationManagerClones[i].GetComponent<PlayerInput>();
+            var playerIndex = playerInputComponent.playerIndex;
+            playerControllers.Add(playerIndex, playerInputComponent.devices[0]);
+
+            DifficultyAndScore.Instance.playerInputs.Add(playerIndex, playerInputComponent);
+            playerControlSchemes.Add(playerInputComponent.playerIndex, playerInputComponent.currentControlScheme);
+        }
+
+
+
+        // Loads a random minigame
+        var unchosenMinigames = DifficultyAndScore.Instance.unchosenMinigames;
+
+        // If the amount of players is equal to 4 then we should add 4 player minigames to the unchosen minigames
+        if (playerConfigurations.Count == 4)
+            unchosenMinigames.AddRange(DifficultyAndScore.fourPlayerMinigames);
+
+        int chosenScene = unchosenMinigames[Random.Range(0, unchosenMinigames.Count)];
+        unchosenMinigames.RemoveAll(scene => scene == chosenScene);
+        DifficultyAndScore.Instance.lastMinigameIndex = chosenScene;
+        SceneManager.LoadScene(chosenScene);
+    }
+
 
     //Player joins when pressing y and doing it once more to ready up. Functions is called when
     // the Player Input Manager invokes the unity event in the 'PlayerSelect' scene.
