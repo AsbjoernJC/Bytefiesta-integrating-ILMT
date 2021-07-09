@@ -41,6 +41,7 @@ public class DifficultyAndScore : MonoBehaviour
 
     // When there is enough minigames unchosenMinigames might just be a list 
     // containing the only games to pick from. For now we will cycle minigames in and out of this list
+    public List<int> tailoredMinigames = new List<int>();
     public List<int> unchosenMinigames = new List<int>();
     public Dictionary<int, PlayerInput> playerInputs = new Dictionary<int, PlayerInput>();
     public string gameWinner;
