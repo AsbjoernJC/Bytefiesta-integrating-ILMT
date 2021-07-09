@@ -7,7 +7,7 @@ using UnityEngine.InputSystem.Users;
 using UnityEngine.SceneManagement;
 
 
-// Todo make derive classes from LevelInitializer for each minigame instead of
+// Todo make derived classes from LevelInitializer for each minigame instead of
 // using a lot of convoluted if statements
 public class LevelInitializer : MonoBehaviour
 {

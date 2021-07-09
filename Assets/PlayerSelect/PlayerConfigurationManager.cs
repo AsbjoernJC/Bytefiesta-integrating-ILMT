@@ -60,8 +60,14 @@ public class PlayerConfigurationManager : MonoBehaviour
             }
 
 
+
             // Loads a random minigame
             var unchosenMinigames = DifficultyAndScore.Instance.unchosenMinigames;
+
+            // If the amount of players is equal to 4 then we should add 4 player minigames to the unchosen minigames
+            if (playerConfigurations.Count == 4)
+                unchosenMinigames.AddRange(DifficultyAndScore.fourPlayerMinigames);
+
             int chosenScene = unchosenMinigames[Random.Range(0, unchosenMinigames.Count)];
             unchosenMinigames.RemoveAll(scene => scene == chosenScene);
             DifficultyAndScore.Instance.lastMinigameIndex = chosenScene;
