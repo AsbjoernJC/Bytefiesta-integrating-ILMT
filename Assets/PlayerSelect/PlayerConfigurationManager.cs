@@ -19,7 +19,7 @@ public class PlayerConfigurationManager : MonoBehaviour
 
     [SerializeField] GameObject countdown;
     [SerializeField] TMP_Text countdownText;
-    [SerializeField] private float waitToStartCount = 3f;
+    [SerializeField] private int waitToStartCount = 3;
     
     public int numberOfActivePlayers { get; set; } = 0;
 
@@ -54,34 +54,35 @@ public class PlayerConfigurationManager : MonoBehaviour
     }
 
 
+// When all the active players in the characterselection lobby has pressed ready a countdown from waitToStartCount
+// will commence
     private IEnumerator StartCountdown(int numberOfReadyPlayers)
     {
         float timePassed = 0f;
+        countdownText.text = waitToStartCount.ToString();
         countdown.SetActive(true);
 
         while (timePassed < waitToStartCount)
         {
-            // Todo: have it change a text element in the scene to display the 5 second countdown to start
-            // unless another player joins
+
             if (Math.Round(timePassed, 2) % 1 == 0 && Math.Round(timePassed, 2) != 0)
             {
-                // Change text element to Math.Round(timePassed, 2).toString()
                 switch (Math.Round(timePassed, 2))
                 {
                     case 1:
-                        countdownText.text = "4";
+                        countdownText.text = (waitToStartCount - 1).ToString();
                         break;
                     case 2:
-                        countdownText.text = "3"; 
+                        countdownText.text = (waitToStartCount - 2).ToString(); 
                         break;
                     case 3:
-                        countdownText.text = "2";
+                        countdownText.text = (waitToStartCount - 3).ToString();
                         break;
-                    case 4: 
-                        countdownText.text = "1";
+                    case 4:
+                        countdownText.text = (waitToStartCount - 4).ToString();
                         break;
-                    case 5: 
-                        countdownText.text = "0";
+                    case 5:
+                        countdownText.text = (waitToStartCount - 5).ToString(); 
                         break;
                 }
             }
