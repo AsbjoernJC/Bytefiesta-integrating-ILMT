@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
+using System;
 
 
 public class MinigameWinManager : MonoBehaviour
@@ -12,6 +14,12 @@ public class MinigameWinManager : MonoBehaviour
     [SerializeField] private GameObject playerButtonGroup;
     [SerializeField] private GridLayoutGroup buttonGroup;
     [SerializeField] private float displayWinnerTimer = 5f;
+    [SerializeField] private GameObject playerWinnerCanvas;
+    [SerializeField] private GameObject playerWinnersCanvas;
+    [SerializeField] private Image winnerSprite;
+    [SerializeField] private Image[] winnersSprites;
+    [SerializeField] private Sprite[] playerSprites;
+
 
 
     public int numberOfReadyPlayers = 0;
@@ -34,20 +42,6 @@ public class MinigameWinManager : MonoBehaviour
 
     private void Start() 
     {
-        AllowPlayerControl();
-
-
-        // Checks if multiple people won or just one person.
-        switch (DifficultyAndScore.Instance.gameWinners.Count)
-        {
-            case 1:
-                StartCoroutine("DisplayWinner");
-                break;
-
-            case 2:
-                StartCoroutine("DisplayWinners");
-                break;
-        }
 
     }
 
@@ -101,19 +95,44 @@ public class MinigameWinManager : MonoBehaviour
     }
 
 
-    // If there is only a single person who won/with 5 crowns
-    private IEnumerator DisplayWinner()
+    // Used when there is only a single person who won/with 5 crowns
+    public IEnumerator DisplayWinner()
     {
-        // Todo: display winner for 5 seconds
+        // As players are named Player 1, Player 2, Player 3, Player 4
+        // "Player 1".split( )[1] would equal "1"
+        int playerIndex = Int32.Parse(DifficultyAndScore.Instance.gameWinner.Split( )[1]) - 1;
+
+        // Sets the image's sprite to the winner's sprite
+        winnerSprite.sprite = playerSprites[playerIndex];
+
+        // Lets the players see the canvas with text and the winner's sprite
+        playerWinnerCanvas.SetActive(true);
         yield return new WaitForSeconds(displayWinnerTimer);
+        playerWinnerCanvas.SetActive(false);
+
+        // After the winners have been displayed the player's are allowed to push the ready button
+        AllowPlayerControl();
     }
 
     
     // As 2vs2 games are allowed there could be multiple winners in which case this function will be called
-    private IEnumerator DisplayWinners()
+    public IEnumerator DisplayWinners()
     {
-        // Todo: display winners for 5 seconds
+        int firstWinnerIndex = Int32.Parse(DifficultyAndScore.Instance.gameWinners[0].Split( )[1]) - 1;
+        int secondWinnerIndex = Int32.Parse(DifficultyAndScore.Instance.gameWinners[1].Split( )[1]) - 1;
+        
+        // Sets the images' sprites to the winners' sprites
+        winnersSprites[0].sprite = playerSprites[firstWinnerIndex];
+        winnersSprites[1].sprite = playerSprites[secondWinnerIndex];
+
+        // Lets the players see the canvas with text and the winners' sprites
+        playerWinnersCanvas.SetActive(true);
         yield return new WaitForSeconds(displayWinnerTimer);
+        playerWinnersCanvas.SetActive(false);
+
+
+        // After the winners have been displayed the player's are allowed to push the ready button
+        AllowPlayerControl();
     }
 
 

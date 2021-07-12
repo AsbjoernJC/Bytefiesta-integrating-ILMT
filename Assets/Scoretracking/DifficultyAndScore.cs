@@ -16,10 +16,10 @@ public class DifficultyAndScore : MonoBehaviour
 
     public Dictionary<string, int> acrossGamemodePlayerScore = new Dictionary<string, int>()
     {
-        {"Player 1", 0},
-        {"Player 2", 0},
-        {"Player 3", 0},
-        {"Player 4", 0}
+        {"Player 1", 4},
+        {"Player 2", 4},
+        {"Player 3", 4},
+        {"Player 4", 4}
     };
 
 
@@ -27,10 +27,10 @@ public class DifficultyAndScore : MonoBehaviour
     // Made these static as the playable minigames will never be changed dynamically
     public static List<int> minigames = new List<int>()
     {
-        4,
-        5,
-        6,
-        7,
+        // 4,
+        // 5,
+        // 6,
+        // 7,
         8
     };
 
