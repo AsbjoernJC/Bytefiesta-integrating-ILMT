@@ -19,7 +19,7 @@ public class PlayerConfigurationManager : MonoBehaviour
 
     [SerializeField] GameObject countdown;
     [SerializeField] TMP_Text countdownText;
-    [SerializeField] private float waitToStartCount = 3f;
+    [SerializeField] private int waitToStartCount = 3;
     
     public int numberOfActivePlayers { get; set; } = 0;
 
@@ -54,6 +54,8 @@ public class PlayerConfigurationManager : MonoBehaviour
     }
 
 
+// When all the active players in the characterselection lobby has pressed ready a countdown from waitToStartCount
+// will commence
     private IEnumerator StartCountdown(int numberOfReadyPlayers)
     {
         float timePassed = 0f;
@@ -62,11 +64,9 @@ public class PlayerConfigurationManager : MonoBehaviour
 
         while (timePassed < waitToStartCount)
         {
-            // Todo: have it change a text element in the scene to display the 5 second countdown to start
-            // unless another player joins
+
             if (Math.Round(timePassed, 2) % 1 == 0 && Math.Round(timePassed, 2) != 0)
             {
-                // Change text element to Math.Round(timePassed, 2).toString()
                 switch (Math.Round(timePassed, 2))
                 {
                     case 1:
