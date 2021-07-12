@@ -41,11 +41,11 @@ public class MinigameWinManager : MonoBehaviour
         switch (DifficultyAndScore.Instance.gameWinners.Count)
         {
             case 1:
-                DisplayWinner();
+                StartCoroutine("DisplayWinner");
                 break;
 
             case 2:
-                DisplayWinners();
+                StartCoroutine("DisplayWinners");
                 break;
         }
 
@@ -102,16 +102,16 @@ public class MinigameWinManager : MonoBehaviour
 
 
     // If there is only a single person who won/with 5 crowns
-    private void DisplayWinner()
+    private IEnumerator DisplayWinner()
     {
-
+        yield return null;
     }
 
     
     // As 2vs2 games are allowed there could be multiple winners in which case this function will be called
-    private void DisplayWinners()
+    private IEnumerator DisplayWinners()
     {
-
+        yield return null;
     }
 
 
