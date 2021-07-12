@@ -57,6 +57,7 @@ public class PlayerConfigurationManager : MonoBehaviour
     private IEnumerator StartCountdown(int numberOfReadyPlayers)
     {
         float timePassed = 0f;
+        countdownText.text = waitToStartCount.ToString();
         countdown.SetActive(true);
 
         while (timePassed < waitToStartCount)
@@ -69,19 +70,19 @@ public class PlayerConfigurationManager : MonoBehaviour
                 switch (Math.Round(timePassed, 2))
                 {
                     case 1:
-                        countdownText.text = "4";
+                        countdownText.text = (waitToStartCount - 1).ToString();
                         break;
                     case 2:
-                        countdownText.text = "3"; 
+                        countdownText.text = (waitToStartCount - 2).ToString(); 
                         break;
                     case 3:
-                        countdownText.text = "2";
+                        countdownText.text = (waitToStartCount - 3).ToString();
                         break;
-                    case 4: 
-                        countdownText.text = "1";
+                    case 4:
+                        countdownText.text = (waitToStartCount - 4).ToString();
                         break;
-                    case 5: 
-                        countdownText.text = "0";
+                    case 5:
+                        countdownText.text = (waitToStartCount - 5).ToString(); 
                         break;
                 }
             }
