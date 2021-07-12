@@ -34,7 +34,21 @@ public class MinigameWinManager : MonoBehaviour
 
     private void Start() 
     {
-        AllowPlayerControl();   
+        AllowPlayerControl();
+
+
+        // Checks if multiple people won or just one person.
+        switch (DifficultyAndScore.Instance.gameWinners.Count)
+        {
+            case 1:
+                DisplayWinner();
+                break;
+
+            case 2:
+                DisplayWinners();
+                break;
+        }
+
     }
 
 
@@ -87,7 +101,18 @@ public class MinigameWinManager : MonoBehaviour
     }
 
 
+    // If there is only a single person who won/with 5 crowns
+    private void DisplayWinner()
+    {
 
+    }
+
+    
+    // As 2vs2 games are allowed there could be multiple winners in which case this function will be called
+    private void DisplayWinners()
+    {
+
+    }
 
 
     private void AllowPlayerControl()

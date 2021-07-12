@@ -76,6 +76,7 @@ public class CrownInitializer : MonoBehaviour
         if (wonCrowns == 5)
         {
             DifficultyAndScore.Instance.gameWinner = $"Player {playerIndex + 1}";
+            DifficultyAndScore.Instance.gameWinners.Add($"Player {playerIndex + 1}");
             return;
         }
     }

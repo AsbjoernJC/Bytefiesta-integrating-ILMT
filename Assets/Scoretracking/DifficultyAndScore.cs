@@ -45,6 +45,7 @@ public class DifficultyAndScore : MonoBehaviour
     public List<int> unchosenMinigames = new List<int>();
     public Dictionary<int, PlayerInput> playerInputs = new Dictionary<int, PlayerInput>();
     public string gameWinner;
+    public List<string> gameWinners = new List<string>();
     public int lastMinigameIndex;
     public static DifficultyAndScore Instance { get; set; }
     
