@@ -9,10 +9,10 @@ using UnityEngine.SceneManagement;
 public class MinigameWinManager : MonoBehaviour
 {
 
-    [SerializeField]
-    private GameObject playerButtonGroup;
-    [SerializeField]
-    private GridLayoutGroup buttonGroup;
+    [SerializeField] private GameObject playerButtonGroup;
+    [SerializeField] private GridLayoutGroup buttonGroup;
+    [SerializeField] private float displayWinnerTimer = 5f;
+
 
     public int numberOfReadyPlayers = 0;
 
@@ -104,14 +104,16 @@ public class MinigameWinManager : MonoBehaviour
     // If there is only a single person who won/with 5 crowns
     private IEnumerator DisplayWinner()
     {
-        yield return null;
+        // Todo: display winner for 5 seconds
+        yield return new WaitForSeconds(displayWinnerTimer);
     }
 
     
     // As 2vs2 games are allowed there could be multiple winners in which case this function will be called
     private IEnumerator DisplayWinners()
     {
-        yield return null;
+        // Todo: display winners for 5 seconds
+        yield return new WaitForSeconds(displayWinnerTimer);
     }
 
 
