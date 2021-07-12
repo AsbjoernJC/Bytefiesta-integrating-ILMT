@@ -19,6 +19,7 @@ public class PlayerConfigurationManager : MonoBehaviour
 
     [SerializeField] GameObject countdown;
     [SerializeField] TMP_Text countdownText;
+    [SerializeField] private float waitToStartCount = 3f;
     
     public int numberOfActivePlayers { get; set; } = 0;
 
@@ -58,7 +59,7 @@ public class PlayerConfigurationManager : MonoBehaviour
         float timePassed = 0f;
         countdown.SetActive(true);
 
-        while (timePassed < 5f)
+        while (timePassed < waitToStartCount)
         {
             // Todo: have it change a text element in the scene to display the 5 second countdown to start
             // unless another player joins

@@ -76,8 +76,30 @@ public class CrownInitializer : MonoBehaviour
         if (wonCrowns == 5)
         {
             DifficultyAndScore.Instance.gameWinner = $"Player {playerIndex + 1}";
-            return;
+            DifficultyAndScore.Instance.gameWinners.Add($"Player {playerIndex + 1}");
         }
+
+        // If it's the last playerindex the winners will have been found and optionally have been added to gamewinners
+
+        // playerIndexes are 0, 1, 2 and 3 therefore numberOfActivePlayers should be decremented by one when comparing
+        // as when there are two players they would respectively have index 0 and 1, howver numberOfActivePlayers would equal to 2
+        if (playerIndex == PlayerConfigurationManager.Instance.numberOfActivePlayers - 1)
+        {
+            
+            switch(DifficultyAndScore.Instance.gameWinners.Count)
+            {
+                case 1:
+                    MinigameWinManager.Instance.StartCoroutine("DisplayWinner");
+                    break;
+
+                case 2:
+                    MinigameWinManager.Instance.StartCoroutine("DisplayWinners");
+                    break;
+            }
+
+
+        }
+
     }
 
 }
