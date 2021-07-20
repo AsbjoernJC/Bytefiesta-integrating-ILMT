@@ -37,15 +37,15 @@ public class ScoreSpawner : MonoBehaviour
 
 }
 
-public class ScoreUpdater : MonoBehaviour
+public class ScoreUpdater
 {
-    public static ScoreUpdater Instance { get; private set; }
+    private static ScoreUpdater _instance = new ScoreUpdater();
+
+
+    public static ScoreUpdater Instance { get { return _instance; }}
+
     public List<TMP_Text> playerScoreTexts = new List<TMP_Text>();
 
-    private void Awake() 
-    {
-        Instance = this;        
-    }
 
 
     public void UpdatePlayerScoreUI(string player)

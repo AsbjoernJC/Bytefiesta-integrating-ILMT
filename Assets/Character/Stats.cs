@@ -40,7 +40,7 @@ public class Stats : MonoBehaviour
             // PlayerDeathInformation also interacts with PowerUpInitializer which is not used in every minigame
             // Furthermore it will try to respawn the player
             levelInitializer.PlayerDeathInformation(player);
-            if (PointMinigameTracker.instance.playerScores[playerWhoDealtDamage] >= 1)
+            if (PointMinigameTracker.instance.playerScores[playerWhoDealtDamage] >= 5)
             {
                 PointMinigameTracker.instance.MiniGameEnd(playerWhoDealtDamage);
             }
