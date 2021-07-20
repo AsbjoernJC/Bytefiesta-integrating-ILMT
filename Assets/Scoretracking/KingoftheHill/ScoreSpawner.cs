@@ -8,7 +8,6 @@ public class ScoreSpawner : MonoBehaviour
     [SerializeField]
     private GameObject[] playerUI;
 
-    // playerScores[0].text = "1" would work.
 
     public void SpawnPlayerScoreUI(int playerIndex)
     {
