@@ -35,7 +35,7 @@ public class Stats : MonoBehaviour
             PointMinigameTracker.instance.playerScores[playerWhoDealtDamage] ++;
 
             //Should be dynamic aswell. Not every scene has a scoreboard.
-            ScoreUpdater.UpdatePlayerScoreUI(playerWhoDealtDamage);
+            ScoreUpdater.Instance.UpdatePlayerScoreUI(playerWhoDealtDamage);
 
             // PlayerDeathInformation also interacts with PowerUpInitializer which is not used in every minigame
             // Furthermore it will try to respawn the player
