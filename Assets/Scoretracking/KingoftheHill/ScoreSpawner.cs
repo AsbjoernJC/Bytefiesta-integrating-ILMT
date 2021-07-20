@@ -48,10 +48,7 @@ public class ScoreUpdater : MonoBehaviour
         Instance = this;        
     }
 
-    private void Start()
-    {
 
-    }
     public static void UpdatePlayerScoreUI(string player)
     {
         // Removes elements in the list which are null
