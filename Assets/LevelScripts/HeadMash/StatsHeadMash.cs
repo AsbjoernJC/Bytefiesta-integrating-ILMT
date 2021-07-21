@@ -2,23 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Stats : MonoBehaviour
+public class StatsHeadMash : Stats
 {
-    public int health = 1;
-    protected GameObject player;
-    protected LevelInitializer levelInitializer;
 
-
-    // Update is called once per frame
-    protected virtual void Start()
-    {
-        levelInitializer = GameObject.Find("LevelInitializer").GetComponent<LevelInitializer>();
-        player = this.gameObject;
-    }
-
-    // Take Damage will be called when a player takes damage eg. getting shot/jumped on etc.
-    // If a player's health goes below 0, the player is dead and should therefore be respawned on a timer.
-    public virtual void TakeDamage(int damage, string playerWhoDealtDamage)
+    public override void TakeDamage(int damage, string playerWhoDealtDamage)
     {
         // If the player's health is zero when this function is called
         // it must have already taken account for the player's death
@@ -53,7 +40,7 @@ public class Stats : MonoBehaviour
         shieldPoint.sprite = null;
     }
 
-    public virtual void TakeDamageAnonomously(int damage)
+    public override void TakeDamageAnonomously(int damage)
     {
         if (health == 0)
             return;
@@ -65,13 +52,5 @@ public class Stats : MonoBehaviour
         {
             levelInitializer.PlayerDeathInformation(player);
         }
-    }
-
-    public virtual void GainHealth(int healthGain)
-    {
-        // Might also depend on different minigames in the future
-        if (health >= 2)
-            return;
-        health += healthGain;
     }
 }
