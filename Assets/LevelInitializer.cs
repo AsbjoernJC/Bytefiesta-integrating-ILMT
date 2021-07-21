@@ -69,6 +69,15 @@ public class LevelInitializer : MonoBehaviour
         {"hasScoreUI", false},
         {"lastManStanding", false}
         }
+        },
+
+
+        {"HeadMash", new Dictionary<string, bool>{
+        {"hasPowerUp", false},
+        {"playersRespawn", false},
+        {"hasScoreUI", true},
+        {"lastManStanding", false}
+        }
         }
     };
 

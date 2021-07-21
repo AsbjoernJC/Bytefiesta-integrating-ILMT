@@ -123,11 +123,9 @@ public class PointMinigameTracker : MonoBehaviour
         }
     }
 
+
     public int ReturnPlayerPlacement(string playerName)
     {
-        // Todo:
-        // Have to keep in mind: if there is only 2 players the player who loses should be registered as the last place
-        // 4th that is
         for (int i = 0; i < standardizedPlayerStandings.Count; i++)
         {
             if (standardizedPlayerStandings[i].Item1 == playerName)
@@ -139,7 +137,8 @@ public class PointMinigameTracker : MonoBehaviour
         return placement;
     }
 
-    // Displays the winner's character sprite for 3.5 seconds and should then load a new scene.
+
+    // Displays the winner's character sprite for 3.5 seconds and then loads a new scene.
     private IEnumerator DisplayWinner()
     {
         // Instead of doing this everywhere i should just find pi.playerIndex. Look in PlayerConfigurationManager.
