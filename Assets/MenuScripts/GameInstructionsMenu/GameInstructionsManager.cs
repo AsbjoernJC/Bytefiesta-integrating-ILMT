@@ -138,6 +138,9 @@ public class GameInstructionsManager : MonoBehaviour
 
                 // Disables the entirety of the game instructions UI panel. 
         gameInstructions.SetActive(false);
+        
+        Time.timeScale = 1;
+
 
     }
 }

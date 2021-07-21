@@ -109,7 +109,6 @@ public class HeadMashScorePasser : MonoBehaviour
 
         gameInstructionsGameObject.GetComponent<GameInstructionsManager>().StartCoroutine("StartNewRoundCountDown");
 
-        Time.timeScale = 1;
     }
 
     
