@@ -84,9 +84,18 @@ public class HeadMashScorePasser : MonoBehaviour
                 MinigameIsOver(elem.Key);
                 return;
             }
+
+            RemovePlayerBeforeNewRound(elem.Key);
         }
 
+
         BeginNewRound();
+    }
+
+
+    private void RemovePlayerBeforeNewRound(string playerName)
+    {
+        Destroy(GameObject.Find(playerName));
     }
 
 
