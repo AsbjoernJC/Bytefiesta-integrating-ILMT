@@ -103,7 +103,13 @@ public class HeadMashScorePasser : MonoBehaviour
     {
         Time.timeScale = 0;
         gameInstructionsGameObject.SetActive(true);
+
+        for (int i = 0; i < PlayerConfigurationManager.Instance.numberOfActivePlayers; i++)
+            NewRoundInitializePlayers.Instance.SpawnPlayer(i);
+
         gameInstructionsGameObject.GetComponent<GameInstructionsManager>().StartCoroutine("StartNewRoundCountDown");
+
+        Time.timeScale = 1;
     }
 
     

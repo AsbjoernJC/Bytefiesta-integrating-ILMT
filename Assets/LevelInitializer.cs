@@ -11,10 +11,8 @@ using UnityEngine.SceneManagement;
 // using a lot of convoluted if statements
 public class LevelInitializer : MonoBehaviour
 {
-    [SerializeField]
-    protected Transform[] playerSpawns;
-    [SerializeField]
-    protected GameObject[] playerPrefab;
+    [SerializeField] protected Transform[] playerSpawns;
+    [SerializeField] protected GameObject[] playerPrefab;
     protected GameObject scoreUI;
     protected GameObject powerupInitializer;
     public static string sceneName;
