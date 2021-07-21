@@ -6,6 +6,7 @@ using System.Linq;
 public class HeadMashScorePasser : MonoBehaviour
 {
     [SerializeField] private GameObject gameInstructionsGameObject;
+    [SerializeField] private float pauseTimer = 1f;
     public Dictionary<string, bool> playerAliveStatus;
     public static HeadMashScorePasser Instance { get; private set; }
 
@@ -71,8 +72,6 @@ public class HeadMashScorePasser : MonoBehaviour
     {
         var lastPlayerAlive = playerAliveStatus.Where((p, v) => p.Value == true);
 
-
-
         foreach (var elem in lastPlayerAlive)
         {
             PointMinigameTracker.instance.playerScores[elem.Key] ++;
@@ -85,11 +84,8 @@ public class HeadMashScorePasser : MonoBehaviour
                 return;
             }
 
-            RemovePlayerBeforeNewRound(elem.Key);
+            StartCoroutine(Pause(elem.Key));
         }
-
-
-        BeginNewRound();
     }
 
 
@@ -101,14 +97,23 @@ public class HeadMashScorePasser : MonoBehaviour
 
     private void BeginNewRound()
     {
-        Time.timeScale = 0;
         gameInstructionsGameObject.SetActive(true);
 
         for (int i = 0; i < PlayerConfigurationManager.Instance.numberOfActivePlayers; i++)
             NewRoundInitializePlayers.Instance.SpawnPlayer(i);
 
         gameInstructionsGameObject.GetComponent<GameInstructionsManager>().StartCoroutine("StartNewRoundCountDown");
+    }
 
+
+    private IEnumerator Pause(string playerName)
+    {
+        Time.timeScale = 0;
+
+        yield return new WaitForSecondsRealtime(pauseTimer);
+        RemovePlayerBeforeNewRound(playerName);
+
+        BeginNewRound();
     }
 
     
