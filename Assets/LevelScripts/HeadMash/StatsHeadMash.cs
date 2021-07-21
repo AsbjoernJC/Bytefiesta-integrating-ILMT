@@ -18,26 +18,13 @@ public class StatsHeadMash : Stats
         // If a player's health is equal to 0 or less then the player should die
         if (health <= 0)
         {
-            // Should be dynamic ie. dependant on the current minigame. KingofTheHillTracker is used for the KingoftheHill scene/minigame
-            PointMinigameTracker.instance.playerScores[playerWhoDealtDamage] ++;
-
-            //Should be dynamic aswell. Not every scene has a scoreboard.
-            ScoreUpdater.Instance.UpdatePlayerScoreUI(playerWhoDealtDamage);
 
             // PlayerDeathInformation also interacts with PowerUpInitializer which is not used in every minigame
             // Furthermore it will try to respawn the player
             levelInitializer.PlayerDeathInformation(player);
-            if (PointMinigameTracker.instance.playerScores[playerWhoDealtDamage] >= 5)
-            {
-                PointMinigameTracker.instance.MiniGameEnd(playerWhoDealtDamage);
-            }
             return;
         }
-        // Believe this is redundant as the player GameObject will be destroyed when LevelInitializer.Instance.PlayerDeathInformation is called
-        // The player prefabs have their shieldSprite set to null as a standard
-        var shieldPoint = player.GetComponent<PlayerController>().shieldPoint;
-        var shieldSprite = player.GetComponent<PlayerController>().shieldSprite;
-        shieldPoint.sprite = null;
+
     }
 
     public override void TakeDamageAnonomously(int damage)
