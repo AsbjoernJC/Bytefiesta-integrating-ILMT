@@ -119,16 +119,28 @@ public class PlayerConfigurationManager : MonoBehaviour
 
 
 
-        // Loads a random minigame
         var unchosenMinigames = DifficultyAndScore.Instance.unchosenMinigames;
         var tailoredMinigames = DifficultyAndScore.Instance.tailoredMinigames;
 
-        // If the amount of players is equal to 4 then we should add 4 player minigames to the unchosen minigames
-        if (playerConfigurations.Count == 4)
+        // Assigns tailoredMinigames the minigames available to the current player count
+        switch (playerConfigurations.Count)
         {
-            unchosenMinigames.AddRange(DifficultyAndScore.fourPlayerMinigames);
-            tailoredMinigames.AddRange(DifficultyAndScore.minigames);
-            tailoredMinigames.AddRange(DifficultyAndScore.fourPlayerMinigames);
+            // As of now there are no two player games, so we are just adding the elements from a list of minigames suited for all sizes 2-4
+            case 2:
+                tailoredMinigames.AddRange(DifficultyAndScore.minigames);
+                break;
+        
+        // As of now there are no three player games, so we are just adding the elements from a list of minigames suited for all sizes 2-4
+            case 3:
+                tailoredMinigames.AddRange(DifficultyAndScore.minigames);
+                break;
+
+        // If the amount of players is equal to 4 then we should add 4 player minigames to the unchosen minigames
+            case 4:
+                unchosenMinigames.AddRange(DifficultyAndScore.fourPlayerMinigames);
+                tailoredMinigames.AddRange(DifficultyAndScore.minigames);
+                tailoredMinigames.AddRange(DifficultyAndScore.fourPlayerMinigames);
+                break;
         }
 
         int chosenScene = unchosenMinigames[Random.Range(0, unchosenMinigames.Count)];

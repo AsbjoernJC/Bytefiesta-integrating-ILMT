@@ -41,6 +41,7 @@ public class MinigameWinManager : MonoBehaviour
 
     private void Update()
     {
+        // Checks if all the players have pushed the ready button
         if (numberOfReadyPlayers == PlayerConfigurationManager.Instance.numberOfActivePlayers)
         {
             if (DifficultyAndScore.Instance.gameWinner != "")
@@ -61,35 +62,48 @@ public class MinigameWinManager : MonoBehaviour
             // Loads a random minigame
             else 
             {
-                var unchosenMinigames = DifficultyAndScore.Instance.unchosenMinigames;
-                var minigames = DifficultyAndScore.Instance.tailoredMinigames;
-
-                // picks a random scene index by choosing the value at a random index in unchosenMinigames
-                int chosenScene = unchosenMinigames[Random.Range(0, unchosenMinigames.Count)];
-                unchosenMinigames.RemoveAll(scene => scene == chosenScene);
-
-                // Loops through all the possible minigames and adds every minigame/scene to
-                // unchosenMinigames except chosenScene as this is the minigame they are about to play
-                if (unchosenMinigames.Count == 0)
-                {
-                    for (int i = 0; i < minigames.Count; i++)
-                    {
-                        if (minigames[i] != chosenScene)
-                        {
-                            unchosenMinigames.Add(minigames[i]);
-                        }
-                    }
-                }
-                DifficultyAndScore.Instance.lastMinigameIndex = chosenScene;
-                SceneManager.LoadScene(chosenScene);
+                LoadARandomMinigame();
             }
-                numberOfReadyPlayers = 0;
-            }
+        }
 
         
         if (!instantiatedReadyButton && DifficultyAndScore.Instance.gameWinner == "")
             AllowPlayerControl();
     }
+
+
+    private void LoadARandomMinigame()
+    {
+        var unchosenMinigames = DifficultyAndScore.Instance.unchosenMinigames;
+        var minigames = DifficultyAndScore.Instance.tailoredMinigames;
+
+        // picks a random scene index by choosing the value at a random index in unchosenMinigames
+        int chosenScene = unchosenMinigames[Random.Range(0, unchosenMinigames.Count)];
+        unchosenMinigames.RemoveAll(scene => scene == chosenScene);
+
+        if (unchosenMinigames.Count == 0)
+            ReshuffleMinigames(unchosenMinigames, minigames, chosenScene);
+
+        DifficultyAndScore.Instance.lastMinigameIndex = chosenScene;
+        SceneManager.LoadScene(chosenScene);
+    }
+
+
+    // If all the available minigames have been played before a player has reached 5 minigame wins
+    // We have to shuffle the minigames back into the unchosenMinigames List so there are games to choose from
+   private void ReshuffleMinigames(List<int> unchosenMinigames, List<int> minigames, int chosenScene)
+   {
+
+        // Loops through all the possible minigames and adds every minigame/scene to
+        // unchosenMinigames except chosenScene as this is the minigame they are about to play
+            for (int i = 0; i < minigames.Count; i++)
+            {
+                if (minigames[i] != chosenScene)
+                {
+                    unchosenMinigames.Add(minigames[i]);
+                }
+            }
+   } 
 
 
     // Used when there is only a single person who won/with 5 crowns
