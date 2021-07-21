@@ -5,7 +5,7 @@ using System.Linq;
 
 public class HeadMashScorePasser : MonoBehaviour
 {
-
+    [SerializeField] private GameObject gameInstructionsGameObject;
     public Dictionary<string, bool> playerAliveStatus;
     public static HeadMashScorePasser Instance { get; private set; }
 
@@ -92,7 +92,9 @@ public class HeadMashScorePasser : MonoBehaviour
 
     private void BeginNewRound()
     {
-
+        Time.timeScale = 0;
+        gameInstructionsGameObject.SetActive(true);
+        gameInstructionsGameObject.GetComponent<GameInstructionsManager>().StartCoroutine("StartNewRoundCountDown");
     }
 
     

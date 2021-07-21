@@ -95,7 +95,6 @@ public class GameInstructionsManager : MonoBehaviour
     // Counts down to the start of the minigame ie. the excact point in time where players are allowed to move.
     private IEnumerator CountDown()
     {
-
         //Disables UI elements that should not be displayed when counting down
         instructionImage.SetActive(false);
         readyButtonGroup.SetActive(false);
@@ -116,8 +115,29 @@ public class GameInstructionsManager : MonoBehaviour
         // Disables the entirety of the game instructions UI panel. 
         gameInstructions.SetActive(false);
 
+        countdownText.text = "3";
         // Allows for playermovement
         Time.timeScale = 1f;
         numberOfReadyPlayers = 0;
+    }
+
+
+    public IEnumerator StartNewRoundCountDown()
+    {
+        countdownText.text = "3";
+
+        yield return new WaitForSecondsRealtime(1f);
+
+        countdownText.text = "2";
+        yield return new WaitForSecondsRealtime(1f);
+
+        countdownText.text = "1";
+        yield return new WaitForSecondsRealtime(1f);
+
+        countdownText.text = "GO";
+
+                // Disables the entirety of the game instructions UI panel. 
+        gameInstructions.SetActive(false);
+
     }
 }
