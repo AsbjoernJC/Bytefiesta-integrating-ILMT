@@ -38,6 +38,7 @@ public class StatsHeadMash : Stats
         if (health <= 0)
         {
             levelInitializer.PlayerDeathInformation(player);
+            HeadMashScorePasser.Instance.PlayerVitalStatusOnDeath(player.name);
         }
     }
 }
