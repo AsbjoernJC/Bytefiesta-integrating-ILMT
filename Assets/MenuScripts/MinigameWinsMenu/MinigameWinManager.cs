@@ -19,10 +19,8 @@ public class MinigameWinManager : MonoBehaviour
     [SerializeField] private Image winnerSprite;
     [SerializeField] private Image[] winnersSprites;
     [SerializeField] private Sprite[] playerSprites;
-
-
-
     public int numberOfReadyPlayers = 0;
+    private bool instantiatedReadyButton = false;
 
 
     public static MinigameWinManager Instance { get; private set; }
@@ -39,11 +37,6 @@ public class MinigameWinManager : MonoBehaviour
         }        
     }
 
-
-    private void Start() 
-    {
-
-    }
 
 
     private void Update()
@@ -65,7 +58,7 @@ public class MinigameWinManager : MonoBehaviour
             {
                 SceneManager.LoadScene("MysteryDrink");
             }
-            // Loads a random minigame. For now there is only KingoftheHill and GunnedDown
+            // Loads a random minigame
             else 
             {
                 var unchosenMinigames = DifficultyAndScore.Instance.unchosenMinigames;
@@ -92,6 +85,10 @@ public class MinigameWinManager : MonoBehaviour
             }
                 numberOfReadyPlayers = 0;
             }
+
+        
+        if (!instantiatedReadyButton && DifficultyAndScore.Instance.gameWinner == "")
+            AllowPlayerControl();
     }
 
 
@@ -153,5 +150,8 @@ public class MinigameWinManager : MonoBehaviour
             // Player 1 will controll the leftmost button with xboxcontroller2
             // InputUser.PerformPairingWithDevice(playerController, inputUser, InputUserPairingOptions.UnpairCurrentDevicesFromUser);
         }
+
+        // Bool is used to control whether or not AllowPlayerControl will be executed
+        instantiatedReadyButton = true;
     }
 }
