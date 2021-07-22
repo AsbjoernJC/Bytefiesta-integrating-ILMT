@@ -99,6 +99,10 @@ public class HeadMashScorePasser : MonoBehaviour
     {
         gameInstructionsGameObject.SetActive(true);
 
+
+        // We reset the playerAliveStatus, so each player is alive again, as we're beginning a new round
+        PlayerVitalStatusStart();
+
         for (int i = 0; i < PlayerConfigurationManager.Instance.numberOfActivePlayers; i++)
             NewRoundInitializePlayers.Instance.SpawnPlayer(i);
 
