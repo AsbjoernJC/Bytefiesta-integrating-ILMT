@@ -8,7 +8,6 @@ public class ScoreSpawner : MonoBehaviour
     [SerializeField]
     private GameObject[] playerUI;
 
-    // playerScores[0].text = "1" would work.
 
     public void SpawnPlayerScoreUI(int playerIndex)
     {
@@ -32,35 +31,34 @@ public class ScoreSpawner : MonoBehaviour
 
         //Gets the Textmeshpro.text element from ther playerPicture component 
         var playerScoreText = playerPicture.GetComponentInChildren<TMP_Text>();
-        ScoreUpdater.playerScoreTexts.Add(playerScoreText);
+        ScoreUpdater.Instance.playerScoreTexts.Add(playerScoreText);
 
     }
 
 }
 
-public class ScoreUpdater : MonoBehaviour
+public class ScoreUpdater
 {
-    public static ScoreUpdater Instance { get; private set; }
-    public static List<TMP_Text> playerScoreTexts = new List<TMP_Text>();
+    private static ScoreUpdater _instance = new ScoreUpdater();
 
-    private void Awake() 
-    {
-        Instance = this;        
-    }
 
-    private void Start()
-    {
+    public static ScoreUpdater Instance { get { return _instance; }}
 
-    }
-    public static void UpdatePlayerScoreUI(string player)
+    public List<TMP_Text> playerScoreTexts = new List<TMP_Text>();
+
+
+
+    public void UpdatePlayerScoreUI(string player)
     {
         // Removes elements in the list which are null
         // There will be null elements when the scene has ended, as we load a new scene old gameObjects will be null
         //  and we are not removing elements from playerScoreTexts.
-        for (int i = 0; i < playerScoreTexts.Count; i++)
-        {
-            playerScoreTexts.RemoveAll(element => element == null);
-        }
+
+        // As playerScoreTexts has been changed to a non static list, we should not need the code below
+        // for (int i = 0; i < playerScoreTexts.Count; i++)
+        // {
+        //     playerScoreTexts.RemoveAll(element => element == null);
+        // }
 
 
         int playerIndex = Int16.Parse(player.Split( )[1]);

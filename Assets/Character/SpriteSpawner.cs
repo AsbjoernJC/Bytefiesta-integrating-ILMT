@@ -47,7 +47,11 @@ public class SpriteSpawner : MonoBehaviour
         // Shield powerup Look in SpawnShieldSprite().
         if (spritesPushed > 0)
         {
+
+            // This can cause IndexOutOfRangeExceptions, should probably take a look at spritesPushed and check if it
+            // gets incremented the places it should
             spriteLocations[bulletCounter + 1].sprite = null;
+            
             spritesPushed --;
             bulletSpriteCount --;
             return;

@@ -11,10 +11,8 @@ using UnityEngine.SceneManagement;
 // using a lot of convoluted if statements
 public class LevelInitializer : MonoBehaviour
 {
-    [SerializeField]
-    protected Transform[] playerSpawns;
-    [SerializeField]
-    protected GameObject[] playerPrefab;
+    [SerializeField] protected Transform[] playerSpawns;
+    [SerializeField] protected GameObject[] playerPrefab;
     protected GameObject scoreUI;
     protected GameObject powerupInitializer;
     public static string sceneName;
@@ -67,6 +65,15 @@ public class LevelInitializer : MonoBehaviour
         {"hasPowerUp", false},
         {"playersRespawn", true},
         {"hasScoreUI", false},
+        {"lastManStanding", false}
+        }
+        },
+
+
+        {"HeadMash", new Dictionary<string, bool>{
+        {"hasPowerUp", false},
+        {"playersRespawn", false},
+        {"hasScoreUI", true},
         {"lastManStanding", false}
         }
         }

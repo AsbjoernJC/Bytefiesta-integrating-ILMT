@@ -77,20 +77,33 @@ public class SipInitializer : MonoBehaviour
                 }
                 // Todo add a placement system to PointMinigameTracker
                 break;
+            
             case "GunnedDown":
                 minigamePlacement = LastManStanding.instance.playerStandings[$"Player {i + 1}"];
                 break;
+            
             case "TrapRun":
                 minigamePlacement = RaceTrackerManager.Instance.raceTracker.playerScores[$"Player {i + 1}"];
                 break;
+            
             case "TrapRunVariant":
                 minigamePlacement = RaceTrackerManager.Instance.raceTracker.playerScores[$"Player {i + 1}"];
                 break;
+            
             case "DropDead":
                 minigamePlacement = LastManStanding.instance.playerStandings[$"Player {i + 1}"];
                 break;
+            
             case "JumpTheGun":
                 minigamePlacement = RaceTrackerManager.Instance.raceTracker.playerScores[$"Player {i + 1}"];
+                break;
+            
+            case "HeadMash":
+                for (int j = 0; j < PointMinigameTracker.instance.playerPointStandings.Count; j ++ )
+                {
+                    minigamePlacement = PointMinigameTracker.instance.ReturnPlayerPlacement($"Player {i + 1}");
+                }
+                // Todo add a placement system to PointMinigameTracker
                 break;
         }
 

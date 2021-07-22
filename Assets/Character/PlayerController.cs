@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     protected CapsuleCollider2D cC2D;
     protected Vector3 playerPosition;
     private bool m_FacingRight = true;
-    private bool canDoubleJump;
+    protected bool canDoubleJump;
     protected bool hasShieldPowerUp = false;
     protected bool hasNormalBullet = true;
     protected bool canCoyote = false;

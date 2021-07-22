@@ -17,6 +17,9 @@ Assets/Character/*
 !Assets/Character/JumpTheGun
 !Assets/Character/JumpTheGun/*.cs
 
+!Assets/Character/HeadMash
+!Assets/Character/HeadMash/*.cs
+
 
 !Assets/PlayerSelect
 Assets/PlayerSelect/*
@@ -82,10 +85,16 @@ Assets/PlayerSelect/*
 !Assets/LevelScripts
 !Assets/LevelScripts/GunnedDown
 !Assets/LevelScripts/GunnedDown/*.cs
+
 !Assets/LevelScripts/TrapRun
 !Assets/LevelScripts/TrapRun/*.cs
+
 !Assets/LevelScripts/DropDead
 !Assets/LevelScripts/DropDead/*.cs
+
 !Assets/LevelScripts/JumpTheGun
 !Assets/LevelScripts/JumpTheGun/*.cs
+
+!Assets/LevelScripts/HeadMash
+!Assets/LevelScripts/HeadMash/*.cs
 
