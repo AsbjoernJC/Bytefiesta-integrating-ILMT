@@ -69,8 +69,7 @@ public class DifficultyAndScore : MonoBehaviour
 
     public void SetDifficulty(string gamemode)
     {
-        // Makes sure that difficulty is not set if players start playing after a player has already won the entire game
-
+        // Sets the the difficulty of the game to the chosen difficulty 
         DifficultyAndScore.Instance.difficulty = gamemode;
         DifficultyAndScore.Instance.difficulties[gamemode] = true;
     }
