@@ -12,6 +12,7 @@ public class SquareInformation : MonoBehaviour
     public int squareIndex;
     public BoardSpriteSpawner BSS;
     private string squareName;
+    public bool mustFindSprite;
 
 
     private void Awake()
@@ -49,7 +50,7 @@ public class SquareInformation : MonoBehaviour
 
     private void DeliverSquareInformation()
     {
-        PlayerTargettingManager.Instance.AddNewSquare(this);
+        BoardManager.Instance.AddNewSquare(this);
     }
 
 }

@@ -9,23 +9,4 @@ public class BoardSpriteSpawner : MonoBehaviour
 
 }
 
-public class BoardSquares
-{
 
-    // Squares will be their own prefab and will pass the information to
-
-    public BoardSquares(SquareInformation SI)
-    {
-        // Receives
-
-        name = SI.name;
-        squareIndex = SI.squareIndex;
-        squareSprite = SI.squareSprite;
-    }
-
-    public string name { get; set; }
-    public int squareIndex { get; set; }
-    
-    public bool isEdge { get; set; }
-    public Image squareSprite { get; set; }
-}
