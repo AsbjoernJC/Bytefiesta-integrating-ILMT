@@ -98,3 +98,6 @@ Assets/PlayerSelect/*
 !Assets/LevelScripts/HeadMash
 !Assets/LevelScripts/HeadMash/*.cs
 
+!Assets/LevelScripts/JuiceBox
+!Assets/LevelScripts/JuiceBox/*.cs
+
