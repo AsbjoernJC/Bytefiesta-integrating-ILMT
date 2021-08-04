@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class BoardSpriteSpawner : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer symbolToFind;
+    [SerializeField] public SpriteRenderer symbolToFind;
 
 }
 
