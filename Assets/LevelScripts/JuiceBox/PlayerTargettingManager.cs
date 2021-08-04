@@ -8,6 +8,8 @@ public class PlayerTargettingManager : MonoBehaviour
 
     public static PlayerTargettingManager Instance { get; private set; }
 
+    public List<Sprite> boardSprites;
+
     private void Awake()
     {
         if (Instance == null)
@@ -54,7 +56,7 @@ public class BoardManager
     private IEnumerator SpawnBoardSprites()
     {
         yield return new WaitForSeconds(1.5f);
-        
+
     }
 
 }
