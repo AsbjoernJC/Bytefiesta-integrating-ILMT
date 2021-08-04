@@ -1,26 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Text.RegularExpressions;
 using System;
 
-public class TargettingInformation : MonoBehaviour
+public class SquareInformation : MonoBehaviour
 {
-    public GameObject targetPlatform;
-    public SpriteRenderer cursorSprite;
-    public TargetManager targetManager;
-    public Transform targetCenter;
+    [SerializeField] public Image squareSprite;
+    public bool isEdge;
+    public int squareIndex;
+    public BoardSpriteSpawner BSS;
+    private string squareName;
 
-    private string targetName;
-    public int targetIndex;
 
-    // Start is called before the first frame update
     private void Awake()
     {
-        targetName = this.name;
-        targetCenter = this.transform;
+        squareName = this.name;
     }
 
+
+    // Start is called before the first frame update
     private void Start()
     {
 
@@ -29,29 +29,27 @@ public class TargettingInformation : MonoBehaviour
         // coudln't get groups working with regex in c#
         // otherwise i would normally write "(\d)*". and the match would be one or more digits in the string
         Regex rx = new Regex(@"(\d)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        MatchCollection matches = rx.Matches(targetName);
+        MatchCollection matches = rx.Matches(squareName);
         string indexName = "";
 
 
         // Loops through each match, which will be a digit character and adds it to the string
-        // eg. if targetName is TargetNPlatform (13) the first match will be 1 and the next match will be 3
+        // eg. if squareName is TargetNPlatform (13) the first match will be 1 and the next match will be 3
         // we concatenate those two values in a string "13" and parse it to an int
-        foreach (Match match in rx.Matches(targetName))
+        foreach (Match match in rx.Matches(squareName))
         {
             indexName += match.Value;
         }
-        targetIndex = Int32.Parse(indexName);
+        squareIndex = Int32.Parse(indexName);
 
         
-        DeliverTargetInformation();
+        DeliverSquareInformation();
     }
 
 
-    private void DeliverTargetInformation()
+    private void DeliverSquareInformation()
     {
-        targetManager.AddNewTarget(this);
+        PlayerTargettingManager.Instance.AddNewSquare(this);
     }
-
-
 
 }
