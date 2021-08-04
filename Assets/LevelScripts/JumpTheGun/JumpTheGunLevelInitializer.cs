@@ -173,7 +173,7 @@ public class JumpTheGunLevelInitializer : LevelInitializer
         bool controlsCannon;
 
 
-        // Random number can either be 1 or 2
+        // randomNumber can either be 1 or 2
         if (randomNumber == 1)
             controlsCannon = true;
         else
