@@ -13,6 +13,7 @@ public class Bullet : MonoBehaviour
     public float bulletSpeed = 21f;
     private Rigidbody2D rB2D;
     private Vector3 bulletPosition;
+    public bool hitObject;
     private string playerWhoShot;
     private string collisionTag;
     private string bulletTag;
@@ -58,11 +59,13 @@ public class Bullet : MonoBehaviour
         
 
 
-
-        if (!collision.Contains(playerWhoShot) && bulletTag != collisionTag)
+        // Bullets can't collide with the player who shot the bullet and collide with another bullet the same player shot.
+        // If hitObject is a bool which is a safety measure to ensure that a bullet can only deal 1 damage to a player
+        if (!collision.Contains(playerWhoShot) && bulletTag != collisionTag && !hitObject)
         {
             if (collisionTag.Contains("Player"))
             {
+                hitObject = true;
                 player.GetComponent<Stats>().TakeDamage(1, playerWhoShot);
             }
             Destroy(gameObject);
