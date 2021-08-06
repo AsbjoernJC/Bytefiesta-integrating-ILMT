@@ -9,6 +9,11 @@ public class ScoreSpawner : MonoBehaviour
     private GameObject[] playerUI;
 
 
+    private void Awake()
+    {
+        InitializePlayerScores();
+    }
+
     public void SpawnPlayerScoreUI(int playerIndex)
     {
         Vector3 position;
@@ -35,6 +40,11 @@ public class ScoreSpawner : MonoBehaviour
 
     }
 
+    private void InitializePlayerScores()
+    {
+        ScoreUpdater.Instance.playerScoreTexts = new List<TMP_Text>();
+    }
+
 }
 
 public class ScoreUpdater
@@ -44,21 +54,12 @@ public class ScoreUpdater
 
     public static ScoreUpdater Instance { get { return _instance; }}
 
-    public List<TMP_Text> playerScoreTexts = new List<TMP_Text>();
+    public List<TMP_Text> playerScoreTexts;
 
 
 
     public void UpdatePlayerScoreUI(string player)
     {
-        // Removes elements in the list which are null
-        // There will be null elements when the scene has ended, as we load a new scene old gameObjects will be null
-        //  and we are not removing elements from playerScoreTexts.
-
-        // As playerScoreTexts has been changed to a non static list, we should not need the code below
-        // for (int i = 0; i < playerScoreTexts.Count; i++)
-        // {
-        //     playerScoreTexts.RemoveAll(element => element == null);
-        // }
 
 
         int playerIndex = Int16.Parse(player.Split( )[1]);
