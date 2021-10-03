@@ -44,6 +44,7 @@ public class PlayerControlledCannon : MonoBehaviour
             yield return null;
         }
 
+        yield return new WaitForSeconds(2f);
         assignedPlayer.isShooting = false;
         Destroy(bulletInstance);
 
