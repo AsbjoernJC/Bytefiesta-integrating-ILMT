@@ -35,9 +35,9 @@ public class BoardManager
 {
     public BoardSquare[] boardSquares = new BoardSquare[12];
     private static BoardManager _instance = new BoardManager();
-    [SerializeField] public Sprite[] possibleSprites;
     private Sprite spriteToFind;
     private int findBoardSquareIndex;
+    private int initializedBoardSquares = 0;
 
 
     public static BoardManager Instance { get { return _instance; }}
@@ -48,11 +48,17 @@ public class BoardManager
         // Adds a BoardSquare object with its information to the boardSquares array
         BoardSquare boardSquare = new BoardSquare(SI);
         boardSquares[boardSquare.squareIndex] = boardSquare;
+        initializedBoardSquares++;
+        
+        if (initializedBoardSquares == 12)
+        {
+            SelectSpriteToFind();
+        }
     }
 
     private void SelectSpriteToFind()
     {
-        spriteToFind = possibleSprites[Random.Range(0, 12)];
+        var spriteToFind = PlayerTargettingManager.Instance.boardSprites[Random.Range(0, 12)];
         findBoardSquareIndex = Random.Range(0, 12);
         boardSquares[findBoardSquareIndex].mustFindSprite = true;
     }
