@@ -10,7 +10,6 @@ public class SquareInformation : MonoBehaviour
     [SerializeField] public Image squareSprite;
     public bool isEdge;
     public int squareIndex;
-    public BoardSpriteSpawner BSS;
     private string squareName;
     public bool mustFindSprite;
 

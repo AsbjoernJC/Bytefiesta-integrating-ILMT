@@ -33,7 +33,7 @@ public class DifficultyAndScore : MonoBehaviour
         7,
         8,
         10,
-        11
+        // 11
     };
 
     public static List<int> fourPlayerMinigames = new List<int>()

@@ -33,9 +33,11 @@ public class PlayerTargettingManager : MonoBehaviour
 
 public class BoardManager
 {
-
     public BoardSquare[] boardSquares = new BoardSquare[12];
     private static BoardManager _instance = new BoardManager();
+    [SerializeField] public Sprite[] possibleSprites;
+    private Sprite spriteToFind;
+    private int findBoardSquareIndex;
 
 
     public static BoardManager Instance { get { return _instance; }}
@@ -50,11 +52,14 @@ public class BoardManager
 
     private void SelectSpriteToFind()
     {
-        boardSquares[Random.Range(0, 12)].mustFindSprite = true;
+        spriteToFind = possibleSprites[Random.Range(0, 12)];
+        findBoardSquareIndex = Random.Range(0, 12);
+        boardSquares[findBoardSquareIndex].mustFindSprite = true;
     }
 
     private IEnumerator SpawnBoardSprites()
     {
+
         yield return new WaitForSeconds(1.5f);
 
     }
