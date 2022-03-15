@@ -58,6 +58,8 @@ public class FallingPlatformManager : MonoBehaviour
             if (fallSpeed > 5)
                 fallSpeedMultiplier = 0.005f;
 
+
+            // The switch case seems redundant 
             switch (lastChosenSpawnpoint)
             {
                 case 0:
@@ -116,6 +118,7 @@ public class FallingPlatformManager : MonoBehaviour
     private float FitSpawnTimerToFallSpeed(float fallSpeed)
     {
         // v = d/t
+        // Maybe manually fit a function to certain points to create a better experience :)
         float waitForSeconds;
         waitForSeconds = 6f / fallSpeed;
         return waitForSeconds;
