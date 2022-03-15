@@ -10,6 +10,9 @@ public class PlayerTargettingManager : MonoBehaviour
 
     public List<Sprite> boardSprites;
 
+    [SerializeField]
+    public List<Texture> boardImages;
+
     private void Awake()
     {
         if (Instance == null)
@@ -38,10 +41,15 @@ public class BoardManager
     private Sprite spriteToFind;
     private int findBoardSquareIndex;
     private int initializedBoardSquares = 0;
+    private SpriteRenderer symbolToFind;
 
 
     public static BoardManager Instance { get { return _instance; }}
 
+    private void Awake() {
+        var stf = GameObject.Find("SymbolToFind");
+        symbolToFind = (SpriteRenderer)stf.GetComponent(typeof(SpriteRenderer));
+    }
 
     public void AddNewSquare(SquareInformation SI)
     {
@@ -52,22 +60,29 @@ public class BoardManager
         
         if (initializedBoardSquares == 12)
         {
+            Awake();
             SelectSpriteToFind();
         }
     }
 
     private void SelectSpriteToFind()
     {
+        // Chooses a random sprite that the players should look for on a random boardsquare
         var spriteToFind = PlayerTargettingManager.Instance.boardSprites[Random.Range(0, 12)];
+        symbolToFind.sprite = spriteToFind;
         findBoardSquareIndex = Random.Range(0, 12);
+        
+        // Initializes the chosen boardsquare's values
         boardSquares[findBoardSquareIndex].mustFindSprite = true;
+        boardSquares[findBoardSquareIndex].squareSprite.sprite = spriteToFind;
+        boardSquares[findBoardSquareIndex].squareSprite.enabled = true;
+
+        SpawnBoardSprites();
     }
 
     private IEnumerator SpawnBoardSprites()
     {
-
         yield return new WaitForSeconds(1.5f);
-
     }
 
 }
